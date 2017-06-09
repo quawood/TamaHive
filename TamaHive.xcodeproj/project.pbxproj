@@ -1,0 +1,551 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A5593C5E1EEA495100097766 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C5D1EEA495100097766 /* AppDelegate.swift */; };
+		A5593C601EEA495100097766 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A5593C5F1EEA495100097766 /* GameScene.sks */; };
+		A5593C621EEA495100097766 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = A5593C611EEA495100097766 /* Actions.sks */; };
+		A5593C641EEA495100097766 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C631EEA495100097766 /* GameScene.swift */; };
+		A5593C661EEA495100097766 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C651EEA495100097766 /* GameViewController.swift */; };
+		A5593C691EEA495100097766 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5593C671EEA495100097766 /* Main.storyboard */; };
+		A5593C6B1EEA495100097766 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5593C6A1EEA495100097766 /* Assets.xcassets */; };
+		A5593C6E1EEA495100097766 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5593C6C1EEA495100097766 /* LaunchScreen.storyboard */; };
+		A5593C791EEA495100097766 /* TamaHiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C781EEA495100097766 /* TamaHiveTests.swift */; };
+		A5593C841EEA495100097766 /* TamaHiveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C831EEA495100097766 /* TamaHiveUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A5593C751EEA495100097766 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A5593C521EEA495100097766 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A5593C591EEA495100097766;
+			remoteInfo = TamaHive;
+		};
+		A5593C801EEA495100097766 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A5593C521EEA495100097766 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A5593C591EEA495100097766;
+			remoteInfo = TamaHive;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A5593C5A1EEA495100097766 /* TamaHive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TamaHive.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5593C5D1EEA495100097766 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A5593C5F1EEA495100097766 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		A5593C611EEA495100097766 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
+		A5593C631EEA495100097766 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		A5593C651EEA495100097766 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		A5593C681EEA495100097766 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A5593C6A1EEA495100097766 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A5593C6D1EEA495100097766 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A5593C6F1EEA495100097766 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A5593C741EEA495100097766 /* TamaHiveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TamaHiveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5593C781EEA495100097766 /* TamaHiveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TamaHiveTests.swift; sourceTree = "<group>"; };
+		A5593C7A1EEA495100097766 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A5593C7F1EEA495100097766 /* TamaHiveUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TamaHiveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5593C831EEA495100097766 /* TamaHiveUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TamaHiveUITests.swift; sourceTree = "<group>"; };
+		A5593C851EEA495100097766 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A5593C571EEA495100097766 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5593C711EEA495100097766 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5593C7C1EEA495100097766 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A5593C511EEA495100097766 = {
+			isa = PBXGroup;
+			children = (
+				A5593C5C1EEA495100097766 /* TamaHive */,
+				A5593C771EEA495100097766 /* TamaHiveTests */,
+				A5593C821EEA495100097766 /* TamaHiveUITests */,
+				A5593C5B1EEA495100097766 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A5593C5B1EEA495100097766 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A5593C5A1EEA495100097766 /* TamaHive.app */,
+				A5593C741EEA495100097766 /* TamaHiveTests.xctest */,
+				A5593C7F1EEA495100097766 /* TamaHiveUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A5593C5C1EEA495100097766 /* TamaHive */ = {
+			isa = PBXGroup;
+			children = (
+				A5593C5D1EEA495100097766 /* AppDelegate.swift */,
+				A5593C5F1EEA495100097766 /* GameScene.sks */,
+				A5593C611EEA495100097766 /* Actions.sks */,
+				A5593C631EEA495100097766 /* GameScene.swift */,
+				A5593C651EEA495100097766 /* GameViewController.swift */,
+				A5593C671EEA495100097766 /* Main.storyboard */,
+				A5593C6A1EEA495100097766 /* Assets.xcassets */,
+				A5593C6C1EEA495100097766 /* LaunchScreen.storyboard */,
+				A5593C6F1EEA495100097766 /* Info.plist */,
+			);
+			path = TamaHive;
+			sourceTree = "<group>";
+		};
+		A5593C771EEA495100097766 /* TamaHiveTests */ = {
+			isa = PBXGroup;
+			children = (
+				A5593C781EEA495100097766 /* TamaHiveTests.swift */,
+				A5593C7A1EEA495100097766 /* Info.plist */,
+			);
+			path = TamaHiveTests;
+			sourceTree = "<group>";
+		};
+		A5593C821EEA495100097766 /* TamaHiveUITests */ = {
+			isa = PBXGroup;
+			children = (
+				A5593C831EEA495100097766 /* TamaHiveUITests.swift */,
+				A5593C851EEA495100097766 /* Info.plist */,
+			);
+			path = TamaHiveUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A5593C591EEA495100097766 /* TamaHive */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A5593C881EEA495100097766 /* Build configuration list for PBXNativeTarget "TamaHive" */;
+			buildPhases = (
+				A5593C561EEA495100097766 /* Sources */,
+				A5593C571EEA495100097766 /* Frameworks */,
+				A5593C581EEA495100097766 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TamaHive;
+			productName = TamaHive;
+			productReference = A5593C5A1EEA495100097766 /* TamaHive.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A5593C731EEA495100097766 /* TamaHiveTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A5593C8B1EEA495100097766 /* Build configuration list for PBXNativeTarget "TamaHiveTests" */;
+			buildPhases = (
+				A5593C701EEA495100097766 /* Sources */,
+				A5593C711EEA495100097766 /* Frameworks */,
+				A5593C721EEA495100097766 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A5593C761EEA495100097766 /* PBXTargetDependency */,
+			);
+			name = TamaHiveTests;
+			productName = TamaHiveTests;
+			productReference = A5593C741EEA495100097766 /* TamaHiveTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A5593C7E1EEA495100097766 /* TamaHiveUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A5593C8E1EEA495100097766 /* Build configuration list for PBXNativeTarget "TamaHiveUITests" */;
+			buildPhases = (
+				A5593C7B1EEA495100097766 /* Sources */,
+				A5593C7C1EEA495100097766 /* Frameworks */,
+				A5593C7D1EEA495100097766 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A5593C811EEA495100097766 /* PBXTargetDependency */,
+			);
+			name = TamaHiveUITests;
+			productName = TamaHiveUITests;
+			productReference = A5593C7F1EEA495100097766 /* TamaHiveUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A5593C521EEA495100097766 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "Qualan Woodard";
+				TargetAttributes = {
+					A5593C591EEA495100097766 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 57QXE6GL75;
+						ProvisioningStyle = Automatic;
+					};
+					A5593C731EEA495100097766 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 57QXE6GL75;
+						ProvisioningStyle = Automatic;
+						TestTargetID = A5593C591EEA495100097766;
+					};
+					A5593C7E1EEA495100097766 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 57QXE6GL75;
+						ProvisioningStyle = Automatic;
+						TestTargetID = A5593C591EEA495100097766;
+					};
+				};
+			};
+			buildConfigurationList = A5593C551EEA495100097766 /* Build configuration list for PBXProject "TamaHive" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A5593C511EEA495100097766;
+			productRefGroup = A5593C5B1EEA495100097766 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A5593C591EEA495100097766 /* TamaHive */,
+				A5593C731EEA495100097766 /* TamaHiveTests */,
+				A5593C7E1EEA495100097766 /* TamaHiveUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A5593C581EEA495100097766 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5593C691EEA495100097766 /* Main.storyboard in Resources */,
+				A5593C601EEA495100097766 /* GameScene.sks in Resources */,
+				A5593C6B1EEA495100097766 /* Assets.xcassets in Resources */,
+				A5593C6E1EEA495100097766 /* LaunchScreen.storyboard in Resources */,
+				A5593C621EEA495100097766 /* Actions.sks in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5593C721EEA495100097766 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5593C7D1EEA495100097766 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A5593C561EEA495100097766 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5593C641EEA495100097766 /* GameScene.swift in Sources */,
+				A5593C661EEA495100097766 /* GameViewController.swift in Sources */,
+				A5593C5E1EEA495100097766 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5593C701EEA495100097766 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5593C791EEA495100097766 /* TamaHiveTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5593C7B1EEA495100097766 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5593C841EEA495100097766 /* TamaHiveUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A5593C761EEA495100097766 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A5593C591EEA495100097766 /* TamaHive */;
+			targetProxy = A5593C751EEA495100097766 /* PBXContainerItemProxy */;
+		};
+		A5593C811EEA495100097766 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A5593C591EEA495100097766 /* TamaHive */;
+			targetProxy = A5593C801EEA495100097766 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A5593C671EEA495100097766 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5593C681EEA495100097766 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		A5593C6C1EEA495100097766 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5593C6D1EEA495100097766 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A5593C861EEA495100097766 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A5593C871EEA495100097766 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A5593C891EEA495100097766 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 57QXE6GL75;
+				INFOPLIST_FILE = TamaHive/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Anjour.TamaHive;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		A5593C8A1EEA495100097766 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 57QXE6GL75;
+				INFOPLIST_FILE = TamaHive/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Anjour.TamaHive;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		A5593C8C1EEA495100097766 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 57QXE6GL75;
+				INFOPLIST_FILE = TamaHiveTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Anjour.TamaHiveTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TamaHive.app/TamaHive";
+			};
+			name = Debug;
+		};
+		A5593C8D1EEA495100097766 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 57QXE6GL75;
+				INFOPLIST_FILE = TamaHiveTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Anjour.TamaHiveTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TamaHive.app/TamaHive";
+			};
+			name = Release;
+		};
+		A5593C8F1EEA495100097766 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = 57QXE6GL75;
+				INFOPLIST_FILE = TamaHiveUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Anjour.TamaHiveUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = TamaHive;
+			};
+			name = Debug;
+		};
+		A5593C901EEA495100097766 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = 57QXE6GL75;
+				INFOPLIST_FILE = TamaHiveUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Anjour.TamaHiveUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = TamaHive;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A5593C551EEA495100097766 /* Build configuration list for PBXProject "TamaHive" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5593C861EEA495100097766 /* Debug */,
+				A5593C871EEA495100097766 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A5593C881EEA495100097766 /* Build configuration list for PBXNativeTarget "TamaHive" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5593C891EEA495100097766 /* Debug */,
+				A5593C8A1EEA495100097766 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		A5593C8B1EEA495100097766 /* Build configuration list for PBXNativeTarget "TamaHiveTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5593C8C1EEA495100097766 /* Debug */,
+				A5593C8D1EEA495100097766 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		A5593C8E1EEA495100097766 /* Build configuration list for PBXNativeTarget "TamaHiveUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5593C8F1EEA495100097766 /* Debug */,
+				A5593C901EEA495100097766 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A5593C521EEA495100097766 /* Project object */;
+}
