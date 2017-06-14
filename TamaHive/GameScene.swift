@@ -18,28 +18,16 @@ class GameScene: SKScene {
     private var spinnyNode : SKShapeNode?
 
     
-    func setupGrid() {
-        let tamaImage = UIImage(named: "memetchi.png")?.cgImage
-        let arrayColors = tamaImage?.colors
-        let w = Int((tamaImage?.width)!)
-        let h = Int((tamaImage?.height)!)
-        var count = 0
-        for i in 0...w-1 {
-            for j in 0...h-1 {
-                let pixel = SKSpriteNode(color: (arrayColors?[count])!, size: CGSize(width: 2, height: 2))
-                pixel.position = CGPoint(x: 3*i, y:-3*j )
-                //grid[i, j] = pixel
-                self.scene?.addChild(pixel)
-                count += 1
-            }
-        }
-        
+    func setupScene() {
+        let tamaScene = TamaScene(texture: nil, color: UIColor.white, size: CGSize(width: 170, height: 120))
+        tamaScene.tama = Tamagotchi(imageNamed: "mametchi.png")
+        self.addChild(tamaScene)
+        tamaScene.setupGrid()
     }
-    
     
     override func didMove(to view: SKView) {
         self.size = view.bounds.size
-        setupGrid()
+        setupScene()
     }
 
     
