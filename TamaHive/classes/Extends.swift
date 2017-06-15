@@ -8,9 +8,12 @@
 
 import Foundation
 import UIKit
+import GameKit
+import SpriteKit
+//get pixel data from image
 extension CGImage {
     var colors: ([UInt8], [PixelData])? {
-        
+        let scale = 4
         var coloredRawData = [PixelData]()
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         
@@ -49,12 +52,13 @@ extension CGImage {
                 
                 let index =  (count % height)*width+(count / height)
                 let pixel = coloredRawData[count]
+                
                 holderArray[index] = pixel
                 count += 1
             }
             
-                
         }
+        
         coloredRawData = holderArray
         return (rawData, holderArray)
     }
@@ -62,28 +66,65 @@ extension CGImage {
     
     
 }
+
+//resize image
 extension UIImage {
-    func resizeImage(scale: CGFloat) -> UIImage {
+    func resizeImage(scale: CGFloat) -> (UIImage) {
+        let newSize = CGSize(width: scale * self.size.width, height: scale * self.size.height)
+        let newRect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height).integral
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0)
+        let context = UIGraphicsGetCurrentContext()
         
-        let newWidth = scale * self.size.width
-        let newHeight = self.size.height * scale
-        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
-        self.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        // Set the quality level to use when rescaling
+        context!.interpolationQuality = CGInterpolationQuality.none
+        let flipVertical = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: newSize.height)
+        
+        context!.concatenate(flipVertical)
+        // Draw into the context; this scales the image
+        context?.draw(self.cgImage!, in: CGRect(x: 0.0,y: 0.0, width: newRect.width, height: newRect.height))
+        
+        let newImageRef = context!.makeImage()! as CGImage
+        let newImage = UIImage(cgImage: newImageRef)
+        
+        // Get the resized image from the context and a UIImage
         UIGraphicsEndImageContext()
         
-        return newImage!
+        return newImage
     }
-    
 }
-struct PixelData {
+
+extension UIColor {
+    convenience init(pixelData: PixelData) {
+        self.init(red: CGFloat(pixelData.r/255), green: CGFloat(pixelData.g/255), blue: CGFloat(pixelData.b/255), alpha: CGFloat(pixelData.a/255))
+    }
+}
+struct PixelData:Equatable {
     var a: UInt8 = 0
     var r: UInt8 = 0
     var g: UInt8 = 0
     var b: UInt8 = 0
+    
+    public static func ==(lhs: PixelData, rhs: PixelData) -> Bool{
+        return
+            lhs.a == rhs.a &&
+                lhs.r == rhs.r &&
+                lhs.g == rhs.g &&
+                lhs.b == rhs.b
+    }
+    
+    init(a: UInt8, r: UInt8, g: UInt8, b: UInt8) {
+        self.a = a
+        self.r = r
+        self.g = g
+        self.b = b
+        
+    }
+    init(color: UIColor) {
+        self.init(a: UInt8(color.components.alpha * 255), r: UInt8(color.components.red * 255), g: UInt8(color.components.green * 255), b: UInt8(color.components.blue * 255))
+    }
 }
 
-
+//get image from pixel data
 extension Array where Element == PixelData{
     func imageFromBitmap(width: Int, height: Int) -> UIImage? {
         let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
@@ -117,6 +158,7 @@ extension Array where Element == PixelData{
 }
 
 
+//easier color component information
 extension UIColor {
     var coreImageColor: CIColor {
         return CIColor(color: self)
@@ -126,3 +168,15 @@ extension UIColor {
         return (coreImageColor.red, coreImageColor.green, coreImageColor.blue, coreImageColor.alpha)
     }
 }
+
+
+//size initializer for sprite nodes
+extension SKSpriteNode {
+    convenience init(textureNamed: String, scale: Int) {
+        let texture1 = SKTexture(imageNamed: textureNamed)
+        let newSize = CGSize(width: scale * Int(texture1.size().width), height: scale*Int(texture1.size().height))
+        self.init(texture: texture1, color: UIColor.white, size:newSize)
+        
+    }
+}
+

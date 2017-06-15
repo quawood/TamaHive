@@ -12,27 +12,55 @@ import GameplayKit
 class GameScene: SKScene {
     var entities = [GKEntity]()
     var graphs = [String : GKGraph]()
-    
+    var tamaScene: TamaScene!
+    var timeSinceMove: Double! = 0
     private var lastUpdateTime : TimeInterval = 0
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
 
     
-    func setupScene() {
-        let tamaScene = TamaScene(texture: nil, color: UIColor.white, size: CGSize(width: 170, height: 120))
-        tamaScene.tama = Tamagotchi(imageNamed: "mametchi.png")
-        self.addChild(tamaScene)
-        tamaScene.displayTama()
+    func setupScene(scale: CGFloat) {
+        //background color for parent scene
+        
+        
+        //setup individual tamagotchi
+        
+        tamaScene = TamaScene(textureNamed: "tamaHome.png", scale: Int(scale))
+        DispatchQueue.main.async {
+            self.tamaScene.tama = Tamagotchi(textureNamed: "mametchi.png", scale: Int(scale))
+            self.tamaScene.displayTama()
+            self.tamaScene.tama.zPosition = 11
+        }
+        
+        //setup tamagotchi border
+        let tile = SKShapeNode(rectOf: tamaScene.size, cornerRadius: 12)
+        tile.strokeColor = UIColor.black
+        tile.zPosition = 10
+        tile.lineWidth = 7
+        
+        
+        addChild(tile)
+        addChild(tamaScene)
+        
+        
     }
     
     override func didMove(to view: SKView) {
-        self.size = view.bounds.size
-        setupScene() 
+        //self.size = view.bounds.size
+        setupScene(scale: 4)
+        self.backgroundColor = UIColor(red: 106/255, green: 107/255, blue: 91/255, alpha: 1.0)
+        tamaScene.color1 = UIColor.green
+        
     }
 
     
     override func update(_ currentTime: TimeInterval) {
+        
         // Called before each frame is rendered
+        if timeSinceMove >= 2 {
+            tamaScene.tama.move()
+            timeSinceMove = 0
+        }
         
         // Initialize _lastUpdateTime if it has not already been
         if (self.lastUpdateTime == 0) {
@@ -48,6 +76,7 @@ class GameScene: SKScene {
         }
         
         self.lastUpdateTime = currentTime
+        timeSinceMove = timeSinceMove + dt
     }
 }
 
