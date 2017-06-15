@@ -22,12 +22,12 @@ class GameScene: SKScene {
         let tamaScene = TamaScene(texture: nil, color: UIColor.white, size: CGSize(width: 170, height: 120))
         tamaScene.tama = Tamagotchi(imageNamed: "mametchi.png")
         self.addChild(tamaScene)
-        tamaScene.setupGrid()
+        tamaScene.displayTama()
     }
     
     override func didMove(to view: SKView) {
         self.size = view.bounds.size
-        setupScene()
+        setupScene() 
     }
 
     

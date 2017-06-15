@@ -18,7 +18,6 @@
 		A5593C791EEA495100097766 /* TamaHiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C781EEA495100097766 /* TamaHiveTests.swift */; };
 		A5593C841EEA495100097766 /* TamaHiveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C831EEA495100097766 /* TamaHiveUITests.swift */; };
 		A5593C921EEA49A700097766 /* Tama.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C911EEA49A700097766 /* Tama.swift */; };
-		A5593C9C1EEA840800097766 /* LunarLandar.png in Resources */ = {isa = PBXBuildFile; fileRef = A5593C9B1EEA840800097766 /* LunarLandar.png */; };
 		A5DD57601EF1E61C00ED8998 /* Tamagotchi.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD575D1EF1E61C00ED8998 /* Tamagotchi.swift */; };
 		A5DD57611EF1E61C00ED8998 /* Extends.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD575E1EF1E61C00ED8998 /* Extends.swift */; };
 		A5DD57621EF1E61C00ED8998 /* TamaScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD575F1EF1E61C00ED8998 /* TamaScene.swift */; };
@@ -59,7 +58,6 @@
 		A5593C831EEA495100097766 /* TamaHiveUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TamaHiveUITests.swift; sourceTree = "<group>"; };
 		A5593C851EEA495100097766 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A5593C911EEA49A700097766 /* Tama.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tama.swift; sourceTree = "<group>"; };
-		A5593C9B1EEA840800097766 /* LunarLandar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LunarLandar.png; sourceTree = "<group>"; };
 		A5A2F20A1EEEA900004036E6 /* tamagotchi.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = tamagotchi.atlas; sourceTree = "<group>"; };
 		A5DD575D1EF1E61C00ED8998 /* Tamagotchi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tamagotchi.swift; sourceTree = "<group>"; };
 		A5DD575E1EF1E61C00ED8998 /* Extends.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extends.swift; sourceTree = "<group>"; };
@@ -120,7 +118,6 @@
 				A5A2F20A1EEEA900004036E6 /* tamagotchi.atlas */,
 				A5593C611EEA495100097766 /* Actions.sks */,
 				A5DD57631EF1E63000ED8998 /* classes */,
-				A5593C9B1EEA840800097766 /* LunarLandar.png */,
 				A5593C631EEA495100097766 /* GameScene.swift */,
 				A5593C651EEA495100097766 /* GameViewController.swift */,
 				A5593C671EEA495100097766 /* Main.storyboard */,
@@ -275,7 +272,6 @@
 				A5593C691EEA495100097766 /* Main.storyboard in Resources */,
 				A5593C601EEA495100097766 /* GameScene.sks in Resources */,
 				A5593C6B1EEA495100097766 /* Assets.xcassets in Resources */,
-				A5593C9C1EEA840800097766 /* LunarLandar.png in Resources */,
 				A5593C6E1EEA495100097766 /* LaunchScreen.storyboard in Resources */,
 				A5593C621EEA495100097766 /* Actions.sks in Resources */,
 			);

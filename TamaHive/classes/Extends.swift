@@ -9,9 +9,8 @@
 import Foundation
 import UIKit
 extension CGImage {
-    var colors: ([UIColor], [UInt8], [PixelData])? {
+    var colors: ([UInt8], [PixelData])? {
         
-        var colors = [UIColor]()
         var coloredRawData = [PixelData]()
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         
@@ -36,27 +35,28 @@ extension CGImage {
         
         let drawingRect = CGRect(origin: .zero, size: CGSize(width: width, height: height))
         context?.draw(cgImage, in: drawingRect)
-        var testArray = [UInt8]()
+        //var testArray = [UInt8]()
+        
+        //rawData = testArray
+        let l = width * height
+        var holderArray = [PixelData](repeating: PixelData(a: 0, r: 0, g: 0, b: 0), count: l)
+        var count = 0
         for x in 0..<width {
             for y in 0..<height {
                 let byteIndex = 4*((width * y) + x)
-                let pixel = PixelData(a: rawData[byteIndex + 3], r: rawData[byteIndex], g: rawData[byteIndex + 1], b: rawData[byteIndex + 2])
+                let ppixel = PixelData(a: rawData[byteIndex + 3], r: rawData[byteIndex], g: rawData[byteIndex + 1], b: rawData[byteIndex + 2])
+                coloredRawData.append(ppixel)
                 
-               let red = CGFloat(pixel.r) / 255.0
-                let green = CGFloat(pixel.g) / 255.0
-                let blue = CGFloat(pixel.b) / 255.0
-                let alpha = CGFloat(pixel.a) / 255.0
-                
-                
-                let color = UIColor(red: red, green: green, blue: blue, alpha: alpha)
-                colors.append(color)
-                coloredRawData.append(pixel)
+                let index =  (count % height)*width+(count / height)
+                let pixel = coloredRawData[count]
+                holderArray[index] = pixel
+                count += 1
             }
+            
+                
         }
-        
-        rawData = testArray
-        
-        return (colors, rawData, coloredRawData)
+        coloredRawData = holderArray
+        return (rawData, holderArray)
     }
     
     
@@ -73,7 +73,9 @@ extension UIImage {
         UIGraphicsEndImageContext()
         
         return newImage!
-    } }
+    }
+    
+}
 struct PixelData {
     var a: UInt8 = 0
     var r: UInt8 = 0
@@ -84,45 +86,43 @@ struct PixelData {
 
 extension Array where Element == PixelData{
     func imageFromBitmap(width: Int, height: Int) -> UIImage? {
-        assert(width > 0)
+        let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
+        let bitmapInfo:CGBitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue)
+        let bitsPerComponent:UInt = 8
+        let bitsPerPixel:UInt = 32
         
-        assert(height > 0)
-        
-        let pixelDataSize = MemoryLayout<PixelData>.size
-        assert(pixelDataSize == 4)
         assert(self.count == Int(width * height))
-        let data: Data = self.withUnsafeBufferPointer {
-            return Data(buffer: $0)
-        }
-        let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.byteOrder32Big.rawValue
-        let cfdata = NSData(data: data) as CFData
-        let provider: CGDataProvider! = CGDataProvider(data: cfdata)
-        if provider == nil {
-            print("CGDataProvider is not supposed to be nil")
-            return nil
-        }
-        let cgimage: CGImage! = CGImage(
+        
+        var data = self // Copy to mutable []
+        let providerRef = CGDataProvider(
+            data: NSData(bytes: &data, length: data.count * MemoryLayout<PixelData>.size)
+        )
+        
+        let cgim = CGImage(
             width: width,
             height: height,
-            bitsPerComponent: 8,
-            bitsPerPixel: 32,
-            bytesPerRow: width * pixelDataSize,
-            space: CGColorSpaceCreateDeviceRGB(),
-            bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue),
-            provider: provider,
+            bitsPerComponent: Int(bitsPerComponent),
+            bitsPerPixel: Int(bitsPerPixel),
+            bytesPerRow: Int(UInt(width) * UInt(MemoryLayout<PixelData>.size)),
+            space: rgbColorSpace,
+            bitmapInfo: bitmapInfo,
+            provider: providerRef!,
             decode: nil,
-            shouldInterpolate: false,
-            intent: .defaultIntent
+            shouldInterpolate: true,
+            intent: CGColorRenderingIntent.defaultIntent
         )
-        if cgimage == nil {
-            print("CGImage is not supposed to be nil")
-            return nil
-        }
-        return UIImage(cgImage: cgimage)
-    }
+        return UIImage(cgImage: cgim!)
+}
+
 }
 
 
-
-
-
+extension UIColor {
+    var coreImageColor: CIColor {
+        return CIColor(color: self)
+    }
+    var components: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
+        let coreImageColor = self.coreImageColor
+        return (coreImageColor.red, coreImageColor.green, coreImageColor.blue, coreImageColor.alpha)
+    }
+}

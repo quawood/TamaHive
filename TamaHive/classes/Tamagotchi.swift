@@ -17,14 +17,13 @@ class Tamagotchi: SKSpriteNode {
     var tamaName: String!
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
-        print("here")
+        let image = UIImage(cgImage: (texture?.cgImage())!).resizeImage(scale: 5)
+        let pixelData: [PixelData] = (image.cgImage!.colors!.1)
+     //   print(pixelData.count)
         
-        let image = UIImage(cgImage: (texture?.cgImage())!).resizeImage(scale: 1)
-        let pixelData: [PixelData] = (image.cgImage!.colors!.2)
         let tamaImg = pixelData.imageFromBitmap(width: Int((image.size.width)), height: Int((image.size.height)))
-        //let tamaImg = tamaImageCg?.colors?.1.image
-        let texture1 = texture
-        super.init(texture: texture1!, color: UIColor.white, size:image.size)
+        let texture1 = SKTexture(cgImage: (tamaImg?.cgImage!)!)
+        super.init(texture: texture1, color: UIColor.white, size:image.size)
         
     }
     
