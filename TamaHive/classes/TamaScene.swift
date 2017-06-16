@@ -14,6 +14,7 @@ class TamaScene: SKSpriteNode {
     var id: Int!
     var tama: Tamagotchi!
     var tscale: CGFloat!
+    var active: Bool! = false
     
     var color1: UIColor! = UIColor.white {
         didSet {

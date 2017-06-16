@@ -19,11 +19,12 @@ class Tamagotchi: SKSpriteNode {
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         let image = UIImage(cgImage: (texture?.cgImage())!).resizeImage(scale: size.width/(texture?.size().width)!)
-        let pixelData: [PixelData] = (image.cgImage!.colors!.1)
+      /*  let pixelData: [PixelData] = (image.cgImage!.colors!.1)
      //   print(pixelData.count)
         
-        let tamaImg = pixelData.imageFromBitmap(width: Int((image.size.width)), height: Int((image.size.height)))
-        let texture1 = SKTexture(cgImage: (tamaImg?.cgImage!)!)
+        let tamaImg = pixelData.imageFromBitmap(width: Int((image.size.width)), height: Int((image.size.height)))*/
+        let tamaImg = image
+        let texture1 = SKTexture(cgImage: (tamaImg.cgImage!))
         super.init(texture: texture1, color: UIColor.white, size:texture1.size())
         self.tscale = size.width/(texture?.size().width)!
     }
@@ -42,7 +43,8 @@ class Tamagotchi: SKSpriteNode {
         self.run(flip)
         
         let nextPos = CGPoint(x: CGFloat((randomdir) * Int(tscale) * 3 ) + self.position.x, y: self.position.y)
-        if abs(nextPos.x) < abs((self.parent?.scene?.size.width)!/3 - 30) {
+        let parentscene = self.parent as? TamaScene
+        if abs(nextPos.x) < abs((parentscene?.texture?.size().width)!/2) - 60 {
             self.position = nextPos
         }
         
