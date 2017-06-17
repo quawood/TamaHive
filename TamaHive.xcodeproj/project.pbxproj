@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A526299A1EF4C26D00E2DC3C /* trash.png in Resources */ = {isa = PBXBuildFile; fileRef = A52629991EF4C26D00E2DC3C /* trash.png */; };
 		A526299C1EF4C92B00E2DC3C /* SceneSpots.swift in Sources */ = {isa = PBXBuildFile; fileRef = A526299B1EF4C92B00E2DC3C /* SceneSpots.swift */; };
 		A5593C5E1EEA495100097766 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C5D1EEA495100097766 /* AppDelegate.swift */; };
 		A5593C601EEA495100097766 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A5593C5F1EEA495100097766 /* GameScene.sks */; };
@@ -23,7 +22,6 @@
 		A5DD57611EF1E61C00ED8998 /* Extends.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD575E1EF1E61C00ED8998 /* Extends.swift */; };
 		A5DD57621EF1E61C00ED8998 /* TamaScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD575F1EF1E61C00ED8998 /* TamaScene.swift */; };
 		A5F8F6011EF36F0B00B0B0DC /* tamahive.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A5F8F6001EF36F0B00B0B0DC /* tamahive.bundle */; };
-		A5F8F6051EF3B19900B0B0DC /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = A5F8F6041EF3B19900B0B0DC /* button.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,7 +42,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A52629991EF4C26D00E2DC3C /* trash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = trash.png; path = ../../../../../../Desktop/trash.png; sourceTree = "<group>"; };
 		A526299B1EF4C92B00E2DC3C /* SceneSpots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneSpots.swift; sourceTree = "<group>"; };
 		A5593C5A1EEA495100097766 /* TamaHive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TamaHive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5593C5D1EEA495100097766 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -67,7 +64,6 @@
 		A5DD575F1EF1E61C00ED8998 /* TamaScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TamaScene.swift; sourceTree = "<group>"; };
 		A5F8F4FB1EF2AC9000B0B0DC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A5F8F6001EF36F0B00B0B0DC /* tamahive.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = tamahive.bundle; path = ../../../../../../Desktop/tamahive.bundle; sourceTree = "<group>"; };
-		A5F8F6041EF3B19900B0B0DC /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button.png; path = ../../../../../../Desktop/button.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +91,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A526299F1EF58C7600E2DC3C /* viewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				A5593C651EEA495100097766 /* GameViewController.swift */,
+			);
+			name = viewControllers;
+			sourceTree = "<group>";
+		};
+		A52629A01EF58CA800E2DC3C /* scenes */ = {
+			isa = PBXGroup;
+			children = (
+				A5593C5F1EEA495100097766 /* GameScene.sks */,
+				A5593C631EEA495100097766 /* GameScene.swift */,
+			);
+			name = scenes;
+			sourceTree = "<group>";
+		};
 		A5593C511EEA495100097766 = {
 			isa = PBXGroup;
 			children = (
@@ -120,17 +133,14 @@
 			isa = PBXGroup;
 			children = (
 				A5593C5D1EEA495100097766 /* AppDelegate.swift */,
-				A5593C5F1EEA495100097766 /* GameScene.sks */,
-				A5593C611EEA495100097766 /* Actions.sks */,
-				A52629991EF4C26D00E2DC3C /* trash.png */,
-				A5F8F6041EF3B19900B0B0DC /* button.png */,
 				A5F8F6001EF36F0B00B0B0DC /* tamahive.bundle */,
 				A5DD57631EF1E63000ED8998 /* classes */,
-				A5593C631EEA495100097766 /* GameScene.swift */,
-				A5593C651EEA495100097766 /* GameViewController.swift */,
+				A52629A01EF58CA800E2DC3C /* scenes */,
+				A526299F1EF58C7600E2DC3C /* viewControllers */,
 				A5593C671EEA495100097766 /* Main.storyboard */,
-				A5593C6A1EEA495100097766 /* Assets.xcassets */,
 				A5F8F4FB1EF2AC9000B0B0DC /* LaunchScreen.storyboard */,
+				A5593C611EEA495100097766 /* Actions.sks */,
+				A5593C6A1EEA495100097766 /* Assets.xcassets */,
 				A5593C6F1EEA495100097766 /* Info.plist */,
 			);
 			path = TamaHive;
@@ -279,10 +289,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5593C691EEA495100097766 /* Main.storyboard in Resources */,
-				A5F8F6051EF3B19900B0B0DC /* button.png in Resources */,
 				A5593C601EEA495100097766 /* GameScene.sks in Resources */,
 				A5F8F6011EF36F0B00B0B0DC /* tamahive.bundle in Resources */,
-				A526299A1EF4C26D00E2DC3C /* trash.png in Resources */,
 				A5593C6B1EEA495100097766 /* Assets.xcassets in Resources */,
 				A5593C621EEA495100097766 /* Actions.sks in Resources */,
 			);

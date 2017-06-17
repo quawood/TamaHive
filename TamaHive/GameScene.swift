@@ -9,7 +9,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class TamasScene: SKScene {
     var entities = [GKEntity]()
     var graphs = [String : GKGraph]()
     var tamaScene: TamaScene!
