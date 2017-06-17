@@ -20,7 +20,7 @@ class GameViewController: UIViewController {
         if let scene = GKScene(fileNamed: "TamasScene") {
             
             // Get the SKScene from the loaded GKScene
-            if let sceneNode = scene.rootNode as! GameScene? {
+            if let sceneNode = scene.rootNode as! TamasScene? {
                 
                 // Copy gameplay related content over to the scene
                 sceneNode.entities = scene.entities
