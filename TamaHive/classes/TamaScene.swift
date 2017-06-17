@@ -11,11 +11,10 @@ import GameKit
 import SpriteKit
 
 class TamaScene: SKSpriteNode {
-    var id: Int!
     var tama: Tamagotchi!
     var tscale: CGFloat!
-    var active: Bool! = false
-    
+    var isBeingDragged: Bool!
+    var spot: Int!
     var color1: UIColor! = UIColor.white {
         didSet {
             let newCols = changeColors(from: oldValue, to: color1)
@@ -50,6 +49,7 @@ class TamaScene: SKSpriteNode {
     }
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
+        
         let image = UIImage(cgImage: (texture?.cgImage())!).resizeImage(scale: size.width/(texture?.size().width)!)
        /* let pixelData: [PixelData] = (image.cgImage!.colors!.1)
         //   print(pixelData.count)

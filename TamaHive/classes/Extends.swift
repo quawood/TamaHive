@@ -13,7 +13,6 @@ import SpriteKit
 //get pixel data from image
 extension CGImage {
     var colors: ([UInt8], [PixelData])? {
-        let scale = 4
         var coloredRawData = [PixelData]()
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         
@@ -70,6 +69,7 @@ extension CGImage {
 //resize image
 extension UIImage {
     func resizeImage(scale: CGFloat) -> (UIImage) {
+        let scale = scale/2
         let newSize = CGSize(width: scale * self.size.width, height: scale * self.size.height)
         let newRect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height).integral
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0)
@@ -88,7 +88,6 @@ extension UIImage {
         
         // Get the resized image from the context and a UIImage
         UIGraphicsEndImageContext()
-        
         return newImage
     }
 }
@@ -176,7 +175,6 @@ extension SKSpriteNode {
         let texture1 = SKTexture(imageNamed: textureNamed)
         let newSize = CGSize(width: scale * Int(texture1.size().width), height: scale*Int(texture1.size().height))
         self.init(texture: texture1, color: UIColor.white, size:newSize)
-        
     }
 }
 
@@ -322,4 +320,18 @@ class FTButtonNode: SKSpriteNode {
         }
     }
     
+}
+
+
+extension Date {
+    
+    func interval(ofComponent comp: Calendar.Component, fromDate date: Date) -> Int {
+        
+        let currentCalendar = Calendar.current
+        
+        guard let start = currentCalendar.ordinality(of: comp, in: .era, for: date) else { return 0 }
+        guard let end = currentCalendar.ordinality(of: comp, in: .era, for: self) else { return 0 }
+        
+        return end - start
+    }
 }

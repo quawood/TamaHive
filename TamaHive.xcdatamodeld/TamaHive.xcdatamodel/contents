@@ -2,17 +2,25 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13154.26" systemVersion="16F73" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="TamagotchiEntity" representedClassName="TamagotchiEntity" syncable="YES" codeGenerationType="class">
         <attribute name="age" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="dateCreated" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="family" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="generation" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="happiness" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="hunger" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="lastOpenDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="tamaName" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="tamascene" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TamaSceneEntity" inverseName="tamagotchi" inverseEntity="TamaSceneEntity" syncable="YES"/>
     </entity>
     <entity name="TamaSceneEntity" representedClassName="TamaSceneEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="color1" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="color2" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="spot" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" customClassName="CGRect" syncable="YES"/>
         <relationship name="tamagotchi" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TamagotchiEntity" inverseName="tamascene" inverseEntity="TamagotchiEntity" syncable="YES"/>
     </entity>
     <elements>
-        <element name="TamagotchiEntity" positionX="-63" positionY="-18" width="128" height="120"/>
-        <element name="TamaSceneEntity" positionX="-54" positionY="27" width="128" height="75"/>
+        <element name="TamagotchiEntity" positionX="-63" positionY="-18" width="128" height="195"/>
+        <element name="TamaSceneEntity" positionX="-54" positionY="27" width="128" height="120"/>
     </elements>
 </model>
