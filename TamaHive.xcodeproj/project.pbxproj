@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A526299C1EF4C92B00E2DC3C /* SceneSpots.swift in Sources */ = {isa = PBXBuildFile; fileRef = A526299B1EF4C92B00E2DC3C /* SceneSpots.swift */; };
 		A5593C5E1EEA495100097766 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C5D1EEA495100097766 /* AppDelegate.swift */; };
 		A5593C601EEA495100097766 /* TamasScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A5593C5F1EEA495100097766 /* TamasScene.sks */; };
 		A5593C621EEA495100097766 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = A5593C611EEA495100097766 /* Actions.sks */; };
@@ -20,7 +19,7 @@
 		A570020C1EF2880C00905761 /* TamaHive.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A570020A1EF2880C00905761 /* TamaHive.xcdatamodeld */; };
 		A5DD57601EF1E61C00ED8998 /* Tamagotchi.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD575D1EF1E61C00ED8998 /* Tamagotchi.swift */; };
 		A5DD57611EF1E61C00ED8998 /* Extends.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD575E1EF1E61C00ED8998 /* Extends.swift */; };
-		A5DD57621EF1E61C00ED8998 /* TamaScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD575F1EF1E61C00ED8998 /* TamaScene.swift */; };
+		A5DD57621EF1E61C00ED8998 /* TamaHouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD575F1EF1E61C00ED8998 /* TamaHouse.swift */; };
 		A5F8F6011EF36F0B00B0B0DC /* tamahive.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A5F8F6001EF36F0B00B0B0DC /* tamahive.bundle */; };
 /* End PBXBuildFile section */
 
@@ -42,7 +41,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A526299B1EF4C92B00E2DC3C /* SceneSpots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneSpots.swift; sourceTree = "<group>"; };
 		A5593C5A1EEA495100097766 /* TamaHive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TamaHive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5593C5D1EEA495100097766 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5593C5F1EEA495100097766 /* TamasScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TamasScene.sks; sourceTree = "<group>"; };
@@ -61,7 +59,7 @@
 		A570020B1EF2880C00905761 /* TamaHive.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TamaHive.xcdatamodel; sourceTree = "<group>"; };
 		A5DD575D1EF1E61C00ED8998 /* Tamagotchi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tamagotchi.swift; sourceTree = "<group>"; };
 		A5DD575E1EF1E61C00ED8998 /* Extends.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extends.swift; sourceTree = "<group>"; };
-		A5DD575F1EF1E61C00ED8998 /* TamaScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TamaScene.swift; sourceTree = "<group>"; };
+		A5DD575F1EF1E61C00ED8998 /* TamaHouse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TamaHouse.swift; sourceTree = "<group>"; };
 		A5F8F4FB1EF2AC9000B0B0DC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A5F8F6001EF36F0B00B0B0DC /* tamahive.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = tamahive.bundle; path = ../../../../../../Desktop/tamahive.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -168,9 +166,8 @@
 			isa = PBXGroup;
 			children = (
 				A5DD575E1EF1E61C00ED8998 /* Extends.swift */,
-				A526299B1EF4C92B00E2DC3C /* SceneSpots.swift */,
 				A5DD575D1EF1E61C00ED8998 /* Tamagotchi.swift */,
-				A5DD575F1EF1E61C00ED8998 /* TamaScene.swift */,
+				A5DD575F1EF1E61C00ED8998 /* TamaHouse.swift */,
 			);
 			path = classes;
 			sourceTree = "<group>";
@@ -318,8 +315,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5593C641EEA495100097766 /* TamasScene.swift in Sources */,
-				A5DD57621EF1E61C00ED8998 /* TamaScene.swift in Sources */,
-				A526299C1EF4C92B00E2DC3C /* SceneSpots.swift in Sources */,
+				A5DD57621EF1E61C00ED8998 /* TamaHouse.swift in Sources */,
 				A5593C661EEA495100097766 /* GameViewController.swift in Sources */,
 				A5DD57601EF1E61C00ED8998 /* Tamagotchi.swift in Sources */,
 				A5DD57611EF1E61C00ED8998 /* Extends.swift in Sources */,

@@ -14,7 +14,7 @@ class TamasScene: SKScene {
     var entities = [GKEntity]()
     var graphs = [String : GKGraph]()
     
-    var sceneRects: [[SceneSpot]]!
+    var sceneRects: [[CGRect]]!
     private var lastUpdateTime : TimeInterval = 0
     
     let familyNames = ["mame","meme","kuchi","large","ninja","secret","small","space","violet"]
@@ -22,7 +22,7 @@ class TamasScene: SKScene {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     var sceneEntites: [TamaSceneEntity]! = []
-    var tamaViewScenes: [TamaScene]! = []
+    var tamaViewScenes: [TamaHouse]! = []
     let viewScale: Int! = 2
     
     var newTamaButton: FTButtonNode {
@@ -51,35 +51,38 @@ class TamasScene: SKScene {
     
     func setupScene(scale: CGFloat, scene: TamaSceneEntity) {
         //setup individual tamagotchi
-        let tamaScene = TamaScene(textureNamed: "tamaHome.png", scale: Int(scale))
+        
+        let tamaScene = TamaHouse(textureNamed: "tamaHome.png", scale: Int(scale))
         
         tamaScene.tama = Tamagotchi(textureNamed: scene.tamagotchi?.tamaName as! String, scale: Int(scale))
         
         //create new tamascene
+        let holderSpot = sceneRects.rowedIndex(Int(scene.spot)) as! CGRect
         tamaScene.color1 = scene.color1 as! UIColor
         tamaScene.color2 = scene.color2 as! UIColor
-        let holderSpot = sceneRects.rowedIndex(Int(scene.spot)) as! SceneSpot
         tamaScene.spot = Int(scene.spot)
-        holderSpot.scene = tamaViewScenes.count
-        holderSpot.isOccupied = true
-        tamaScene.position = CGPoint(x: holderSpot.rect.origin.x , y: holderSpot.rect.origin.y)
-        
+        tamaScene.position = CGPoint(x: holderSpot.origin.x , y: holderSpot.origin.y)
         
         tamaScene.tama.zPosition = 10
         //setup tamagotchi border
-        let tile = SKShapeNode(rectOf: tamaScene.size, cornerRadius: 9)
+        let tile = SKShapeNode(rectOf: tamaScene.size, cornerRadius: 7)
         tile.strokeColor = tamaScene.color2
         tile.zPosition = 10
         tile.lineWidth = CGFloat(viewScale * 3)
         tile.position = CGPoint.zero
         
+        /*let label = SKLabelNode(text: String(scene.id))
+        label.fontSize = 15
+        label.fontColor = UIColor.black
+        label.fontName = "arial"
+        label.position = CGPoint(x: 50, y: 25)
+        label.zPosition = 15*/
+        
         addChild(tamaScene)
         tamaScene.displayTama()
         tamaScene.addChild(tile)
+        //tamaScene.addChild(label)
         tamaViewScenes.append(tamaScene)
-        
-        
-        
         
         
         
@@ -88,27 +91,37 @@ class TamasScene: SKScene {
     
     func deleteTask(atPos: Int) {
         let request = NSFetchRequest<TamaSceneEntity>(entityName: "TamaSceneEntity")
-        do {
+        var ids = [Int16]()
+       do {
             let searchResults = try self.context.fetch(request)
-            self.context.delete(searchResults[atPos])
+            ids = searchResults.map( {$0.id})
+            var count = 0
+            self.context.delete(searchResults[ids.index(where: {$0 == Int16(atPos)})!])
+            
         } catch {
             print("Error with request: \(error)")
         }
         
         tamaViewScenes[atPos].removeFromParent()
-        let holderSpot = sceneRects.rowedIndex((tamaViewScenes[atPos].spot)!) as! SceneSpot
-        holderSpot.isOccupied = false
-        holderSpot.scene = nil
         tamaViewScenes.remove(at: atPos)
         
-        
+         (UIApplication.shared.delegate as! AppDelegate).saveContext()
         sceneEntites = getScenes()
+        ids = sceneEntites.map( {$0.id})
+        for i in 0..<ids.count {
+            if ids[i] > atPos {
+                let sceneIndex = sceneEntites.index(where: {$0.id == Int16(ids[i])})
+                let k = sceneEntites[sceneIndex!].id - 1
+                sceneEntites[sceneIndex!].id = sceneEntites[sceneIndex!].id - 1
+                let test = Int(ids[i]) - 1
+                
+            }
+        }
+        
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
         
-        
-        
-        
     }
+    
     func getScenes() -> [TamaSceneEntity] {
         var entities: [TamaSceneEntity]! = []
         do {
@@ -120,22 +133,22 @@ class TamasScene: SKScene {
     }
     
     func createNewSceneEntity() {
-        DispatchQueue.main.async {
             if self.sceneEntites.count < self.sceneRects.count() {
                 
                 let scene = TamaSceneEntity(context:self.self.context)
                 scene.id = Int16(self.sceneEntites.count)
                 scene.color1 = self.generateRandomColor()
                 scene.color2 = self.generateRandomColor()
-                
                 var rectS: Int!
                 var count = 0
+                let spotsArray = self.tamaViewScenes.map( {$0.spot})
                 topLevel: for i in self.sceneRects {
                     for scenerect in i {
-                        if scenerect.isOccupied == false {
+                        guard let indexOfReplace = spotsArray.index(where: {$0 == count}) else {
                             rectS = count
                             break topLevel;
                         }
+                        
                         count += 1
                     }
                 }
@@ -149,7 +162,6 @@ class TamasScene: SKScene {
                 tama.id = scene.id
                 let randomFam = Int(arc4random_uniform(UInt32(self.familyNames.count)))
                 tama.family = self.self.familyNames[randomFam]
-                //set date
                 let date = Date()
                 tama.lastOpenDate = date
                 tama.dateCreated = date
@@ -161,13 +173,8 @@ class TamasScene: SKScene {
                 
                 self.sceneEntites = self.getScenes()
                 self.setupScene(scale: CGFloat(self.viewScale), scene: scene)
-            }
         }
-        
-        
-        
     }
-    
     
     
     
@@ -175,14 +182,16 @@ class TamasScene: SKScene {
     func CreateScenesFromEntities() {
         sceneEntites = []
         sceneEntites = getScenes()
+        
         for node in (self.scene?.children)! {
-            if node is TamaScene {
+            if node is TamaHouse {
                 node.removeFromParent()
             }
         }
         self.tamaViewScenes = []
         updateTamas(isUpdating: false)
-        for scene in sceneEntites {
+        let sceneSorted = sceneEntites.sorted(by: { $0.id < $1.id })
+        for scene in sceneSorted {
             setupScene(scale: CGFloat(viewScale), scene: scene)
         }
         
@@ -193,7 +202,7 @@ class TamasScene: SKScene {
             if (tama?.age)! < 4 {
                 let date = Date()
                 
-                let newAge = date.interval(ofComponent: .minute, fromDate: (tama?.dateCreated)!)/2
+                let newAge = date.interval(ofComponent: .second, fromDate: (tama?.dateCreated)!)/2
                 if Int16(newAge) != tama?.age {
                     switch newAge {
                     case 1:
@@ -223,7 +232,7 @@ class TamasScene: SKScene {
     }
     
     var touch = UITouch()
-    var currentTama: TamaScene!
+    var currentTama: TamaHouse!
     var touchdx: CGFloat!
     var touchdy: CGFloat!
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -243,21 +252,6 @@ class TamasScene: SKScene {
                 
                 break;
                 
-                
-                
-                
-                /*
-                 self.view?.isPaused = true
-                 tamaViewScenes[i].removeFromParent()
-                 deleteTask(atPos: i)
-                 tamaViewScenes.remove(at: i)
-                 for i in 0..<tamaViewScenes.count {
-                 let scene = tamaViewScenes[i]
-                 let oneLessRect = sceneRects.countFromLeft(i).0 as! CGRect
-                 scene.position = CGPoint(x: oneLessRect.origin.x + (oneLessRect.size.width/2), y: oneLessRect.origin.y - (oneLessRect.size.height/2))
-                 
-                 }
-                 break;*/
             }
         }
         
@@ -281,50 +275,48 @@ class TamasScene: SKScene {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let endPos = touches.first?.location(in: self.scene!)
-        var count = 0
+        
         checkForContains: if currentTama != nil {
+            //delete tama if in trash node
             if trashPlace.frame.contains(endPos!) {
-                let indexed = Int(tamaViewScenes.index(of: currentTama!)!)
-                deleteTask(atPos: indexed)
+                let indexed = tamaViewScenes.index(where: {$0.spot == currentTama.spot})
+                deleteTask(atPos: indexed!)
                 
                 break checkForContains
             }
+            
+            
+            //check if node is within another spot
+            var count = 0
             topLevel: for place0 in sceneRects {
                 for place in place0 {
-                    let test = SKShapeNode(rectOf: place.rect.size)
-                    test.position = place.rect.origin
+                    let test = SKShapeNode(rectOf: place.size)
+                    test.position = place.origin
                     if test.frame.contains(endPos!) {
-                        let index = tamaViewScenes.index(of: currentTama!)
-                        sceneEntites[index!].spot = Int16(count)
-                        
-                        let holderSpot = sceneRects.rowedIndex((currentTama?.spot!)!) as! SceneSpot
-                        holderSpot.isOccupied = false
-                        holderSpot.scene = nil
                         
                         
-                        if place.isOccupied {
-                            
-                            sceneEntites[place.scene].spot = Int16(currentTama.spot)
-                            tamaViewScenes[place.scene].spot = currentTama?.spot
-                            tamaViewScenes[place.scene].position = holderSpot.rect.origin
-                            holderSpot.scene = place.scene
-                            holderSpot.isOccupied = true
-                            
+                        let spotsArray = tamaViewScenes.map( {$0.spot})
+                        if let indexOfReplace = spotsArray.index(where: {$0 == count}) {
+                            tamaViewScenes?[indexOfReplace].spot = currentTama.spot
+                            tamaViewScenes?[indexOfReplace].position = (sceneRects.rowedIndex(currentTama.spot) as! CGRect).origin
                         }
-                        let sceneInArray = sceneRects.rowedIndex(count) as! SceneSpot
-                        sceneInArray.scene = index
-                        sceneInArray.isOccupied = true
-                        tamaViewScenes[index!].spot = count
-                        currentTama?.position = place.rect.origin
                         
+                        currentTama.spot = count
+                        currentTama.position = (sceneRects.rowedIndex(count) as! CGRect).origin
+                        /*let ind = tamaViewScenes.index(where: {$0.spot == currentTama.spot})
+                        let ind1 = sceneEntites.index(where: {Int($0.id) == ind})!
+                        sceneEntites[ind1].spot = Int16(count)*/
                         break topLevel;
                         
                         
                     }
-                    currentTama?.position = (sceneRects.rowedIndex((currentTama?.spot)!) as! SceneSpot).rect.origin
+                    //if no frame contains tama, set position equal to before
+                    currentTama?.position = (sceneRects.rowedIndex((currentTama?.spot)!) as! CGRect).origin
                     count += 1
                 }
             }
+            
+            
             
             currentTama.zPosition = 10
             let scaleaction = SKAction.scale(to: 1, duration: 0)
@@ -332,7 +324,7 @@ class TamasScene: SKScene {
         }
         
         currentTama = nil
-        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        
     }
     func setUpSceneRects() {
         
@@ -345,34 +337,53 @@ class TamasScene: SKScene {
         let height = Int(self.size.height/(CGFloat(imageHeight) + CGFloat(widthSpacing)))
         let heightSpacing = widthSpacing
         let topLeft = CGPoint(x: Int(-(self.size.width/2)), y: Int(self.size.height/2))
-        sceneRects = [[SceneSpot]](repeating:[SceneSpot](repeating: SceneSpot(rect: CGRect.zero), count: length), count: height)
+        sceneRects = [[CGRect]](repeating:[CGRect](repeating: CGRect.zero, count: length), count: height)
         for w in 0..<length {
             for l in 0..<height {
                 let offsetX = (w+1)*widthSpacing + w*imageWidth
                 let offsetY = (l+1)*heightSpacing + l*imageHeight
                 let point = (Int(topLeft.x) + offsetX + (imageWidth/2), Int(topLeft.y) - offsetY - (imageHeight/2))
                 let rect = CGRect(x: point.0, y: point.1, width: imageWidth, height: imageHeight)
-                sceneRects[l][w] = SceneSpot(rect: rect)
+                sceneRects[l][w] = rect
                 
             }
         }
     }
     
+    func appWillTerminate () {
+        
+        for i in 0..<sceneEntites.count {
+            let sceneMappedArray = sceneEntites.map( {$0.id})
+            let index = sceneEntites.index(where: { $0.id == i})
+            sceneEntites[index!].spot = Int16(tamaViewScenes[i].spot)
+            (UIApplication.shared.delegate as! AppDelegate).saveContext()
+            
+        }
+        print(sceneEntites)
+        
+    }
+    //1ch _ 0cha 3ba _ _ 4 2pa 6cha 5ch
+    
     override func didMove(to view: SKView) {
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(self.appWillTerminate), name: Notification.Name.UIApplicationWillTerminate, object: nil)
         self.size = (self.view?.frame.size)!
         setUpSceneRects()
         
         
-        sceneEntites = getScenes()
         CreateScenesFromEntities()
         
         //add small buttons
         self.addChild(newTamaButton)
         self.addChild(trashPlace)
         trashPlace.isHidden = true
+        print(sceneEntites)
         
         
     }
+    
+    
     
     func changeTextureOfTama(i: Int, toD: String, isUpdating: Bool) {
         let randomTama = generateRandomTama(1, appendingPC: toD)[0]
@@ -399,7 +410,7 @@ class TamasScene: SKScene {
             timeSinceMove = 0
             
         }
-        if checkForEvol >= 5 {
+        if checkForEvol >= 1 {
             updateTamas(isUpdating: true)
         }
         
@@ -444,14 +455,27 @@ extension TamasScene {
     }
     
     func generateRandomColor() -> UIColor {
+        /*
         let hue : CGFloat = CGFloat(arc4random() % 256) / 256 // use 256 to get full range from 0.0 to 1.0
         let saturation : CGFloat = CGFloat(arc4random() % 128) / 256 + 0.5 // from 0.5 to 1.0 to stay away from white
         let brightness : CGFloat = CGFloat(arc4random() % 128) / 256 + 0.5 // from 0.5 to 1.0 to stay away from black
         
         return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)
+ */
+        return UIColor(red:   .random() ,
+                       green: .random() ,
+                       blue:  .random(),
+                       alpha: 1.0)
     }
     
     
+}
+
+extension CGFloat {
+    static func random() -> CGFloat {
+        let ret = CGFloat(arc4random()) / CGFloat(UInt32.max)
+        return ret
+    }
 }
 extension Array where Element: Collection, Element.Index == Int {
     func countFromLeft(_ index: Int) -> (Any, [Any]){

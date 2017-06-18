@@ -10,7 +10,7 @@ import UIKit
 import GameKit
 import SpriteKit
 
-class TamaScene: SKSpriteNode {
+class TamaHouse: SKSpriteNode {
     var tama: Tamagotchi!
     var tscale: CGFloat!
     var isBeingDragged: Bool!

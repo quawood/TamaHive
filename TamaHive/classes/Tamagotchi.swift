@@ -39,7 +39,7 @@ class Tamagotchi: SKSpriteNode {
             let flip = SKAction.scaleX(to: CGFloat(-testRandom), duration: 0)
             self.run(flip)
             let nextPos = CGPoint(x: Int(CGFloat((randomdir) * Int(tscale) * 1) + self.position.x), y: Int(self.position.y))
-            let parentscene = self.parent as? TamaScene
+            let parentscene = self.parent as? TamaHouse
         if abs(nextPos.x) < abs((parentscene?.size.width)!/2) - 60 {
                 self.position = nextPos
             }

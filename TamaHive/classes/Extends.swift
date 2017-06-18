@@ -119,7 +119,13 @@ struct PixelData:Equatable {
         
     }
     init(color: UIColor) {
-        self.init(a: UInt8(color.components.alpha * 255), r: UInt8(color.components.red * 255), g: UInt8(color.components.green * 255), b: UInt8(color.components.blue * 255))
+        var comps = [color.components.alpha * 255,color.components.red * 255,color.components.green * 255,color.components.blue * 255]
+        for i in 0..<comps.count {
+            if comps[i] > 255 {
+                comps[i] = 255
+            }
+        }
+        self.init(a: UInt8(comps[0]), r: UInt8(comps[1]), g: UInt8(comps[2]), b: UInt8(comps[3]))
     }
 }
 
