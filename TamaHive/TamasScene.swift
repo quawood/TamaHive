@@ -54,10 +54,10 @@ class TamasScene: SKScene {
         
         let tamaScene = TamaHouse(textureNamed: "tamaHome.png", scale: Int(scale))
         
-        tamaScene.tama = Tamagotchi(textureNamed: scene.tamagotchi?.tamaName as! String, scale: Int(scale))
+        tamaScene.tama = Tamagotchi(textureNamed: (scene.tamagotchi?.tamaName)!, scale: Int(scale))
         
         //create new tamascene
-        let holderSpot = sceneRects.rowedIndex(Int(scene.spot)) as! CGRect
+        let holderSpot = sceneRects.rowedIndex(Int(scene.spot)).0 as! CGRect
         tamaScene.color1 = scene.color1 as! UIColor
         tamaScene.color2 = scene.color2 as! UIColor
         tamaScene.spot = Int(scene.spot)
@@ -95,7 +95,6 @@ class TamasScene: SKScene {
        do {
             let searchResults = try self.context.fetch(request)
             ids = searchResults.map( {$0.id})
-            var count = 0
             self.context.delete(searchResults[ids.index(where: {$0 == Int16(atPos)})!])
             
         } catch {
@@ -111,9 +110,7 @@ class TamasScene: SKScene {
         for i in 0..<ids.count {
             if ids[i] > atPos {
                 let sceneIndex = sceneEntites.index(where: {$0.id == Int16(ids[i])})
-                let k = sceneEntites[sceneIndex!].id - 1
                 sceneEntites[sceneIndex!].id = sceneEntites[sceneIndex!].id - 1
-                let test = Int(ids[i]) - 1
                 
             }
         }
@@ -132,7 +129,8 @@ class TamasScene: SKScene {
         return entities
     }
     
-    func createNewSceneEntity() {
+    @objc func createNewSceneEntity() {
+        DispatchQueue.main.async {
             if self.sceneEntites.count < self.sceneRects.count() {
                 
                 let scene = TamaSceneEntity(context:self.self.context)
@@ -143,8 +141,8 @@ class TamasScene: SKScene {
                 var count = 0
                 let spotsArray = self.tamaViewScenes.map( {$0.spot})
                 topLevel: for i in self.sceneRects {
-                    for scenerect in i {
-                        guard let indexOfReplace = spotsArray.index(where: {$0 == count}) else {
+                    for _ in i {
+                        guard spotsArray.index(where: {$0 == count}) != nil else {
                             rectS = count
                             break topLevel;
                         }
@@ -173,7 +171,9 @@ class TamasScene: SKScene {
                 
                 self.sceneEntites = self.getScenes()
                 self.setupScene(scale: CGFloat(self.viewScale), scene: scene)
+            }
         }
+        
     }
     
     
@@ -215,8 +215,8 @@ class TamasScene: SKScene {
                         let randomTama = "teen"
                         changeTextureOfTama(i: i, toD: randomTama, isUpdating: isUpdating)
                     default:
-                        let randomTama = tama?.family as! String
-                        changeTextureOfTama(i: i, toD: randomTama, isUpdating: isUpdating)
+                        let randomTama = tama?.family
+                        changeTextureOfTama(i: i, toD: randomTama!, isUpdating: isUpdating)
                         
                         
                     }
@@ -235,6 +235,7 @@ class TamasScene: SKScene {
     var currentTama: TamaHouse!
     var touchdx: CGFloat!
     var touchdy: CGFloat!
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         touch = touches.first!
         
@@ -262,9 +263,31 @@ class TamasScene: SKScene {
         let newTouch = touches.first
         if newTouch == touch {
             if let tama = currentTama {
+                
                 let newLoc = (newTouch?.location(in: self.scene!))!
                 
                 tama.position = CGPoint(x: newLoc.x - touchdx, y: newLoc.y - touchdy)
+                    topLevel: for p1 in self.tamaViewScenes {
+                        if p1 != currentTama {
+                            let test = SKShapeNode(rectOf: (sceneRects.rowedIndex(p1.spot).0 as! CGRect).size)
+                            test.position = (sceneRects.rowedIndex(p1.spot).0 as! CGRect).origin
+                            if test.frame.contains(newLoc) {
+                                let spotP = p1.spot
+                                p1.spot = self.currentTama.spot
+                                self.currentTama.spot = spotP
+                                
+                                let ph = (self.sceneRects.rowedIndex(p1.spot).0 as! CGRect).origin
+                                if p1.position != ph {
+                                    print("waatt")
+                                    let animatePosition = SKAction.move(to: ph, duration: 0.1)
+                                    p1.run(animatePosition)
+                                }
+                                break topLevel
+                                
+                            }
+                        }
+                        
+                    }
                 
                 
             }
@@ -293,16 +316,9 @@ class TamasScene: SKScene {
                     let test = SKShapeNode(rectOf: place.size)
                     test.position = place.origin
                     if test.frame.contains(endPos!) {
-                        
-                        
-                        let spotsArray = tamaViewScenes.map( {$0.spot})
-                        if let indexOfReplace = spotsArray.index(where: {$0 == count}) {
-                            tamaViewScenes?[indexOfReplace].spot = currentTama.spot
-                            tamaViewScenes?[indexOfReplace].position = (sceneRects.rowedIndex(currentTama.spot) as! CGRect).origin
-                        }
-                        
                         currentTama.spot = count
-                        currentTama.position = (sceneRects.rowedIndex(count) as! CGRect).origin
+                        currentTama.position = (sceneRects.rowedIndex(currentTama.spot).0 as! CGRect).origin
+                        
                         /*let ind = tamaViewScenes.index(where: {$0.spot == currentTama.spot})
                         let ind1 = sceneEntites.index(where: {Int($0.id) == ind})!
                         sceneEntites[ind1].spot = Int16(count)*/
@@ -311,7 +327,7 @@ class TamasScene: SKScene {
                         
                     }
                     //if no frame contains tama, set position equal to before
-                    currentTama?.position = (sceneRects.rowedIndex((currentTama?.spot)!) as! CGRect).origin
+                    currentTama?.position = (sceneRects.rowedIndex((currentTama?.spot)!).0 as! CGRect).origin
                     count += 1
                 }
             }
@@ -350,16 +366,14 @@ class TamasScene: SKScene {
         }
     }
     
-    func appWillTerminate () {
+    @objc func appWillTerminate () {
         
         for i in 0..<sceneEntites.count {
-            let sceneMappedArray = sceneEntites.map( {$0.id})
             let index = sceneEntites.index(where: { $0.id == i})
             sceneEntites[index!].spot = Int16(tamaViewScenes[i].spot)
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
             
         }
-        print(sceneEntites)
         
     }
     //1ch _ 0cha 3ba _ _ 4 2pa 6cha 5ch
@@ -378,7 +392,6 @@ class TamasScene: SKScene {
         self.addChild(newTamaButton)
         self.addChild(trashPlace)
         trashPlace.isHidden = true
-        print(sceneEntites)
         
         
     }
@@ -404,8 +417,14 @@ class TamasScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         if timeSinceMove >= 2 {
-            for tamascene in tamaViewScenes {
-                tamascene.tama.move()
+            for i in 0..<tamaViewScenes.count {
+                let date = Date()
+                let correspondingEntity = sceneEntites.first(where: {$0.id == i})
+                let newAge = date.interval(ofComponent: .second, fromDate: (correspondingEntity?.tamagotchi?.dateCreated)!) % 2
+                if newAge == 0 {
+                    tamaViewScenes[i].tama.move()
+                }
+                
             }
             timeSinceMove = 0
             
@@ -492,10 +511,10 @@ extension Array where Element: Collection, Element.Index == Int {
         return (countFromLeft(1).1.count)
     }
     
-    func rowedIndex(_ i: Int) -> Any{
+    func rowedIndex(_ i: Int) -> (Any, Int, Int){
         let f = i / (Int(self[0].count))
         let s = i % (Int(self[0].count))
-        return self[f][s]
+        return (self[f][s], f, s)
     }
     
     
