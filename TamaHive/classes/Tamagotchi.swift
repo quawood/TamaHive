@@ -13,6 +13,14 @@ class Tamagotchi: SKSpriteNode {
     var tscale: CGFloat = 1
     var gender: String! = ""
     var age: Int16! = 0
+    var id: Int16!
+    var tamaName: String!
+    var family: String!
+    var hunger: Int16!
+    var generation: Int16!
+    var happiness: Int16!
+    var dateCreated: Date!
+    
     
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {

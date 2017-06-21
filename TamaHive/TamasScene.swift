@@ -22,7 +22,8 @@ class TamasScene: SKScene {
     
     var sceneEntites: [TamaSceneEntity]! = []
     var tamaViewScenes: [TamaHouse]! = []
-    let viewScale: Int! = 2
+    var fakeScenes: [TamaHouse]! = []
+    let viewScale: Int! = 3
     
     var touch = UITouch()
     var currentTama: TamaHouse!
@@ -91,7 +92,7 @@ class TamasScene: SKScene {
             }
         }
         
-        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        
         
     }
     
@@ -109,10 +110,11 @@ class TamasScene: SKScene {
         DispatchQueue.main.async {
             if self.sceneEntites.count < self.sceneRects.count() {
                 
-                let scene = TamaSceneEntity(context:self.self.context)
+                let scene = TamaSceneEntity(context:self.context)
                 scene.id = Int16(self.sceneEntites.count)
                 scene.color1 = self.generateRandomColor()
                 scene.color2 = self.generateRandomColor()
+                scene.span = "n"
                 var newSpot: Int!
                 var count = 0
                 let spotsArray = self.tamaViewScenes.map( {$0.spot})
@@ -137,15 +139,15 @@ class TamasScene: SKScene {
                 tama.happiness = 5
                 tama.hunger = 5
                 tama.tamaName = "egg"
-                tama.id = scene.id
+                tama.id = 0
                 tama.gender = genders[Int(arc4random_uniform(2))]
                 tama.family = self.self.familyNames[randomFam]
                 tama.dateCreated = date
                 tama.tamascene = scene
-                scene.tamagotchi = tama
+                scene.addToTamagotchi(tama)
                 (UIApplication.shared.delegate as! AppDelegate).saveContext()
                 self.sceneEntites = self.getScenes()
-                self.setupScene(scale: CGFloat(self.viewScale), scene: scene)
+                self.setupScene(scene: scene)
             }
         }
         
@@ -187,23 +189,66 @@ class TamasScene: SKScene {
     }
     
     
-    func setupScene(scale: CGFloat, scene: TamaSceneEntity) {
+    func setupScene(scene: TamaSceneEntity) {
         //setup individual tamagotchi
+        let scale = viewScale!
+        var tamaScene: TamaHouse!
+        let holderSpot = sceneRects.rowedIndex(Int(scene.spot)).0 as! CGRect
+        var fakeScene = TamaHouse(textureNamed: "normaltamaHome.png", scale: viewScale)
+        switch scene.span! {
+        case "n":
+            tamaScene = TamaHouse(textureNamed: "normaltamaHome.png", scale: Int(scale))
+            tamaScene.position = CGPoint(x: holderSpot.origin.x , y: holderSpot.origin.y)
+            
+        case "l":
+            tamaScene = TamaHouse(textureNamed: "longtamaHome.png", scale: Int(scale))
+            tamaScene.position = CGPoint(x: holderSpot.origin.x + holderSpot.size.width/2 , y: holderSpot.origin.y)
+            fakeScene.spot = Int(scene.spot) + 1
+            
+            
+        case "t":
+            tamaScene = TamaHouse(textureNamed: "talltamaHome.png", scale: Int(scale))
+            tamaScene.position = CGPoint(x: holderSpot.origin.x  , y: holderSpot.origin.y + holderSpot.size.height/2)
+            fakeScene.spot = Int(scene.spot) + sceneRects[0].count
+        default:
+            break
+        }
         
-        let tamaScene = TamaHouse(textureNamed: "normaltamaHome.png", scale: Int(scale))
         
-        tamaScene.tama = Tamagotchi(textureNamed: (scene.tamagotchi?.tamaName)!, scale: Int(scale))
+        
         
         //create new tamascene
-        let holderSpot = sceneRects.rowedIndex(Int(scene.spot)).0 as! CGRect
+        
         tamaScene.color1 = scene.color1 as! UIColor
         tamaScene.color2 = scene.color2 as! UIColor
         tamaScene.spot = Int(scene.spot)
-        tamaScene.position = CGPoint(x: holderSpot.origin.x , y: holderSpot.origin.y)
+        tamaScene.span = scene.span
         
-        tamaScene.tama.zPosition = 10
-        tamaScene.tama.age = Int(scene.tamagotchi?.age)
-        tamaScene.tama.gender = scene.tamagotchi?.gender
+        
+        scene.tamagotchi?.forEach({
+            let x = $0 as! TamagotchiEntity
+            let newTama = Tamagotchi(textureNamed: (x.tamaName)!, scale: Int(scale))
+            newTama.zPosition = 10
+            newTama.age = x.age
+            newTama.gender = x.gender
+            newTama.id = x.id
+            newTama.tamaName = x.tamaName
+            newTama.family = x.family
+            newTama.generation = x.generation
+            newTama.hunger = x.hunger
+            newTama.happiness = x.happiness
+            newTama.dateCreated = x.dateCreated
+            tamaScene.tama.append(newTama)
+            
+        })
+        
+        if scene.span != "n" {
+        fakeScene.size = CGSize.zero
+        fakeScene.isFakeScene = true
+        //tamaScene.addChild(fakeScene)
+            //fakeScenes.append(fakeScene)
+        }
+        
         //setup tamagotchi border
         let tile = SKShapeNode(rectOf: tamaScene.size, cornerRadius: 7)
         tile.strokeColor = tamaScene.color2
@@ -234,11 +279,11 @@ class TamasScene: SKScene {
             }
         }
         self.tamaViewScenes = []
-        updateTamas(isUpdating: false)
         let sceneSorted = sceneEntites.sorted(by: { $0.id < $1.id })
         for scene in sceneSorted {
-            setupScene(scale: CGFloat(viewScale), scene: scene)
+            setupScene(scene: scene)
         }
+        updateTamas()
         
     }
     
@@ -276,53 +321,149 @@ class TamasScene: SKScene {
     
     
     
-    func updateTamas(isUpdating: Bool) {
+    func updateTamas() {
+        var count = 0
+        print(tamaViewScenes.count)
         tamaViewScenes.forEach({
-            let scene = $0
-            let tama = scene.tama
-            let index = tamaViewScenes!.index(of: scene)
-            let correspondingEntity = sceneEntites.first(where: {x in
-                x.id == Int16()
-            })
-            
-            if (tama?.age)! < 4 {
-                let date = Date()
+            if $0.isFakeScene != true {
+                let scene = $0
+                let index = tamaViewScenes!.index(of: scene)
+                let tama = scene.tama
+                var newAge: Int! = 0
                 
-                let newAge = date.interval(ofComponent: .second, fromDate: (correspondingEntity?.tamagotchi?.dateCreated!)!)/2
-                if Int16(newAge) != tama?.age {
-                    var randomTama = String()
-                    switch newAge {
-                    case 1:
-                        randomTama = "baby"
-                    case 2 :
-                        randomTama = "toddler,\(tama!.gender!)"
-                        
-                    case 3:
-                        randomTama = "teen,\(tama!.gender!)"
-                        
-                    default:
-                        randomTama = "adult,\(tama!.gender!)"
-                        
-                    }
-                    changeTextureOfTama(fromTama: tama!, toTama: randomTama, isUpdating: isUpdating)
-                    tama?.age = Int16(newAge)
+                tama?.forEach({
+                    let correspondingEntity = sceneEntites.first(where: {x in
+                        x.id == Int16(tamaViewScenes.startIndex.distance(to: count))
+                    })
+                    let date = Date()
                     
+                    newAge = date.interval(ofComponent: .second, fromDate:$0.dateCreated)/2
+                    if Int16(newAge) != $0.age && ($0.age)! < 4  {
+                        var randomTama = String()
+                        switch newAge {
+                        case 1:
+                            randomTama = "baby"
+                        case 2 :
+                            randomTama = "toddler,\($0.gender!)"
+                            
+                        case 3:
+                            randomTama = "teen,\($0.gender!)"
+                            
+                        default:
+                            randomTama = "adult,\($0.gender!)"
+                            
+                        }
+                        if scene.tama.count == 1 {
+                            changeTextureOfTama(fromTama: scene, toTama: randomTama)
+                        }
+                        
+                        
+                        
                         
                     }
+                    $0.age = Int16(newAge)
+                    
+                    count += 1
+                })
                 
+                if tama![0].age > 7 && scene.tama.count == 1 {
+                    let onlyTama = tama?.first
+                    var hasRightNeighbor: Bool!{
+                        let place = (sceneRects.rowedIndex(scene.spot).1, sceneRects.rowedIndex(scene.spot).2)
+                        if sceneRects[place.0].indices.contains(place.1+1) {
+                            return true
+                        } else {
+                            return false
+                        }
+                    }
+                    var hasBottomNeighbor: Bool!{
+                        let place = (sceneRects.rowedIndex(scene.spot).1, sceneRects.rowedIndex(scene.spot).2)
+                        if sceneRects.indices.contains(place.1+1) {
+                            return true
+                        } else {
+                            return false
+                        }
+                    }
+                    checkN:  if hasRightNeighbor {
+                        if let rightNeighbor = tamaViewScenes.first(where: {$0.spot == scene.spot+1}) {
+                            let rightNeighbortama = rightNeighbor.tama.first
+                            if rightNeighbortama!.age > 7 && rightNeighbortama!.gender != onlyTama?.gender && rightNeighbor.tama.count == 1 {
+                                newFamilyScene(scene: scene, tama1: onlyTama!, tama2: rightNeighbortama!, span:"l")
+                                break checkN;
+                                
+                            }
+                        }
+                    }
+                    else if hasBottomNeighbor {
+                        print("1")
+                        if let bottomNeighbor = tamaViewScenes.first(where: {$0.spot == scene.spot+sceneRects[0].count}) {
+                            print("2")
+                            let bottomNeighbortama = bottomNeighbor.tama.first
+                            if bottomNeighbortama!.age > 7 && bottomNeighbortama!.gender != onlyTama?.gender && bottomNeighbor.tama.count == 1 {
+                                print("3")
+                                newFamilyScene(scene: scene, tama1: onlyTama!, tama2: bottomNeighbortama!, span: "t")
+                                
+                            }
+                        }
+                    }
                 }
+                
+            }
             
         })
-    
+        
     }
     
-    func changeTextureOfTama(fromTama: Tamagotchi, toTama: String, isUpdating: Bool) {
-        let randomTama = generateRandomTama(1, appendingPC: toTama)[0]
-        let i = tamaViewScenes.first(where: {$0.tama == fromTama})
-        let tama = tamaViewScenes![Int(i!)!].tama
-        let image = UIImage(named: (randomTama))?.resizeImage(scale: CGFloat(viewScale))
-        tama?.texture = SKTexture(cgImage: (image?.cgImage)!)
-        tama?.size = (tamaViewScenes![Int(i!)].tama.texture?.size())!
+    
+    func newFamilyScene(scene: TamaHouse, tama1: Tamagotchi, tama2: Tamagotchi, span: String) {
+        let newscene = TamaSceneEntity(context:self.context)
+        newscene.id = Int16(self.sceneEntites.count) - 2
+        newscene.color1 = scene.color1
+        newscene.color2 = scene.color2
+        newscene.spot = Int16(scene.spot)
+        newscene.span = span
+        
+        let index1 = tamaViewScenes.index(of: tamaViewScenes.first(where: {$0.tama.first! == tama1})!)
+        var index2 = tamaViewScenes.index(of: tamaViewScenes.first(where: {$0.tama.first! == tama2})!)
+        var newtama1 = TamagotchiEntity(context:self.context)
+        var newtama2 = TamagotchiEntity(context:self.context)
+        newtama1 = sceneEntites!.first(where: {$0.id == tamaViewScenes.startIndex.distance(to: index1!)})?.tamagotchi?.first(where: {_ in true}) as! TamagotchiEntity
+        newtama2 = sceneEntites!.first(where: {$0.id == tamaViewScenes.startIndex.distance(to: index2!)})?.tamagotchi?.first(where: {_ in true}) as! TamagotchiEntity
+        newtama2.id = 1
+        newscene.addToTamagotchi(newtama1)
+        newscene.addToTamagotchi(newtama2)
+        
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        view?.isPaused = true
+        deleteTask(atPos: index1!)
+        index2 = tamaViewScenes.index(of: tamaViewScenes.first(where: {$0.tama.first! == tama2})!)
+        deleteTask(atPos: index2!)
+        
+        setupScene(scene: newscene)
+        print(tamaViewScenes.count)
+        view?.isPaused = false
+        
+    }
+    
+    func changeTextureOfTama(fromTama: TamaHouse, toTama: String) {
+        
+        let index = tamaViewScenes.index(where: {$0 == fromTama})
+        let i = tamaViewScenes[index!]
+        let correspondingEntity = sceneEntites.first(where: {$0.id == tamaViewScenes.startIndex.distance(to: index!)})
+        i.tama.forEach({
+            let tama = $0
+            let randomTama = generateRandomTama(1, appendingPC: toTama)[0]
+            (correspondingEntity?.tamagotchi?.first(where: {($0 as AnyObject).id == tama.id}) as! TamagotchiEntity).tamaName = randomTama
+            let image = UIImage(named: (randomTama))?.resizeImage(scale: CGFloat(viewScale))
+            $0.tamaName = randomTama
+            $0.texture = SKTexture(cgImage: (image?.cgImage)!)
+            $0.size = ($0.texture?.size())!
+            
+            
+        })
+        
+        
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
         
     }
     
@@ -457,7 +598,12 @@ class TamasScene: SKScene {
         for i in 0..<sceneEntites.count {
             let index = sceneEntites.index(where: { $0.id == i})
             sceneEntites[index!].spot = Int16(tamaViewScenes[i].spot)
+            sceneEntites[index!].tamagotchi?.forEach({
+                let tama = $0 as! TamagotchiEntity
+                tama.age = (tamaViewScenes[i].tama.first(where: {$0.id == tama.id})?.age)!
+            })
         }
+        
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
         
     }
@@ -473,13 +619,15 @@ class TamasScene: SKScene {
         // Called before each frame is rendered
         if timeSinceMove >= 2 {
             tamaViewScenes.forEach( {
-                $0.tama.move()
+                $0.tama.forEach({
+                    $0.move()
+                })
             })
             timeSinceMove = 0
             
         }
         if checkForEvol >= 1 {
-            updateTamas(isUpdating: true)
+            updateTamas()
         }
         
         
@@ -501,6 +649,7 @@ class TamasScene: SKScene {
         checkForEvol = checkForEvol + dt
     }
 }
+
 
 
 

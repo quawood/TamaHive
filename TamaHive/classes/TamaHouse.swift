@@ -11,10 +11,12 @@ import GameKit
 import SpriteKit
 
 class TamaHouse: SKSpriteNode {
-    var tama: Tamagotchi!
+    var tama: [Tamagotchi]! = []
     var tscale: CGFloat!
     var isBeingDragged: Bool!
     var spot: Int!
+    var span: String! = "n"
+    var isFakeScene:Bool! = false
     var color1: UIColor! = UIColor.white {
         didSet {
             let newCols = changeColors(from: oldValue, to: color1)
@@ -32,8 +34,14 @@ class TamaHouse: SKSpriteNode {
     }
     
     func displayTama() {
-        self.addChild(tama)
-        tama.position = CGPoint(x: 0, y: -self.size.height/5 )
+        var count = 0
+        tama.forEach({
+            self.addChild($0)
+            let k = self.size.width-60
+            let randomxOffset = (CGFloat.random() * k-20) - k/2
+            $0.position = CGPoint(x: CGFloat(randomxOffset), y: -self.size.height/5 )
+            count += 1
+        })
     }
     
     func changeColors(from: UIColor, to: UIColor) -> [PixelData] {
