@@ -9,8 +9,8 @@
 import UIKit
 import GameKit
 import SpriteKit
-class Tamagotchi: SKSpriteNode {
-    var tscale: CGFloat = 1
+class Tamagotchi: SKSpriteNode{
+    var partscale: CGFloat = 1
     var gender: String! = ""
     var age: Int16! = 0
     var id: Int16!
@@ -21,8 +21,6 @@ class Tamagotchi: SKSpriteNode {
     var happiness: Int16!
     var dateCreated: Date!
     
-    
-    
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         let image = UIImage(cgImage: (texture?.cgImage())!).resizeImage(scale: size.width/(texture?.size().width)!)
       /*  let pixelData: [PixelData] = (image.cgImage!.colors!.1)
@@ -32,9 +30,7 @@ class Tamagotchi: SKSpriteNode {
         let tamaImg = image
         let texture1 = SKTexture(cgImage: (tamaImg.cgImage!))
         super.init(texture: texture1, color: UIColor.white, size:texture1.size())
-        self.tscale = 2*size.width/(texture?.size().width)!
     }
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -48,10 +44,22 @@ class Tamagotchi: SKSpriteNode {
             }
             let flip = SKAction.scaleX(to: CGFloat(-testRandom), duration: 0)
             self.run(flip)
-            let nextPos = CGPoint(x: Int(CGFloat((randomdir) * Int(tscale) * 1) + self.position.x), y: Int(self.position.y))
+        let nextPos = CGPoint(x: Int(CGFloat((randomdir) * Int(partscale) * 1) + self.position.x), y: Int(self.position.y))
             let parentscene = self.parent as? TamaHouse
-        if abs(nextPos.x) < abs((parentscene?.size.width)!/2) - 60 {
-                self.position = nextPos
+        if abs(nextPos.x) < abs((parentscene?.size.width)!/2) - 35 {
+            var canMove: Bool! = true
+            parentscene?.tama.forEach({
+                if $0 != self {
+                    if abs($0.position.x - nextPos.x) < 55{
+                        canMove = false
+                    }
+                }
+                
+            })
+            if canMove {
+                 self.position = nextPos
+            }
+            
             }
         
     }
