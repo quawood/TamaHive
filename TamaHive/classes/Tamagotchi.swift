@@ -11,6 +11,8 @@ import GameKit
 import SpriteKit
 class Tamagotchi: SKSpriteNode {
     var tscale: CGFloat = 1
+    var gender: String! = ""
+    var age: Int16! = 0
     
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
@@ -45,7 +47,6 @@ class Tamagotchi: SKSpriteNode {
             }
         
     }
-    
     
     
     

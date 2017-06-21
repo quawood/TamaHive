@@ -17,7 +17,7 @@ extension CGImage {
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         
         let cgImage = self
-            
+        
         
         
         var rawData = [UInt8](repeating: 0, count: width * height * 4)
@@ -158,8 +158,8 @@ extension Array where Element == PixelData{
             intent: CGColorRenderingIntent.defaultIntent
         )
         return UIImage(cgImage: cgim!)
-}
-
+    }
+    
 }
 
 
@@ -341,3 +341,71 @@ extension Date {
         return end - start
     }
 }
+extension TamasScene {
+    func generateRandomTama(_ n: Int, appendingPC: String) -> [String] {
+        let appends:[String] = appendingPC.components(separatedBy: ",")
+        var tamas: [String]! = []
+        var resourcePath = NSURL(string: Bundle.main.resourcePath!)?.appendingPathComponent("tamahive.bundle")?.appendingPathComponent("tamas")
+        appends.forEach({
+            resourcePath?.appendPathComponent($0)
+        })
+        let resourcesContent = try! FileManager().contentsOfDirectory(at: resourcePath!, includingPropertiesForKeys: nil, options: FileManager.DirectoryEnumerationOptions.skipsHiddenFiles)
+        
+        for url in resourcesContent {
+            tamas.append(url.lastPathComponent)
+            
+        }
+        var returnArray: [String] = []
+        for _ in 0..<n {
+            let randInd = arc4random_uniform(UInt32(tamas.count))
+            returnArray.append(tamas[Int(randInd)])
+        }
+        
+        return returnArray
+        
+    }
+    
+    func generateRandomColor() -> UIColor {
+        let hue : CGFloat = CGFloat(arc4random() % 256) / 256 // use 256 to get full range from 0.0 to 1.0
+        let saturation : CGFloat = CGFloat(arc4random() % 128) / 256 + 0.5 // from 0.5 to 1.0 to stay away from white
+        let brightness : CGFloat = CGFloat(arc4random() % 128) / 256 + 0.5 // from 0.5 to 1.0 to stay away from black
+        
+        return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)
+        
+    }
+    
+    
+}
+
+extension CGFloat {
+    static func random() -> CGFloat {
+        let ret = CGFloat(arc4random()) / CGFloat(UInt32.max)
+        return ret
+    }
+}
+extension Array where Element: Collection, Element.Index == Int {
+    func countFromLeft(_ index: Int) -> (Any, [Any]){
+        var holder = [Any]()
+        for i in 0..<self.count {
+            for j in self[i] {
+                holder.append(j)
+            }
+        }
+        return (holder[index] as Any, holder)
+    }
+    
+    func count() -> Int {
+        return (countFromLeft(1).1.count)
+    }
+    
+    func rowedIndex(_ i: Int) -> (Any, Int, Int){
+        let f = i / (Int(self[0].count))
+        let s = i % (Int(self[0].count))
+        return (self[f][s], f, s)
+    }
+    
+    
+}
+
+
+
