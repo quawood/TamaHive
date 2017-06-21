@@ -14,7 +14,6 @@ class TamaHouse: SKSpriteNode {
     var tama: [Tamagotchi]! = []
     var tscale: CGFloat!
     var isBeingDragged: Bool!
-    var spot: Int!
     var span: String! = "n"
     var isFakeScene:Bool! = false
     var color1: UIColor! = UIColor.white {

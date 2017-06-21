@@ -23,12 +23,13 @@ class TamasScene: SKScene {
     var sceneEntites: [TamaSceneEntity]! = []
     var tamaViewScenes: [TamaHouse]! = []
     var fakeScenes: [TamaHouse]! = []
-    let viewScale: Int! = 3
+    let viewScale: Int! = 2
     
     var touch = UITouch()
     var currentTama: TamaHouse!
     var touchdx: CGFloat!
     var touchdy: CGFloat!
+    var beginPos: CGPoint!
     
     private var lastUpdateTime : TimeInterval = 0
     var timeSinceMove: Double! = 0
@@ -108,27 +109,14 @@ class TamasScene: SKScene {
     
     @objc func createNewSceneEntity() {
         DispatchQueue.main.async {
-            if self.sceneEntites.count < self.sceneRects.count() {
+            if self.sceneEntites.count < 10 {
                 
                 let scene = TamaSceneEntity(context:self.context)
                 scene.id = Int16(self.sceneEntites.count)
                 scene.color1 = self.generateRandomColor()
                 scene.color2 = self.generateRandomColor()
                 scene.span = "n"
-                var newSpot: Int!
-                var count = 0
-                let spotsArray = self.tamaViewScenes.map( {$0.spot})
-                topLevel: for i in self.sceneRects {
-                    for _ in i {
-                        guard spotsArray.index(where: {$0 == count}) != nil else {
-                            newSpot = count
-                            break topLevel;
-                        }
-                        
-                        count += 1
-                    }
-                }
-                scene.spot = Int16(newSpot)
+                scene.spot = "0,0"
                 let tama = TamagotchiEntity(context: self.context)
                 let genders = ["m","f"]
                 let date = Date()
@@ -178,7 +166,7 @@ class TamasScene: SKScene {
     
     override func didMove(to view: SKView) {
         self.size = (self.view?.frame.size)!
-        setUpSceneRects()
+       // setUpSceneRects()
         CreateScenesFromEntities()
         self.addChild(newTamaButton)
         self.addChild(trashPlace)
@@ -193,23 +181,17 @@ class TamasScene: SKScene {
         //setup individual tamagotchi
         let scale = viewScale!
         var tamaScene: TamaHouse!
-        let holderSpot = sceneRects.rowedIndex(Int(scene.spot)).0 as! CGRect
         var fakeScene = TamaHouse(textureNamed: "normaltamaHome.png", scale: viewScale)
         switch scene.span! {
         case "n":
             tamaScene = TamaHouse(textureNamed: "normaltamaHome.png", scale: Int(scale))
-            tamaScene.position = CGPoint(x: holderSpot.origin.x , y: holderSpot.origin.y)
             
         case "l":
             tamaScene = TamaHouse(textureNamed: "longtamaHome.png", scale: Int(scale))
-            tamaScene.position = CGPoint(x: holderSpot.origin.x + holderSpot.size.width/2 , y: holderSpot.origin.y)
-            fakeScene.spot = Int(scene.spot) + 1
             
             
         case "t":
             tamaScene = TamaHouse(textureNamed: "talltamaHome.png", scale: Int(scale))
-            tamaScene.position = CGPoint(x: holderSpot.origin.x  , y: holderSpot.origin.y + holderSpot.size.height/2)
-            fakeScene.spot = Int(scene.spot) + sceneRects[0].count
         default:
             break
         }
@@ -218,10 +200,9 @@ class TamasScene: SKScene {
         
         
         //create new tamascene
-        
+        tamaScene.position = (scene.spot?.toPoint())!
         tamaScene.color1 = scene.color1 as! UIColor
         tamaScene.color2 = scene.color2 as! UIColor
-        tamaScene.spot = Int(scene.spot)
         tamaScene.span = scene.span
         
         
@@ -253,7 +234,7 @@ class TamasScene: SKScene {
         let tile = SKShapeNode(rectOf: tamaScene.size, cornerRadius: 7)
         tile.strokeColor = tamaScene.color2
         tile.zPosition = 10
-        tile.lineWidth = CGFloat(viewScale * 3)
+        tile.lineWidth = CGFloat(viewScale * 4)
         tile.position = CGPoint.zero
         
         addChild(tamaScene)
@@ -285,31 +266,6 @@ class TamasScene: SKScene {
         }
         updateTamas()
         
-    }
-    
-    
-    func setUpSceneRects() {
-        
-        let imageWidth = Int((UIImage(named: "normaltamaHome.png")?.size.width)!) * viewScale
-        let imageHeight = Int((UIImage(named: "normaltamaHome.png")?.size.height)!) * viewScale
-        let length = Int(self.size.width/CGFloat(imageWidth))
-        
-        
-        let widthSpacing = (Int(self.size.width) - (length * imageWidth))/(length + 1)
-        let height = Int(self.size.height/(CGFloat(imageHeight) + CGFloat(widthSpacing)))
-        let heightSpacing = widthSpacing
-        let topLeft = CGPoint(x: Int(-(self.size.width/2)), y: Int(self.size.height/2))
-        sceneRects = [[CGRect]](repeating:[CGRect](repeating: CGRect.zero, count: length), count: height)
-        for w in 0..<length {
-            for l in 0..<height {
-                let offsetX = (w+1)*widthSpacing + w*imageWidth
-                let offsetY = (l+1)*heightSpacing + l*imageHeight
-                let point = (Int(topLeft.x) + offsetX + (imageWidth/2), Int(topLeft.y) - offsetY - (imageHeight/2))
-                let rect = CGRect(x: point.0, y: point.1, width: imageWidth, height: imageHeight)
-                sceneRects[l][w] = rect
-                
-            }
-        }
     }
     
     
@@ -368,24 +324,35 @@ class TamasScene: SKScene {
                 
                 if tama![0].age > 7 && scene.tama.count == 1 {
                     let onlyTama = tama?.first
-                    var hasRightNeighbor: Bool!{
-                        let place = (sceneRects.rowedIndex(scene.spot).1, sceneRects.rowedIndex(scene.spot).2)
-                        if sceneRects[place.0].indices.contains(place.1+1) {
-                            return true
-                        } else {
-                            return false
+                    let goodRect1 = CGRect(x: scene.position.x+30+scene.size.width, y: scene.position.y + scene.size.height/2, width: scene.size.width + 30, height: 2 * scene.size.height)
+                    let goodRect2 = CGRect(x: scene.position.x + scene.size.width/2, y: scene.position.y+30+scene.size.height, width: 2 * scene.size.width, height: scene.size.height + 30)
+                    var hasRightNeighbor: Bool! {
+                        var boolt: Bool! = false
+                        for scene in tamaViewScenes {
+                            if goodRect1.contains(scene.position) {
+                                boolt = true
+                                break;
+                            } else {
+                                boolt = false
+                            }
                         }
+                        return boolt
                     }
-                    var hasBottomNeighbor: Bool!{
-                        let place = (sceneRects.rowedIndex(scene.spot).1, sceneRects.rowedIndex(scene.spot).2)
-                        if sceneRects.indices.contains(place.1+1) {
-                            return true
-                        } else {
-                            return false
+                    var hasBottomNeighbor: Bool! {
+                        var boolt: Bool! = false
+                        for scene in tamaViewScenes {
+                            if goodRect2.contains(scene.position) {
+                                boolt = true
+                                break;
+                            } else {
+                                boolt = false
+                            }
                         }
+                        return boolt
                     }
                     checkN:  if hasRightNeighbor {
-                        if let rightNeighbor = tamaViewScenes.first(where: {$0.spot == scene.spot+1}) {
+                        
+                        if let rightNeighbor = tamaViewScenes.first(where: {goodRect1.contains($0.position)}) {
                             let rightNeighbortama = rightNeighbor.tama.first
                             if rightNeighbortama!.age > 7 && rightNeighbortama!.gender != onlyTama?.gender && rightNeighbor.tama.count == 1 {
                                 newFamilyScene(scene: scene, tama1: onlyTama!, tama2: rightNeighbortama!, span:"l")
@@ -395,12 +362,10 @@ class TamasScene: SKScene {
                         }
                     }
                     else if hasBottomNeighbor {
-                        print("1")
-                        if let bottomNeighbor = tamaViewScenes.first(where: {$0.spot == scene.spot+sceneRects[0].count}) {
-                            print("2")
+                        
+                        if let bottomNeighbor = tamaViewScenes.first(where: {goodRect2.contains($0.position)}) {
                             let bottomNeighbortama = bottomNeighbor.tama.first
                             if bottomNeighbortama!.age > 7 && bottomNeighbortama!.gender != onlyTama?.gender && bottomNeighbor.tama.count == 1 {
-                                print("3")
                                 newFamilyScene(scene: scene, tama1: onlyTama!, tama2: bottomNeighbortama!, span: "t")
                                 
                             }
@@ -420,7 +385,7 @@ class TamasScene: SKScene {
         newscene.id = Int16(self.sceneEntites.count) - 2
         newscene.color1 = scene.color1
         newscene.color2 = scene.color2
-        newscene.spot = Int16(scene.spot)
+        newscene.spot = scene.position.toString()
         newscene.span = span
         
         let index1 = tamaViewScenes.index(of: tamaViewScenes.first(where: {$0.tama.first! == tama1})!)
@@ -493,14 +458,17 @@ class TamasScene: SKScene {
         
         for i in 0..<tamaViewScenes.count {
             if tamaViewScenes[i].frame.contains((touch.location(in: self.scene!))) {
+                
                 let scene = tamaViewScenes[i]
                 currentTama = scene
+                beginPos = currentTama.position
                 scene.isBeingDragged = true
                 touchdx = touch.location(in: self.scene!).x - (currentTama?.position.x)!
                 touchdy = touch.location(in: self.scene!).y - (currentTama?.position.y)!
                 currentTama.zPosition = 50
                 let flip = SKAction.scale(to: 1.3, duration: 0)
                 currentTama.run(flip)
+                
                 
                 break;
                 
@@ -518,16 +486,19 @@ class TamasScene: SKScene {
                 let newLoc = (newTouch?.location(in: self.scene!))!
                 
                 tama.position = CGPoint(x: newLoc.x - touchdx, y: newLoc.y - touchdy)
-                topLevel: for p1 in self.tamaViewScenes {
+                
+                
+                
+               topLevel: for p1 in self.tamaViewScenes {
                     if p1 != currentTama {
-                        let test = SKShapeNode(rectOf: (sceneRects.rowedIndex(p1.spot).0 as! CGRect).size)
-                        test.position = (sceneRects.rowedIndex(p1.spot).0 as! CGRect).origin
+                        let test = SKShapeNode(rectOf: p1.size)
+                        test.position = p1.position
                         if test.frame.contains(newLoc) {
-                            let spotP = p1.spot
-                            p1.spot = self.currentTama.spot
-                            self.currentTama.spot = spotP
+                            let spotP = p1.position
+                            p1.position = beginPos
+                            self.currentTama.position = spotP
                             
-                            let ph = (self.sceneRects.rowedIndex(p1.spot).0 as! CGRect).origin
+                            let ph = p1.position
                             if p1.position != ph {
                                 let animatePosition = SKAction.move(to: ph, duration: 0.1)
                                 p1.run(animatePosition)
@@ -552,34 +523,14 @@ class TamasScene: SKScene {
         checkForContains: if currentTama != nil {
             //delete tama if in trash node
             if trashPlace.frame.contains(endPos!) {
-                let indexed = tamaViewScenes.index(where: {$0.spot == currentTama.spot})
+                let indexed = tamaViewScenes.index(of: currentTama)
                 deleteTask(atPos: indexed!)
                 
                 break checkForContains
             }
             
             
-            //check if node is within another spot
-            var count = 0
-            topLevel: for place0 in sceneRects {
-                for place in place0 {
-                    let test = SKShapeNode(rectOf: place.size)
-                    test.position = place.origin
-                    if test.frame.contains(endPos!) {
-                        currentTama.spot = count
-                        currentTama.position = (sceneRects.rowedIndex(currentTama.spot).0 as! CGRect).origin
-                        break topLevel;
-                        
-                        
-                    }
-                    //if no frame contains tama, set position equal to before
-                    currentTama?.position = (sceneRects.rowedIndex((currentTama?.spot)!).0 as! CGRect).origin
-                    count += 1
-                }
-            }
-            
-            
-            
+
             currentTama.zPosition = 10
             let scaleaction = SKAction.scale(to: 1, duration: 0)
             currentTama.run(scaleaction)
@@ -597,7 +548,7 @@ class TamasScene: SKScene {
     @objc func appWillTerminate () {
         for i in 0..<sceneEntites.count {
             let index = sceneEntites.index(where: { $0.id == i})
-            sceneEntites[index!].spot = Int16(tamaViewScenes[i].spot)
+            sceneEntites[index!].spot = tamaViewScenes[i].position.toString()
             sceneEntites[index!].tamagotchi?.forEach({
                 let tama = $0 as! TamagotchiEntity
                 tama.age = (tamaViewScenes[i].tama.first(where: {$0.id == tama.id})?.age)!
@@ -647,6 +598,20 @@ class TamasScene: SKScene {
         self.lastUpdateTime = currentTime
         timeSinceMove = timeSinceMove + dt
         checkForEvol = checkForEvol + dt
+    }
+}
+
+extension String {
+    func toPoint() -> CGPoint{
+        let stringARray = self.components(separatedBy: ",")
+        let point = CGPoint(x:Int(stringARray[0])!, y:Int(stringARray[1])!)
+        return point
+    }
+}
+
+extension CGPoint {
+    func toString() -> String {
+        return "\(self.x),\(self.y)"
     }
 }
 
