@@ -188,7 +188,7 @@ extension SKSpriteNode {
 import SpriteKit
 
 class FTButtonNode: SKSpriteNode {
-    
+    var action: () -> () = {}
     enum FTButtonActionType: Int {
         case TouchUpInside = 1,
         TouchDown, TouchUp

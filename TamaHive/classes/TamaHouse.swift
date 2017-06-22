@@ -40,10 +40,10 @@ class TamaHouse: SKSpriteNode {
             if !self.children.contains($0) {
                 self.addChild($0)
                 $0.position = CGPoint(x: CGFloat(randomxOffset) + (count * ((self.size.width/188) * CGFloat(130/tama.count))), y: -(self.size.height/2) + 30)
-            }
-            $0.zPosition = 50
-            
+                $0.zPosition = 1
                 
+            }
+            
             count = count + 1
         })
     }
