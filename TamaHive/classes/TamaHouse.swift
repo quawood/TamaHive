@@ -34,16 +34,15 @@ class TamaHouse: SKSpriteNode {
     
     func displayTama() {
         var count = CGFloat(0)
-        let k = (self.size.width/2)-40
+        let k = (self.size.width/2) - 20
         let randomxOffset = -(CGFloat.random() * k)
         tama.forEach({
             if !self.children.contains($0) {
                 self.addChild($0)
-                $0.position = CGPoint(x: CGFloat(randomxOffset) + (count * ((self.size.width/188) * CGFloat(130/tama.count))), y: -(self.size.height/2) + 30)
+                $0.position = CGPoint(x: CGFloat(randomxOffset) + (count * ((self.size.width/188) * CGFloat(130/tama.count))), y: -(self.size.height/2) + 40)
                 $0.zPosition = 1
                 
             }
-            
             count = count + 1
         })
     }

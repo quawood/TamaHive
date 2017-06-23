@@ -184,6 +184,18 @@ extension SKSpriteNode {
     }
 }
 
+extension Int {
+    func sign() -> Int {
+        return (self < 0 ? -1 : 1)
+    }
+    /* or, use signature: func sign() -> Self */
+}
+extension CGFloat {
+    func sign() -> Int {
+        return (self < 0 ? -1 : 1)
+    }
+}
+
 
 import SpriteKit
 

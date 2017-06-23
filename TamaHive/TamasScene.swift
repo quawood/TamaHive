@@ -204,12 +204,11 @@ class TamasScene: SKScene {
         case "n":
             tamaScene = TamaHouse(textureNamed: "normaltamaHome.png", scale: Int(scale))
             
+            
         case "l":
             tamaScene = TamaHouse(textureNamed: "longtamaHome.png", scale: Int(scale))
             
             
-        case "t":
-            tamaScene = TamaHouse(textureNamed: "talltamaHome.png", scale: Int(scale))
         default:
             break
         }
@@ -243,18 +242,21 @@ class TamasScene: SKScene {
         
         tile.lineWidth = CGFloat(viewScale * 3)
         tile.position = CGPoint.zero
+        tile.zPosition = 1
         tamaScene.zPosition = CGFloat(zCounter)
+        tile.name = "border"
+        
         addChild(tamaScene)
         tamaScene.displayTama()
         tamaScene.addChild(tile)
         
         tamaScene.addChild(label)
         tamaViewScenes.append(tamaScene)
-        tile.zPosition = 4
+        tile.zPosition = 1
         label.zPosition = 1
         
         
-        zCounter += 4
+        zCounter += 2
         
     }
     
@@ -275,6 +277,7 @@ class TamasScene: SKScene {
         for scene in sceneSorted {
             setupScene(scene: scene)
         }
+        maxZposition = zCounter
         updateTamas()
         
     }
@@ -416,7 +419,11 @@ class TamasScene: SKScene {
                         sceneEntites = getScenes()
                         self.view?.isPaused = false
                         scene.tama.append(tamaFromEntity(tama: newTama))
-                        scene.removeAllChildren()
+                        for children in scene.children {
+                            if children is Tamagotchi {
+                                children.removeFromParent()
+                            }
+                        }
                         scene.displayTama()
                     }
                     var childt = Tamagotchi(textureNamed: "egg", scale: viewScale)
@@ -424,6 +431,7 @@ class TamasScene: SKScene {
                         childt = child
                     }
                     if childt.age > 10 && scene.tama.count > 2 {
+                        saveViewsToEntities()
                         sceneEntites = getScenes()
                         self.view?.isPaused = true
                         let newScene = TamaSceneEntity(context: self.context)
@@ -552,7 +560,7 @@ class TamasScene: SKScene {
                 self.isBeingDragged = true
                 touchdx = touch.location(in: self.scene!).x - (currentTama?.position.x)!
                 touchdy = touch.location(in: self.scene!).y - (currentTama?.position.y)!
-                currentTama.zPosition = CGFloat(maxZposition + 4)
+                currentTama.zPosition = CGFloat(maxZposition + 2)
                 let flip = SKAction.scale(to: 1.2, duration: 0)
                 currentTama.run(flip)
                 
@@ -590,9 +598,16 @@ class TamasScene: SKScene {
                 
                 break checkForContains
             }
-            
-            
-            
+            var newPoint: CGPoint! = currentTama.position
+                let xRange: CountableClosedRange = Int(-currentTama.size.width/2)...Int(self.size.width/2)
+                let yRange: CountableClosedRange = Int(-currentTama.size.height/2)...Int(self.size.height/2)
+            if !xRange.contains(Int(abs(currentTama.position.x) + currentTama.size.width/2)) {
+                newPoint = CGPoint(x: CGFloat(currentTama.position.x.sign())*(self.size.width/2 - currentTama.size.width/2 - 5), y: currentTama.position.y)
+            } else if !yRange.contains(Int(abs(currentTama.position.y+currentTama.size.height/2))) {
+                newPoint = CGPoint(x: currentTama.position.x, y: CGFloat(currentTama.position.y.sign())*self.size.height/2 - currentTama.size.height/2 - 5)
+            }
+            let snapBackAction = SKAction.move(to: newPoint, duration: 0.1)
+            currentTama.run(snapBackAction)
             let scaleaction = SKAction.scale(to: 1, duration: 0)
             currentTama.run(scaleaction, completion: {
                 self.isBeingDragged = false
@@ -610,6 +625,11 @@ class TamasScene: SKScene {
     
     
     @objc func appWillTerminate () {
+        saveViewsToEntities()
+        
+    }
+    
+    func saveViewsToEntities() {
         for i in 0..<sceneEntites.count {
             let index = sceneEntites.index(where: { $0.id == i})
             sceneEntites[index!].spot = tamaViewScenes[i].position.toString()
@@ -622,9 +642,7 @@ class TamasScene: SKScene {
         }
         
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
-        
     }
-    
     
     
     
