@@ -11,6 +11,13 @@
 		A53718C91EFD9B2C00533669 /* TamasScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A53718BF1EFD999A00533669 /* TamasScene.sks */; };
 		A53718CA1EFD9B2F00533669 /* TamasScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C01EFD999A00533669 /* TamasScene.swift */; };
 		A53718CB1EFD9BDA00533669 /* tamahive.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A53718C71EFD99B900533669 /* tamahive.bundle */; };
+		A53718CC1EFD9C9800533669 /* Extends.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C41EFD99B000533669 /* Extends.swift */; };
+		A53718CD1EFD9C9A00533669 /* Tamagotchi.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C51EFD99B000533669 /* Tamagotchi.swift */; };
+		A53718CE1EFD9C9C00533669 /* TamaHouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C61EFD99B000533669 /* TamaHouse.swift */; };
+		A53718CF1EFD9CAC00533669 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5F8F4FB1EF2AC9000B0B0DC /* LaunchScreen.storyboard */; };
+		A53718D01EFD9CB800533669 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A5593C6F1EEA495100097766 /* Info.plist */; };
+		A53718D11EFD9CC200533669 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A5593C7A1EEA495100097766 /* Info.plist */; };
+		A53718D21EFD9CCF00533669 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A5593C851EEA495100097766 /* Info.plist */; };
 		A5593C5E1EEA495100097766 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C5D1EEA495100097766 /* AppDelegate.swift */; };
 		A5593C621EEA495100097766 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = A5593C611EEA495100097766 /* Actions.sks */; };
 		A5593C691EEA495100097766 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5593C671EEA495100097766 /* Main.storyboard */; };
@@ -285,8 +292,10 @@
 				A53718CB1EFD9BDA00533669 /* tamahive.bundle in Resources */,
 				A5593C691EEA495100097766 /* Main.storyboard in Resources */,
 				A53718C91EFD9B2C00533669 /* TamasScene.sks in Resources */,
+				A53718CF1EFD9CAC00533669 /* LaunchScreen.storyboard in Resources */,
 				A5593C6B1EEA495100097766 /* Assets.xcassets in Resources */,
 				A5593C621EEA495100097766 /* Actions.sks in Resources */,
+				A53718D01EFD9CB800533669 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,6 +303,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A53718D11EFD9CC200533669 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,6 +311,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A53718D21EFD9CCF00533669 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,9 +322,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A53718CE1EFD9C9C00533669 /* TamaHouse.swift in Sources */,
 				A570020C1EF2880C00905761 /* TamaHive.xcdatamodeld in Sources */,
 				A53718C81EFD9B1F00533669 /* GameViewController.swift in Sources */,
+				A53718CC1EFD9C9800533669 /* Extends.swift in Sources */,
 				A5593C5E1EEA495100097766 /* AppDelegate.swift in Sources */,
+				A53718CD1EFD9C9A00533669 /* Tamagotchi.swift in Sources */,
 				A53718CA1EFD9B2F00533669 /* TamasScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
