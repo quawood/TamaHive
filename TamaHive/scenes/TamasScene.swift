@@ -109,9 +109,10 @@ class TamasScene: SKScene {
     func marryTamas(_ sender: Any) {
         if let button1 = sender as? FTButtonNode {
             button1.action()
+            button1.removeFromParent()
         }
     }
-    
+
     @objc func appWillTerminate () {
         saveViewsToEntities()
         

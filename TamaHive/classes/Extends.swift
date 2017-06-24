@@ -378,12 +378,16 @@ extension TamasScene {
     }
     
     func generateRandomColor() -> UIColor {
-        let hue : CGFloat = CGFloat(arc4random() % 256) / 256 // use 256 to get full range from 0.0 to 1.0
+        /*let hue : CGFloat = CGFloat(arc4random() % 256) / 256 // use 256 to get full range from 0.0 to 1.0
         let saturation : CGFloat = CGFloat(arc4random() % 128) / 256 + 0.5 // from 0.5 to 1.0 to stay away from white
         let brightness : CGFloat = CGFloat(arc4random() % 128) / 256 + 0.5 // from 0.5 to 1.0 to stay away from black
         
-        return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)
+        return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)*/
         
+        return UIColor(red:   .random() + 0.6,
+                       green: .random() + 0.6,
+                       blue:  .random() + 0.8,
+                       alpha: 1.0)
     }
     
     
@@ -392,7 +396,7 @@ extension TamasScene {
 extension CGFloat {
     static func random() -> CGFloat {
         let ret = CGFloat(arc4random()) / CGFloat(UInt32.max)
-        return ret
+        return ret/4
     }
 }
 extension Array where Element: Collection, Element.Index == Int {
