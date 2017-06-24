@@ -537,6 +537,7 @@ extension TamasScene {
                 newPoint = CGPoint(x: currentTama.position.x, y:  CGFloat(currentTama.position.y.sign())*(self.size.height/2 - currentTama.size.height/2 - 5))
             }
             let snapBackAction = SKAction.move(to: newPoint, duration: 0.1)
+            currentTama.run(snapBackAction)
             let scaleaction = SKAction.scale(to: 1, duration: 0)
             currentTama.run(scaleaction, completion: {
                 self.isBeingDragged = false
