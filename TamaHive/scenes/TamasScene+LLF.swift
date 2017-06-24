@@ -94,8 +94,7 @@ extension TamasScene {
                 tama.tamaName = "egg.png"
                 tama.id = 0
                 tama.gender = genders[Int(arc4random_uniform(2))]
-                // tama.family = self.familyNames[randomFam]
-                tama.family = "mame"
+                tama.family = self.familyNames[randomFam]
                 tama.dateCreated = date
                 tama.tamascene = scene
                 scene.addToTamagotchi(tama)
@@ -208,7 +207,7 @@ extension TamasScene {
                     
                     tama?.forEach({
                         let date = Date()
-                        newAge = date.interval(ofComponent: .second, fromDate:$0.dateCreated)/2
+                        newAge = date.interval(ofComponent: .second, fromDate:$0.dateCreated)/5
                         if Int16(newAge) != $0.age && ($0.age)! < 4  {
                             var randomTama = String()
                             switch newAge {
@@ -330,40 +329,43 @@ extension TamasScene {
                     if let child = $0.tamagotchis.first(where: {$0.id  > 1}) {
                         childt = child
                     }
-                    if childt.age > 10 && scene.tamagotchis.count > 2 {
-                        
-                        self.saveViewsToEntities()
+                    forleave: if childt.age > 10 && scene.tamagotchis.count > 2 {
+                        print("rad\(sceneEntites.count)")
                         self.sceneEntites = self.getScenes()
-                        self.view?.isPaused = true
-                        let newScene = TamaSceneEntity(context: self.context)
-                        newScene.color1 = scene.color1
-                        newScene.color2 = scene.color2
-                        newScene.span = "n"
+                        print("fda\(sceneEntites.count)")
+                        self.saveViewsToEntities()
                         
-                        var foundNewPosition: Bool! = false
-                        var degreeCount = Double(0)
-                        while foundNewPosition == false && degreeCount <= 360 {
-                            let x = scene.size.height*CGFloat(cos(degreeCount * .pi/180))+scene.position.x + 30
-                            let y = scene.size.height*CGFloat(sin(degreeCount * .pi/180))+scene.position.y + 30
-                            let newPos = CGPoint(x: x,y: y)
-                            if CGRect(origin:CGPoint(x:self.frame.origin.x + scene.size.width/2,y:self.frame.origin.y + scene.size.height/2),size:CGSize(width:self.frame.width-scene.size.width,height:self.frame.height - scene.size.height)).contains(newPos) {
-                                foundNewPosition = true
-                                newScene.spot = newPos.toString()
-                            }
-                            degreeCount = degreeCount + 1
-                        }
-                        //newScene.spot = CGPoint(x: scene.position.x, y: scene.position.y + scene.size.height + 30).toString()
-                        newScene.id = Int16(self.sceneEntites.count)
                         
-                        var newTama = TamagotchiEntity(context: self.context)
+                        
+                        
                         let tamasPar = self.sceneEntites.first(where: {$0.id == count1})?.tamagotchi
                         let tamatoDelete = tamasPar?.first(where: {($0 as! TamagotchiEntity).id > 1}) as! TamagotchiEntity
-                        
-                        var MarryButton: FTButtonNode {
+                       var MarryButton: FTButtonNode {
                             let buttonTexture: SKTexture! = SKTexture(imageNamed: "leavebutton.png")
                             let buttonTextureSelected: SKTexture! = SKTexture(imageNamed: "leavebuttonselected.png")
                             let button = FTButtonNode(normalTexture: buttonTexture, selectedTexture: buttonTextureSelected, disabledTexture: buttonTexture)
                             button.action = {
+                         let newScene = TamaSceneEntity(context: self.context)
+                         newScene.color1 = scene.color1
+                         newScene.color2 = scene.color2
+                         newScene.span = "n"
+                         
+                         var foundNewPosition: Bool! = false
+                         var degreeCount = Double(0)
+                         while foundNewPosition == false && degreeCount <= 360 {
+                         let x = scene.size.height*CGFloat(cos(degreeCount * .pi/180))+scene.position.x + 30
+                         let y = scene.size.height*CGFloat(sin(degreeCount * .pi/180))+scene.position.y + 30
+                         let newPos = CGPoint(x: x,y: y)
+                         if CGRect(origin:CGPoint(x:self.frame.origin.x + scene.size.width/2,y:self.frame.origin.y + scene.size.height/2),size:CGSize(width:self.frame.width-scene.size.width,height:self.frame.height - scene.size.height)).contains(newPos) {
+                         foundNewPosition = true
+                         newScene.spot = newPos.toString()
+                         }
+                         degreeCount = degreeCount + 1
+                         }
+                         //newScene.spot = CGPoint(x: scene.position.x, y: scene.position.y + scene.size.height + 30).toString()
+                         newScene.id = Int16(self.sceneEntites.count)
+                         var newTama = TamagotchiEntity(context: self.context)
+                                
                                 
                                 self.deleteTama(tamatoDelete: tamatoDelete)
                                 newTama = tamatoDelete
@@ -376,7 +378,6 @@ extension TamasScene {
                                 
                                 (UIApplication.shared.delegate as! AppDelegate).saveContext()
                                 self.sceneEntites = self.getScenes()
-                                self.view?.isPaused = false
                                 self.setupScene(scene: newScene)
                             }
                             
@@ -527,11 +528,11 @@ extension TamasScene {
                 newPoint = CGPoint(x: currentTama.position.x, y:  CGFloat(currentTama.position.y.sign())*(self.size.height/2 - currentTama.size.height/2 - 5))
             }
             let snapBackAction = SKAction.move(to: newPoint, duration: 0.1)
-            currentTama.run(snapBackAction)
             let scaleaction = SKAction.scale(to: 1, duration: 0)
             currentTama.run(scaleaction, completion: {
                 self.isBeingDragged = false
             })
+            
             maxZposition = Int(currentTama.zPosition)
         }
         currentTama = nil
