@@ -330,9 +330,7 @@ extension TamasScene {
                         childt = child
                     }
                     forleave: if childt.age > 10 && scene.tamagotchis.count > 2 {
-                        print("rad\(sceneEntites.count)")
                         self.sceneEntites = self.getScenes()
-                        print("fda\(sceneEntites.count)")
                         self.saveViewsToEntities()
                         
                         
@@ -400,11 +398,15 @@ extension TamasScene {
                             
                         }
                         if containsB == false {
-                            if tamaViewScenes.count < 10 {
                                 scene.addChild(MarryButton)
                                 MarryButton.zPosition = 1
-                            }
                             
+                        }
+                        if tamaViewScenes.count == 10 {
+                            
+                            if let button = scene.children.first(where: {$0 is FTButtonNode}) {
+                                button.removeFromParent()
+                            }
                         }
                         
                         

@@ -395,7 +395,9 @@ extension TamasScene {
 extension CGFloat {
     static func random() -> CGFloat {
         let ret = CGFloat(arc4random()) / CGFloat(UInt32.max)
-        return ret/30
+        print(ret/36)
+        return ret/36
+        
     }
     static func randomoz() -> CGFloat {
         var random = Int(arc4random_uniform(2))
