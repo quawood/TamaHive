@@ -49,12 +49,13 @@ class TamaHouse: SKSpriteNode {
     
     
     func displayTamagotchis() {
-        var count = 0
+        var count = CGFloat(1)
+        let xOffset = (self.size.width/CGFloat(tamagotchis.count+1))
         tamagotchis.forEach({tamagotchi in
             if !self.children.contains(tamagotchi) {
                 self.addChild(tamagotchi)
-                let xOffset = (self.size.width/CGFloat(tamagotchis.count+1))
-                let setPoint = CGPoint(x:(-self.size.width/2) + xOffset , y: (-self.size.height/2)+(0.27 * self.size.height))
+                
+                let setPoint = CGPoint(x:(-self.size.width/2) + xOffset*count , y: (-self.size.height/2)+(0.30 * self.size.height))
                 tamagotchi.position = setPoint
                 tamagotchi.zPosition = 1
                 

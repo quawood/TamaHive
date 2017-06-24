@@ -26,6 +26,7 @@ class TamasScene: SKScene {
     var maxZposition = 0
     var zCounter = 0
     
+    var isEditing: Bool! = false
     var touch = UITouch()
     var currentTama: TamaHouse!
     var touchdx: CGFloat!
@@ -33,10 +34,13 @@ class TamasScene: SKScene {
     var beginPos: CGPoint!
     var isBeingDragged: Bool! = false
     
+    let uncolorizeAction = SKAction.colorize(with: UIColor.clear, colorBlendFactor: 0, duration: 0)
     
     private var lastUpdateTime : TimeInterval = 0
     var timeSinceMove: Double! = 0
     var checkForEvol: Double! = 0
+    var counting: Bool! = false
+    var timeSincePress: Double! = 0
     
     var newTamaButton: FTButtonNode {
         let buttonTexture: SKTexture! = SKTexture(imageNamed: "button.png")
@@ -45,8 +49,9 @@ class TamasScene: SKScene {
         button.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(TamasScene.createNewSceneEntity))
         button.position = CGPoint(x:155,y:-300)
         button.zPosition = 15
-        button.name = "Button"
+        button.name = "CreateB"
         button.scale(to: CGSize(width: 40 , height: 40))
+        
         
         return button
     }
@@ -57,6 +62,7 @@ class TamasScene: SKScene {
         place.position = CGPoint(x: -155, y: -300)
         place.zPosition = 15
         place.scale(to: CGSize(width: 40 , height: 40))
+        place.name = "trashB"
         return place
     }
     
@@ -82,17 +88,21 @@ class TamasScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-        maxZposition = zCounter
         self.size = (self.view?.frame.size)!
+        maxZposition = zCounter
+        
         CreateScenesFromEntities()
-        self.addChild(newTamaButton)
-        self.addChild(trashPlace)
+        if tamaViewScenes.count == 0 {
+            self.addChild(newTamaButton)
+        }
+        
+        
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(self.appWillTerminate), name: Notification.Name.UIApplicationWillTerminate, object: nil)
         
         
+        
     }
-    
     
     
     
@@ -140,8 +150,25 @@ class TamasScene: SKScene {
         }
         
         self.lastUpdateTime = currentTime
+        if counting {
+            timeSincePress = timeSincePress + dt
+            if timeSincePress >= 1 {
+                isEditing = true
+                let scaleAciton = SKAction.scale(by: 1.2, duration: 0)
+                let colorizeAction = SKAction.colorize(with: UIColor.clear, colorBlendFactor: 0, duration: 0)
+                currentTama.run(scaleAciton)
+                currentTama.run(colorizeAction)
+                
+                self.addChild(newTamaButton)
+                self.addChild(trashPlace)
+                counting = false
+                
+            }
+        }
+        
         timeSinceMove = timeSinceMove + dt
         checkForEvol = checkForEvol + dt
+        
     }
     
     
