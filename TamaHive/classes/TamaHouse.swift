@@ -11,7 +11,7 @@ import GameKit
 import SpriteKit
 
 class TamaHouse: SKSpriteNode {
-    var tama: [Tamagotchi]! = []
+    var tamagotchis: [Tamagotchi]! = []
     var tscale: CGFloat!
     var isBeingDragged: Bool!
     var span: String! = "n"
@@ -32,40 +32,11 @@ class TamaHouse: SKSpriteNode {
         }
     }
     
-    func displayTama() {
-        var count = CGFloat(0)
-        let k = (self.size.width/2) - 20
-        let randomxOffset = -(CGFloat.random() * k)
-        tama.forEach({
-            if !self.children.contains($0) {
-                self.addChild($0)
-                $0.position = CGPoint(x: CGFloat(randomxOffset) + (count * ((self.size.width/188) * CGFloat(130/tama.count))), y: -(self.size.height/2) + 40)
-                $0.zPosition = 1
-                
-            }
-            count = count + 1
-        })
-    }
     
-    func changeColors(from: UIColor, to: UIColor) -> [PixelData] {
-        var colors = self.texture?.cgImage().colors?.1
-        for i in 0..<colors!.count {
-            if colors![i] == PixelData(color: from) {
-                colors![i] = PixelData(color: to)
-                
-                
-            }
-        }
-        return colors!
-    }
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         
         let image = UIImage(cgImage: (texture?.cgImage())!).resizeImage(scale: size.width/(texture?.size().width)!)
-       /* let pixelData: [PixelData] = (image.cgImage!.colors!.1)
-        //   print(pixelData.count)
-        
-        let tamaImg = pixelData.imageFromBitmap(width: Int((image.size.width)), height: Int((image.size.height)))*/
         let texture1 = SKTexture(cgImage: (image.cgImage!))
         super.init(texture: texture1, color: UIColor.white, size:texture1.size())
         self.tscale = size.width/(texture?.size().width)!
@@ -74,6 +45,38 @@ class TamaHouse: SKSpriteNode {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    
+    func displayTamagotchis() {
+        var count = 0
+        tamagotchis.forEach({tamagotchi in
+            if !self.children.contains(tamagotchi) {
+                self.addChild(tamagotchi)
+                let xOffset = (self.size.width/CGFloat(tamagotchis.count+1))
+                let setPoint = CGPoint(x:(-self.size.width/2) + xOffset , y: (-self.size.height/2)+(0.27 * self.size.height))
+                tamagotchi.position = setPoint
+                tamagotchi.zPosition = 1
+                
+            }
+            count = count + 1
+        })
+    }
+    
+    
+    
+    func changeColors(from: UIColor, to: UIColor) -> [PixelData] {
+        var colors = self.texture?.cgImage().colors?.1
+        for i in 0..<colors!.count {
+            if colors![i] == PixelData(color: from) {
+                colors![i] = PixelData(color: to)
+                
+            }
+        }
+        return colors!
+    }
+    
+    
     
 }
 
