@@ -26,7 +26,7 @@ class TamaHouse: SKSpriteNode {
     }
     var color2: UIColor! = UIColor.black{
         didSet {
-            let newCols = changeColors(from: oldValue, to: color2)
+            let newCols = changeColors(from: oldValue, to: color1)
             let image = newCols.imageFromBitmap(width: Int((self.texture?.size().width)!), height: Int((self.texture?.size().height)!))?.cgImage!
             self.texture = SKTexture(cgImage: image!)
         }
