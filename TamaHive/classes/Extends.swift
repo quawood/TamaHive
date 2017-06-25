@@ -226,6 +226,18 @@ class FTButtonNode: SKSpriteNode {
     required init(coder: NSCoder) {
         fatalError("NSCoding not supported")
     }
+    init(defaultTexture: SKTexture!, selectedTexture: SKTexture!, action: @escaping ()->()) {
+        self.defaultTexture = defaultTexture
+        self.selectedTexture = selectedTexture
+        self.action = action
+        self.label = SKLabelNode(fontNamed: "Helvetica")
+        
+        super.init(texture: defaultTexture, color: UIColor.white, size: defaultTexture.size())
+        isUserInteractionEnabled = true
+        self.zPosition = 15
+        self.name = "Button"
+        self.scale(to: CGSize(width: 20 , height: 20))
+    }
     
     init(normalTexture defaultTexture: SKTexture!, selectedTexture:SKTexture!, disabledTexture: SKTexture?) {
         

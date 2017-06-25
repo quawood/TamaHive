@@ -68,6 +68,26 @@ class TamasScene: SKScene {
     
     
     
+    
+    
+    override func didMove(to view: SKView) {
+        self.size = (self.view?.frame.size)!
+        maxZposition = zCounter
+        
+        CreateScenesFromEntities()
+        if tamaViewScenes.count == 0 {
+            self.addChild(newTamaButton)
+        }
+        
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(self.appWillTerminate), name: Notification.Name.UIApplicationWillTerminate, object: nil)
+        
+        
+        
+        
+    }
+    
     func CreateScenesFromEntities() {
         sceneEntites = []
         sceneEntites = getScenes()
@@ -87,31 +107,10 @@ class TamasScene: SKScene {
         
     }
     
-    override func didMove(to view: SKView) {
-        self.size = (self.view?.frame.size)!
-        maxZposition = zCounter
-        
-        CreateScenesFromEntities()
-        if tamaViewScenes.count == 0 {
-            self.addChild(newTamaButton)
-        }
-        
-        
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(self.appWillTerminate), name: Notification.Name.UIApplicationWillTerminate, object: nil)
-        
-        
-        
-    }
     
+
     
-    
-    func marryTamas(_ sender: Any) {
-        if let button1 = sender as? FTButtonNode {
-            button1.action()
-            button1.removeFromParent()
-        }
-    }
+
 
     @objc func appWillTerminate () {
         saveViewsToEntities()

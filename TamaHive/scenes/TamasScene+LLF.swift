@@ -194,236 +194,7 @@ extension TamasScene {
     }
     
     
-    func updateTamas() {
-        if isBeingDragged == false {
-            var count = 0
-            var count1 = 0
-            tamaViewScenes.forEach({
-                if $0.isFakeScene != true {
-                    let scene = $0
-                    let index = tamaViewScenes!.index(of: scene)
-                    let tama = scene.tamagotchis
-                    var newAge: Int! = 0
-                    
-                    tama?.forEach({
-                        let date = Date()
-                        newAge = date.interval(ofComponent: .second, fromDate:$0.dateCreated)/1
-                        if Int16(newAge) != $0.age && ($0.age)! < 4  {
-                            var randomTama = String()
-                            switch newAge {
-                            case 1:
-                                randomTama = "baby"
-                            case 2 :
-                                randomTama = "toddler,\($0.gender!)"
-                                
-                            case 3:
-                                randomTama = "teen,\($0.gender!)"
-                                
-                            default:
-                                randomTama = "adult,\($0.family!),\($0.gender!)"
-                                
-                            }
-                            if scene.tamagotchis.count == 1 || (scene.tamagotchis.count == 3 && $0.id == 2) {
-                                changeTextureOfTama(fromTama: $0, toTama: randomTama)
-                            }
-                            
-                            
-                            
-                            
-                        }
-                        $0.age = Int16(newAge)
-                        
-                        count += 1
-                    })
-                    let didFail: Bool! = true
-                    forScenes: if tama![0].age > 7 && scene.tamagotchis.count == 1 {
-                        
-                        let onlyTama = tama?.first
-                        for scene1 in tamaViewScenes {
-                            let xDistance = scene1.position.x - scene.position.x
-                            let yDistance = scene1.position.y - scene.position.y
-                            
-                            checkN: if abs(xDistance) < scene.size.width + 50 && abs(yDistance) < 30 {
-                                let rightNeighbor = scene1
-                                let rightNeighbortama = rightNeighbor.tamagotchis.first
-                                if rightNeighbortama!.age > 7 && rightNeighbortama!.gender != onlyTama?.gender && rightNeighbor.tamagotchis.count == 1 {
-                                    
-                                    
-                                    var MarryButton: FTButtonNode {
-                                        let buttonTexture: SKTexture! = SKTexture(imageNamed: "marrybutton.png")
-                                        let buttonTextureSelected: SKTexture! = SKTexture(imageNamed: "marrybuttonselected.png")
-                                        let button = FTButtonNode(normalTexture: buttonTexture, selectedTexture: buttonTextureSelected, disabledTexture: buttonTexture)
-                                        button.action = {
-                                            self.changeTextureOfTama(fromTama: onlyTama!, toTama: "parents,\(onlyTama!.family!),\(onlyTama!.gender!)")
-                                            self.changeTextureOfTama(fromTama: rightNeighbortama!, toTama: "parents,\(rightNeighbortama!.family!),\(rightNeighbortama!.gender!)")
-                                            self.newFamilyScene(scene: scene, tama1: onlyTama!, tama2: rightNeighbortama!, span:"l")
-                                        }
-                                        
-                                        
-                                        button.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(marryTamas(_:)))
-                                        button.position = CGPoint(x: scene.size.width/2, y: -scene.size.height/2)
-                                        button.zPosition = 15
-                                        button.name = "Button"
-                                        button.scale(to: CGSize(width: 20 , height: 20))
-                                        
-                                        
-                                        return button
-                                    }
-                                    
-                                    var containsB: Bool! = false
-                                    for child in scene.children {
-                                        if child is FTButtonNode {
-                                            containsB = true
-                                        }
-                                        
-                                    }
-                                    if containsB == false {
-                                        scene.addChild(MarryButton)
-                                        MarryButton.zPosition = 1
-                                    }
-                                    break forScenes;
-                                    
-                                }
-                                
-                            }
-                            
-                        }
-                        if let button = scene.children.first(where: {$0 is FTButtonNode}) {
-                            button.removeFromParent()
-                        }
-                        
-                    }
-                    let sceneEntity = sceneEntites.first(where: {$0.id == count1})
-                    if tama![0].age > 15 && scene.tamagotchis.count == 2 && sceneEntity!.isDone == false{
-                        self.view?.isPaused = true
-                        let newTama = TamagotchiEntity(context: self.context)
-                        newTama.age = 0
-                        newTama.generation = tama![0].generation
-                        newTama.happiness = 5
-                        newTama.hunger = 5
-                        newTama.tamaName = "egg.png"
-                        newTama.id = 2
-                        newTama.gender = tama![Int(arc4random_uniform(2))].gender
-                        newTama.family = tama![Int(arc4random_uniform(2))].family
-                        let date = Date()
-                        newTama.dateCreated = date
-                        newTama.tamascene = sceneEntity
-                        sceneEntity?.addToTamagotchi(newTama)
-                        sceneEntity!.isDone = true
-                        (UIApplication.shared.delegate as! AppDelegate).saveContext()
-                        sceneEntites = getScenes()
-                        self.view?.isPaused = false
-                        scene.tamagotchis.append(tamaFromEntity(tama: newTama))
-                        for children in scene.children {
-                            if children is Tamagotchi {
-                                children.removeFromParent()
-                            }
-                        }
-                        scene.displayTamagotchis()
-                    }
-                    
-                    
-                    
-                    
-                    var childt = Tamagotchi(textureNamed: "egg", scale: viewScale)
-                    if let child = $0.tamagotchis.first(where: {$0.id  > 1}) {
-                        childt = child
-                    }
-                    forleave: if childt.age > 10 && scene.tamagotchis.count > 2 {
-                        self.sceneEntites = self.getScenes()
-                        self.saveViewsToEntities()
-                        
-                        
-                        
-                        
-                        let tamasPar = self.sceneEntites.first(where: {$0.id == count1})?.tamagotchi
-                        let tamatoDelete = tamasPar?.first(where: {($0 as! TamagotchiEntity).id > 1}) as! TamagotchiEntity
-                        var MarryButton: FTButtonNode {
-                            let buttonTexture: SKTexture! = SKTexture(imageNamed: "leavebutton.png")
-                            let buttonTextureSelected: SKTexture! = SKTexture(imageNamed: "leavebuttonselected.png")
-                            let button = FTButtonNode(normalTexture: buttonTexture, selectedTexture: buttonTextureSelected, disabledTexture: buttonTexture)
-                            button.action = {
-                                let newScene = TamaSceneEntity(context: self.context)
-                                
-                                newScene.color1 = self.generateRandomColor(previousColor: scene.color1 as! UIColor)
-                                newScene.color2 = self.generateRandomColor(previousColor: scene.color1 as! UIColor)
-                                newScene.span = "n"
-                                
-                                var foundNewPosition: Bool! = false
-                                var degreeCount = Double(0)
-                                while foundNewPosition == false && degreeCount <= 360 {
-                                    let x = scene.size.height*CGFloat(cos(degreeCount * .pi/180))+scene.position.x + 30
-                                    let y = scene.size.height*CGFloat(sin(degreeCount * .pi/180))+scene.position.y + 30
-                                    let newPos = CGPoint(x: x,y: y)
-                                    if CGRect(origin:CGPoint(x:self.frame.origin.x + scene.size.width/2,y:self.frame.origin.y + scene.size.height/2),size:CGSize(width:self.frame.width-scene.size.width,height:self.frame.height - scene.size.height)).contains(newPos) {
-                                        foundNewPosition = true
-                                        newScene.spot = newPos.toString()
-                                    }
-                                    degreeCount = degreeCount + 1
-                                }
-                                //newScene.spot = CGPoint(x: scene.position.x, y: scene.position.y + scene.size.height + 30).toString()
-                                newScene.id = Int16(self.sceneEntites.count)
-                                var newTama = TamagotchiEntity(context: self.context)
-                                
-                                
-                                self.deleteTama(tamatoDelete: tamatoDelete)
-                                newTama = tamatoDelete
-                                newTama.id = 0
-                                newTama.generation = tamatoDelete.generation + 1
-                                newTama.tamascene = newScene
-                                newScene.addToTamagotchi(newTama)
-                                
-                                
-                                
-                                (UIApplication.shared.delegate as! AppDelegate).saveContext()
-                                self.sceneEntites = self.getScenes()
-                                self.setupScene(scene: newScene)
-                            }
-                            
-                            
-                            button.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(marryTamas(_:)))
-                            button.position = CGPoint(x: scene.size.width/2, y: -scene.size.height/2)
-                            button.zPosition = 15
-                            button.name = "Button"
-                            button.scale(to: CGSize(width: 20 , height: 20))
-                            
-                            
-                            return button
-                        }
-                        var containsB: Bool! = false
-                        for child in scene.children {
-                            if child is FTButtonNode {
-                                containsB = true
-                            }
-                            
-                        }
-                        if containsB == false {
-                                scene.addChild(MarryButton)
-                                MarryButton.zPosition = 1
-                            
-                        }
-                        if tamaViewScenes.count == 10 {
-                            
-                            if let button = scene.children.first(where: {$0 is FTButtonNode}) {
-                                button.removeFromParent()
-                            }
-                        }
-                        
-                        
-                        
-                    }
-                    
-                    
-                }
-                count1 = count1 + 1
-            })
-            
-            
-        }
-        
-    }
-    
-    
+
     
     
     
@@ -459,14 +230,15 @@ extension TamasScene {
                     let colorizeAction = SKAction.colorize(with: UIColor.gray, colorBlendFactor: 0.8, duration: 0)
                     currentTama.run(colorizeAction)
                     counting = true
-                    break top;
                     timeSincePress = 0
+                    break top;
+                    
                 }
                 
                 
             }
         }
-        guard let temp = currentTama else{
+        guard (currentTama) != nil else{
             if isEditing {
                 isEditing = false
                 self.childNode(withName: "trashB")?.removeFromParent()
@@ -574,6 +346,70 @@ extension TamasScene {
     
     
     
+    @objc func FTbuttonAction(_ sender: Any) {
+        if let button1 = sender as? FTButtonNode {
+            button1.action()
+            button1.removeFromParent()
+        }
+    }
+    
+    
+    func updateTamas() {
+        if isBeingDragged == false {
+            var count = 0
+            var count1 = 0
+            tamaViewScenes.forEach({scene in
+                let tamagotchis = scene.tamagotchis
+                let firstTama = tamagotchis![0]
+                
+                tamagotchis?.forEach({tama in
+                    updateTamagotchiTexture(fromTama: tama)
+                    count += 1
+                })
+                
+                
+                var childTamagotchi = Tamagotchi(textureNamed: "egg", scale: viewScale)
+                if let child = scene.tamagotchis.first(where: {$0.id  > 1}) {
+                    childTamagotchi = child
+                }
+                let sceneEntity = sceneEntites.first(where: {$0.id == count1})
+                
+                checkForMarriage: if firstTama.age > 7 && tamagotchis!.count == 1 {
+                    for sceneToCheck in tamaViewScenes {
+                        if sceneToCheck != scene {
+                            let xDist = sceneToCheck.position.x - scene.position.x
+                            let yDist = sceneToCheck.position.y - scene.position.y
+                            
+                            if abs(xDist) < scene.size.width + 50 && abs(yDist) < 30 {
+                                updateTmamagotchiMarriage(scene: scene, rNeighbor: sceneToCheck)
+                                break checkForMarriage
+                                
+                            }
+                            
+                        }
+                        
+                    }
+                    if let button = scene.children.first(where: {$0 is FTButtonNode}) {
+                        button.removeFromParent()
+                    }
+                    
+                }
+                if tamagotchis![0].age > 15 && scene.tamagotchis.count == 2 && sceneEntity!.isDone == false{
+                    addTamagotchiChild(scene: scene, sceneEntity: sceneEntity!)
+                }
+                if childTamagotchi.age > 10 && scene.tamagotchis.count > 2 {
+                    updateTamagotchiLeave(scene: scene)
+                    
+                }
+                
+                count1 = count1 + 1
+            })
+            
+            
+        }
+        
+    }
+    
     
     
     
@@ -608,8 +444,7 @@ extension TamasScene {
         
     }
     
-    func changeTextureOfTama(fromTama: Tamagotchi, toTama: String) {
-        
+    func changeTamagotchiTexture(fromTama: Tamagotchi, toTama: String) {
         let index = tamaViewScenes.index(where: {$0.tamagotchis.contains(fromTama)})
         let i = tamaViewScenes[index!]
         let correspondingEntity = sceneEntites.first(where: {$0.id == tamaViewScenes.startIndex.distance(to: index!)})
@@ -621,11 +456,179 @@ extension TamasScene {
         let image = UIImage(named: (randomTama))?.resizeImage(scale: CGFloat(viewScale))
         tama?.texture = SKTexture(cgImage: (image?.cgImage)!)
         tama?.size = (tama?.texture?.size())!
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        sceneEntites = getScenes()
+    }
+    
+    func updateTamagotchiTexture(fromTama: Tamagotchi) {
+        let date = Date()
+        let newAge = date.interval(ofComponent: .second, fromDate:fromTama.dateCreated)/1
+        if Int16(newAge) != fromTama.age && (fromTama.age)! < 4  {
+            var randomTama = String()
+            switch newAge {
+            case 1:
+                randomTama = "baby"
+            case 2 :
+                randomTama = "toddler,\(fromTama.gender!)"
+                
+            case 3:
+                randomTama = "teen,\(fromTama.gender!)"
+                
+            default:
+                randomTama = "adult,\(fromTama.family!),\(fromTama.gender!)"
+            }
+            let parent = fromTama.parent as! TamaHouse
+            if parent.tamagotchis.count == 1 || (parent.tamagotchis.count == 3 && fromTama.id == 2) {
+                changeTamagotchiTexture(fromTama: fromTama, toTama: randomTama)
+            }
+            
+            
+            
+            
+        }
+        
+        fromTama.age = Int16(newAge)
+    }
+    
+    func updateTmamagotchiMarriage(scene: TamaHouse, rNeighbor: TamaHouse) {
+        let firstTama = scene.tamagotchis.first!
+        let rNeighbortama = rNeighbor.tamagotchis.first
+        print(rNeighbortama?.age)
+        print(rNeighbortama?.gender)
+        print(rNeighbor.tamagotchis.count)
+        if rNeighbortama!.age > 7 && rNeighbortama!.gender != firstTama.gender && rNeighbor.tamagotchis.count == 1 {
+            
+            let buttonTexture: SKTexture! = SKTexture(imageNamed: "marrybutton.png")
+            let buttonTextureSelected: SKTexture! = SKTexture(imageNamed: "marrybuttonselected.png")
+            let marrybutton = FTButtonNode(defaultTexture: buttonTexture, selectedTexture: buttonTextureSelected, action: {
+                self.changeTamagotchiTexture(fromTama: firstTama, toTama: "parents,\(firstTama.family!),\(firstTama.gender!)")
+                self.changeTamagotchiTexture(fromTama: rNeighbortama!, toTama: "parents,\(rNeighbortama!.family!),\(rNeighbortama!.gender!)")
+                self.newFamilyScene(scene: scene, tama1: firstTama, tama2: rNeighbortama!, span:"l")
+            })
+            marrybutton.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(FTbuttonAction(_:)))
+            marrybutton.position = CGPoint(x: scene.size.width/2, y: -scene.size.height/2)
+            
+            
+            var hasAButton: Bool! = false
+            for child in scene.children {
+                if child is FTButtonNode {
+                    hasAButton = true
+                }
+                
+            }
+            if !hasAButton {
+                scene.addChild(marrybutton)
+            }
+            
+        }
+        
+    }
+    
+    func updateTamagotchiLeave(scene: TamaHouse) {
+        self.sceneEntites = self.getScenes()
+        self.saveViewsToEntities()
+        
+        
+        
+        let count1 = tamaViewScenes.index(of: scene)
+        let tamasPar = self.sceneEntites.first(where: {$0.id == Int16(tamaViewScenes.startIndex.distance(to: count1!))})?.tamagotchi
+        let tamatoDelete = tamasPar?.first(where: {($0 as! TamagotchiEntity).id > 1}) as! TamagotchiEntity
+        let buttonTexture: SKTexture! = SKTexture(imageNamed: "leavebutton.png")
+        let buttonTextureSelected: SKTexture! = SKTexture(imageNamed: "leavebuttonselected.png")
+        let leavebutton = FTButtonNode(defaultTexture: buttonTexture, selectedTexture: buttonTextureSelected, action: {
+            self.moveChildTamagotchi(scene: scene, tamatoDelete: tamatoDelete)
+            
+        })
+        leavebutton.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(FTbuttonAction(_:)))
+        leavebutton.position = CGPoint(x: scene.size.width/2, y: -scene.size.height/2)
+        
+        var containsB: Bool! = false
+        for child in scene.children {
+            if child is FTButtonNode {
+                containsB = true
+            }
+            
+        }
+        if containsB == false {
+            scene.addChild(leavebutton)
+            leavebutton.zPosition = 1
+            
+        }
+        if tamaViewScenes.count == 10 {
+            
+            if let button = scene.children.first(where: {$0 is FTButtonNode}) {
+                button.removeFromParent()
+            }
+        }
+        
+        
+    }
+    
+    func addTamagotchiChild(scene: TamaHouse, sceneEntity: TamaSceneEntity) {
+        
+        self.view?.isPaused = true
+        let newTama = TamagotchiEntity(context: self.context)
+        newTama.age = 0
+        newTama.generation = scene.tamagotchis![0].generation
+        newTama.happiness = 5
+        newTama.hunger = 5
+        newTama.tamaName = "egg.png"
+        newTama.id = 2
+        newTama.gender = scene.tamagotchis![Int(arc4random_uniform(2))].gender
+        newTama.family = scene.tamagotchis![Int(arc4random_uniform(2))].family
+        let date = Date()
+        newTama.dateCreated = date
+        newTama.tamascene = sceneEntity
+        sceneEntity.addToTamagotchi(newTama)
+        sceneEntity.isDone = true
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        sceneEntites = getScenes()
+        self.view?.isPaused = false
+        scene.tamagotchis.append(tamaFromEntity(tama: newTama))
+        for children in scene.children {
+            if children is Tamagotchi {
+                children.removeFromParent()
+            }
+        }
+        scene.displayTamagotchis()
+    }
+    
+    func moveChildTamagotchi(scene: TamaHouse, tamatoDelete: TamagotchiEntity) {
+        let newScene = TamaSceneEntity(context: self.context)
+        
+        newScene.color1 = self.generateRandomColor(previousColor: scene.color1)
+        newScene.color2 = self.generateRandomColor(previousColor: scene.color1)
+        newScene.span = "n"
+        
+        var foundNewPosition: Bool! = false
+        var degreeCount = Double(0)
+        while foundNewPosition == false && degreeCount <= 360 {
+            let x = scene.size.height*CGFloat(cos(degreeCount * .pi/180))+scene.position.x + 30
+            let y = scene.size.height*CGFloat(sin(degreeCount * .pi/180))+scene.position.y + 30
+            let newPos = CGPoint(x: x,y: y)
+            if CGRect(origin:CGPoint(x:self.frame.origin.x + scene.size.width/2,y:self.frame.origin.y + scene.size.height/2),size:CGSize(width:self.frame.width-scene.size.width,height:self.frame.height - scene.size.height)).contains(newPos) {
+                foundNewPosition = true
+                newScene.spot = newPos.toString()
+            }
+            degreeCount = degreeCount + 1
+        }
+        //newScene.spot = CGPoint(x: scene.position.x, y: scene.position.y + scene.size.height + 30).toString()
+        newScene.id = Int16(self.sceneEntites.count)
+        var newTama = TamagotchiEntity(context: self.context)
+        
+        
+        self.deleteTama(tamatoDelete: tamatoDelete)
+        newTama = tamatoDelete
+        newTama.id = 0
+        newTama.generation = tamatoDelete.generation + 1
+        newTama.tamascene = newScene
+        newScene.addToTamagotchi(newTama)
+        
         
         
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
-        sceneEntites = getScenes()
-        
+        self.sceneEntites = self.getScenes()
+        self.setupScene(scene: newScene)
     }
     
     
@@ -649,6 +652,7 @@ extension CGPoint {
         return "\(Int(self.x)),\(Int(self.y))"
     }
 }
+
 
 
 
