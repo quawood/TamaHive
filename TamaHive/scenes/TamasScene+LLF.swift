@@ -470,7 +470,10 @@ extension TamasScene {
             if isEditing {
                 isEditing = false
                 self.childNode(withName: "trashB")?.removeFromParent()
-                self.childNode(withName: "CreateB")?.removeFromParent()
+                if tamaViewScenes.count > 0 {
+                    self.childNode(withName: "CreateB")?.removeFromParent()
+                }
+                
                 cancelPrepare()
                 
             }
@@ -514,36 +517,37 @@ extension TamasScene {
                 currentTama.run(uncolorizeAction)
                 isEditing = false
                 cancelPrepare()
-                if tamaViewScenes.count == 0 {
-                    self.addChild(newTamaButton)
+                
+                
+            } else if isEditing {
+                //delete tama if in trash node
+                if trashPlace.frame.contains(endPos!) {
+                    
+                    let indexed = tamaViewScenes.index(of: currentTama)
+                    deleteTask(atPos: indexed!)
+                    
+                    break checkForContains
                 }
                 
-            }
-            
-            //delete tama if in trash node
-            if trashPlace.frame.contains(endPos!) {
-                let indexed = tamaViewScenes.index(of: currentTama)
-                deleteTask(atPos: indexed!)
+                var newPoint: CGPoint! = currentTama.position
+                let xRange: CountableClosedRange = Int(-currentTama.size.width/2)...Int(self.size.width/2)
+                let yRange: CountableClosedRange = Int(-currentTama.size.height/2)...Int(self.size.height/2)
+                if !xRange.contains(Int(abs(currentTama.position.x) + currentTama.size.width/2)) {
+                    newPoint = CGPoint(x: CGFloat(currentTama.position.x.sign())*(self.size.width/2 - currentTama.size.width/2 - 5), y: currentTama.position.y)
+                }
+                if !yRange.contains(Int(abs(currentTama.position.y) + currentTama.size.height/2)) {
+                    newPoint = CGPoint(x: currentTama.position.x, y:  CGFloat(currentTama.position.y.sign())*(self.size.height/2 - currentTama.size.height/2 - 5))
+                }
+                let snapBackAction = SKAction.move(to: newPoint, duration: 0.1)
+                currentTama.run(snapBackAction)
+                let scaleaction = SKAction.scale(to: 1, duration: 0)
+                currentTama.run(scaleaction, completion: {
+                    self.isBeingDragged = false
+                })
                 
-                break checkForContains
+                maxZposition = Int(currentTama.zPosition)
             }
-            var newPoint: CGPoint! = currentTama.position
-            let xRange: CountableClosedRange = Int(-currentTama.size.width/2)...Int(self.size.width/2)
-            let yRange: CountableClosedRange = Int(-currentTama.size.height/2)...Int(self.size.height/2)
-            if !xRange.contains(Int(abs(currentTama.position.x) + currentTama.size.width/2)) {
-                newPoint = CGPoint(x: CGFloat(currentTama.position.x.sign())*(self.size.width/2 - currentTama.size.width/2 - 5), y: currentTama.position.y)
-            }
-            if !yRange.contains(Int(abs(currentTama.position.y) + currentTama.size.height/2)) {
-                newPoint = CGPoint(x: currentTama.position.x, y:  CGFloat(currentTama.position.y.sign())*(self.size.height/2 - currentTama.size.height/2 - 5))
-            }
-            let snapBackAction = SKAction.move(to: newPoint, duration: 0.1)
-            currentTama.run(snapBackAction)
-            let scaleaction = SKAction.scale(to: 1, duration: 0)
-            currentTama.run(scaleaction, completion: {
-                self.isBeingDragged = false
-            })
             
-            maxZposition = Int(currentTama.zPosition)
         }
         currentTama = nil
         
