@@ -15,7 +15,7 @@
 		A53718CE1EFD9C9C00533669 /* TamaHouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C61EFD99B000533669 /* TamaHouse.swift */; };
 		A53718CF1EFD9CAC00533669 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5F8F4FB1EF2AC9000B0B0DC /* LaunchScreen.storyboard */; };
 		A53718D41EFE212F00533669 /* tamahive.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A53718D31EFD9F6600533669 /* tamahive.bundle */; };
-		A53718D61EFE276C00533669 /* TamasScene+LLF.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718D51EFE276C00533669 /* TamasScene+LLF.swift */; };
+		A53718F61EFFA5A200533669 /* TamaHouse+LLF.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718F51EFFA5A200533669 /* TamaHouse+LLF.swift */; };
 		A5593C5E1EEA495100097766 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C5D1EEA495100097766 /* AppDelegate.swift */; };
 		A5593C621EEA495100097766 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = A5593C611EEA495100097766 /* Actions.sks */; };
 		A5593C691EEA495100097766 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5593C671EEA495100097766 /* Main.storyboard */; };
@@ -50,7 +50,7 @@
 		A53718C51EFD99B000533669 /* Tamagotchi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tamagotchi.swift; sourceTree = "<group>"; };
 		A53718C61EFD99B000533669 /* TamaHouse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TamaHouse.swift; sourceTree = "<group>"; };
 		A53718D31EFD9F6600533669 /* tamahive.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = tamahive.bundle; sourceTree = "<group>"; };
-		A53718D51EFE276C00533669 /* TamasScene+LLF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TamasScene+LLF.swift"; sourceTree = "<group>"; };
+		A53718F51EFFA5A200533669 /* TamaHouse+LLF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TamaHouse+LLF.swift"; sourceTree = "<group>"; };
 		A5593C5A1EEA495100097766 /* TamaHive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TamaHive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5593C5D1EEA495100097766 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5593C611EEA495100097766 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -97,7 +97,6 @@
 			children = (
 				A53718BF1EFD999A00533669 /* TamasScene.sks */,
 				A53718C01EFD999A00533669 /* TamasScene.swift */,
-				A53718D51EFE276C00533669 /* TamasScene+LLF.swift */,
 			);
 			path = scenes;
 			sourceTree = "<group>";
@@ -116,6 +115,7 @@
 				A53718C41EFD99B000533669 /* Extends.swift */,
 				A53718C51EFD99B000533669 /* Tamagotchi.swift */,
 				A53718C61EFD99B000533669 /* TamaHouse.swift */,
+				A53718F51EFFA5A200533669 /* TamaHouse+LLF.swift */,
 			);
 			path = classes;
 			sourceTree = "<group>";
@@ -323,8 +323,8 @@
 				A570020C1EF2880C00905761 /* TamaHive.xcdatamodeld in Sources */,
 				A53718C81EFD9B1F00533669 /* GameViewController.swift in Sources */,
 				A53718CC1EFD9C9800533669 /* Extends.swift in Sources */,
-				A53718D61EFE276C00533669 /* TamasScene+LLF.swift in Sources */,
 				A5593C5E1EEA495100097766 /* AppDelegate.swift in Sources */,
+				A53718F61EFFA5A200533669 /* TamaHouse+LLF.swift in Sources */,
 				A53718CD1EFD9C9A00533669 /* Tamagotchi.swift in Sources */,
 				A53718CA1EFD9B2F00533669 /* TamasScene.swift in Sources */,
 			);
