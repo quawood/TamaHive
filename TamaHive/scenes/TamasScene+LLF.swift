@@ -493,9 +493,6 @@ extension TamasScene {
     func updateTmamagotchiMarriage(scene: TamaHouse, rNeighbor: TamaHouse) {
         let firstTama = scene.tamagotchis.first!
         let rNeighbortama = rNeighbor.tamagotchis.first
-        print(rNeighbortama?.age)
-        print(rNeighbortama?.gender)
-        print(rNeighbor.tamagotchis.count)
         if rNeighbortama!.age > 7 && rNeighbortama!.gender != firstTama.gender && rNeighbor.tamagotchis.count == 1 {
             
             let buttonTexture: SKTexture! = SKTexture(imageNamed: "marrybutton.png")
