@@ -407,7 +407,6 @@ extension TamasScene {
 extension CGFloat {
     static func random() -> CGFloat {
         let ret = CGFloat(arc4random()) / CGFloat(UInt32.max)
-        print(ret/36)
         return ret/36
         
     }
@@ -447,7 +446,6 @@ extension Array where Element: Collection, Element.Index == Int {
 extension Array where Element == CGRect{
     func anyContains(_ point: CGPoint) -> Bool {
         var doAnyContain = false
-        print(point)
         self.forEach({rect in
             if rect.contains(point) {
                 doAnyContain = true

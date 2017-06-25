@@ -14,9 +14,6 @@
 		A53718CD1EFD9C9A00533669 /* Tamagotchi.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C51EFD99B000533669 /* Tamagotchi.swift */; };
 		A53718CE1EFD9C9C00533669 /* TamaHouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C61EFD99B000533669 /* TamaHouse.swift */; };
 		A53718CF1EFD9CAC00533669 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5F8F4FB1EF2AC9000B0B0DC /* LaunchScreen.storyboard */; };
-		A53718D01EFD9CB800533669 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A5593C6F1EEA495100097766 /* Info.plist */; };
-		A53718D11EFD9CC200533669 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A5593C7A1EEA495100097766 /* Info.plist */; };
-		A53718D21EFD9CCF00533669 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A5593C851EEA495100097766 /* Info.plist */; };
 		A53718D41EFE212F00533669 /* tamahive.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A53718D31EFD9F6600533669 /* tamahive.bundle */; };
 		A53718D61EFE276C00533669 /* TamasScene+LLF.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718D51EFE276C00533669 /* TamasScene+LLF.swift */; };
 		A5593C5E1EEA495100097766 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C5D1EEA495100097766 /* AppDelegate.swift */; };
@@ -298,7 +295,6 @@
 				A53718CF1EFD9CAC00533669 /* LaunchScreen.storyboard in Resources */,
 				A5593C6B1EEA495100097766 /* Assets.xcassets in Resources */,
 				A5593C621EEA495100097766 /* Actions.sks in Resources */,
-				A53718D01EFD9CB800533669 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,7 +302,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A53718D11EFD9CC200533669 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,7 +309,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A53718D21EFD9CCF00533669 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,7 +488,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Anjour.TamaHive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -509,7 +503,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Anjour.TamaHive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
@@ -524,7 +518,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Anjour.TamaHiveTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TamaHive.app/TamaHive";
 			};
@@ -540,7 +534,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Anjour.TamaHiveTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TamaHive.app/TamaHive";
 			};
@@ -555,7 +549,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Anjour.TamaHiveUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = TamaHive;
 			};
@@ -570,7 +564,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Anjour.TamaHiveUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = TamaHive;
 			};
