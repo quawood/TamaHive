@@ -216,14 +216,16 @@ extension TamasScene {
         
         top: for i in 0..<tamaViewScenes.count {
             if tamaViewScenes[i].frame.contains((touch.location(in: self.scene!))) {
+                
                 let scene = tamaViewScenes[i]
                 currentTama = scene
                 touchdx = touch.location(in: self.scene!).x - (currentTama?.position.x)!
                 touchdy = touch.location(in: self.scene!).y - (currentTama?.position.y)!
                 currentTama.zPosition = CGFloat(maxZposition + 2)
+                beginPos = currentTama.position
                 if isEditing == true  {
                     
-                    beginPos = currentTama.position
+                    
                     self.isBeingDragged = true
                     touchdx = touch.location(in: self.scene!).x - (currentTama?.position.x)!
                     touchdy = touch.location(in: self.scene!).y - (currentTama?.position.y)!
@@ -310,9 +312,12 @@ extension TamasScene {
                     break checkForContains
                 } else if spotlightPlace.frame.contains(endPos!) {
                     let indexed = tamaViewScenes.index(of: currentTama)
-                    UserDefaults.standard.set(indexed, forKey: "tamaSpotlightKey")
+                    UserDefaults(suiteName: "group.Anjour.TamaHive")!.set(indexed, forKey: "spotlightInd")
                     let snapBackAction = SKAction.move(to: beginPos, duration: 0.1)
+                    let scaledownAction = SKAction.scale(to: 1, duration: 0)
                     currentTama.run(snapBackAction)
+                    currentTama.run(scaledownAction)
+                    break checkForContains
                 }
                 
                 var newPoint: CGPoint! = currentTama.position

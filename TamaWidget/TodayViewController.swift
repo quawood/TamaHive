@@ -59,7 +59,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         
         sceneEntities = getScenes()
         if sceneEntities.count > 0 {
-            if let slInd = UserDefaults.standard.object(forKey: "tamaSpotlightKey") as? Int {
+            if let slInd = UserDefaults(suiteName: "group.Anjour.TamaHive")!.object(forKey: "spotlightInd") as? Int {
                 currentScene = sceneEntities.first(where: {$0.id == Int16(slInd)})! 
             } else {
                 currentScene = sceneEntities[0]
