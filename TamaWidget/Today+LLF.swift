@@ -34,7 +34,6 @@ extension TodayViewController {
     }
     
     func giveHunger() {
-        var count = 0
         for tamagotchi in (currentScene.tamagotchi as? Set<TamagotchiEntity>)! {
             let xOffset = (hungerView.frame.size.width/6) - 7
             for i in 0..<TAttributes.maxHealth {
@@ -109,24 +108,31 @@ extension TodayViewController {
                     
                     
                 }
-                if newAge > TAttributes.marriageAge && currentScene.tamagotchi?.count == 1 {
-                    let marriageMedal = UIImage(named: "marrybutton")?.resizeImage(scale: 1)
-                    let medalImageView = UIImageView(image: marriageMedal)
-                    medalImageView.layer.zPosition = 1
-                    medalImageView.frame.origin = CGPoint(x: self.view.frame.size.width - 40, y: 0 + 10)
-                    
-                    self.view.addSubview(medalImageView)
-                    
-                }
-                if let childTama = currentScene.tamagotchi?.first(where: {($0 as! TamagotchiEntity).id == 2}) as? TamagotchiEntity {
-                    if childTama.age > TAttributes.leaveAge {
-                        let leaveMedal = UIImage(named: "leavebutton")?.resizeImage(scale: 0.5)
-                        let medalImageView = UIImageView(image: leaveMedal)
+                if sender == nil {
+                    if newAge > TAttributes.marriageAge && currentScene.tamagotchi?.count == 1 {
+                        
+                        let marriageMedal = UIImage(named: "marrybutton")?.resizeImage(scale: 1)
+                        let medalImageView = UIImageView(image: marriageMedal)
                         medalImageView.layer.zPosition = 1
-                        medalImageView.frame.origin = CGPoint(x: self.view.frame.size.width - 10, y: 0 + 2)
+                        medalImageView.frame.origin = CGPoint(x: self.view.frame.size.width - 60, y: 0 + 10)
+                        medalImageView.tag = 1
                         
                         self.view.addSubview(medalImageView)
+                        
+                        
                     }
+                    if let childTama = currentScene.tamagotchi?.first(where: {($0 as! TamagotchiEntity).id == 2}) as? TamagotchiEntity {
+                        if childTama.age > TAttributes.leaveAge {
+                            let leaveMedal = UIImage(named: "leavebutton")?.resizeImage(scale: 1)
+                            let medalImageView = UIImageView(image: leaveMedal)
+                            medalImageView.layer.zPosition = 1
+                            medalImageView.frame.origin = CGPoint(x: self.view.frame.size.width - 60, y: 0 + 10)
+                            medalImageView.tag = 1
+                            
+                            self.view.addSubview(medalImageView)
+                        }
+                    }
+                    
                 }
                 
                 correspondingTama.age = Int16(newAge)
