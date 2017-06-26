@@ -117,7 +117,7 @@ extension TamasScene {
                 try context.save()
             } catch {
                 let nserror = error as NSError
-                print("\(error.localizedDescription)")
+                print("\(nserror.localizedDescription)")
             }
         }
     }
