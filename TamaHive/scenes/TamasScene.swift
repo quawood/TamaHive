@@ -16,7 +16,7 @@ class TamasScene: SKScene {
     
     var sceneRects: [[CGRect]]!
     
-    let context = CoreDataStack.sharedInstance.persistentContainer.viewContext
+    let context = CoreDataStack.sharedInstance.managedObjectContext
     let familyNames = ["mame","meme","kuchi","large","ninja","secret","small","space","violet"]
     
     
@@ -111,7 +111,6 @@ class TamasScene: SKScene {
     
     
     
-    
     @objc func appWillTerminate () {
         saveViewsToEntities()
         
@@ -174,75 +173,53 @@ class TamasScene: SKScene {
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+}
+
+extension TamasScene {
+    func generateRandomTama(_ n: Int, appendingPC: String) -> [String] {
+        let appends:[String] = appendingPC.components(separatedBy: ",")
+        var tamas: [String]! = []
+        var resourcePath = NSURL(string: Bundle.main.resourcePath!)?.appendingPathComponent("tamahive.bundle")?.appendingPathComponent("tamas")
+        appends.forEach({
+            resourcePath?.appendPathComponent($0)
+        })
+        let resourcesContent = try! FileManager().contentsOfDirectory(at: resourcePath!, includingPropertiesForKeys: nil, options: FileManager.DirectoryEnumerationOptions.skipsHiddenFiles)
+        
+        for url in resourcesContent {
+            tamas.append(url.lastPathComponent)
+            
+        }
+        var returnArray: [String] = []
+        for _ in 0..<n {
+            let randInd = arc4random_uniform(UInt32(tamas.count))
+            returnArray.append(tamas[Int(randInd)])
+        }
+        
+        return returnArray
+        
+    }
+    
+    func generateRandomColor(previousColor: UIColor) -> UIColor {
+        /* let hue : CGFloat = CGFloat(arc4random() % 256) / 256 // use 256 to get full range from 0.0 to 1.0
+         let saturation : CGFloat = CGFloat(arc4random() % 128) / 256 + 0.5 // from 0.5 to 1.0 to stay away from white
+         let brightness : CGFloat = CGFloat(arc4random() % 128) / 256 + 0.5 // from 0.5 to 1.0 to stay away from black
+         return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)*/
+        
+        return UIColor(red:   previousColor.components.red + (CGFloat.randomoz() * CGFloat.random()),
+                       green: previousColor.components.green + (CGFloat.randomoz() * CGFloat.random()),
+                       blue:  previousColor.components.blue + (CGFloat.randomoz() * CGFloat.random()),
+                       alpha: 1.0)
+    }
     
     
 }
+
+
+
+
+
+
+
 
 
 

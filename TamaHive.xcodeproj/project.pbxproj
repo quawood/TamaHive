@@ -7,13 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A50F7E9E1F015D1E004A2034 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5593C6A1EEA495100097766 /* Assets.xcassets */; };
+		A50F7EA01F016C8A004A2034 /* TAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50F7E9F1F016C8A004A2034 /* TAttributes.swift */; };
+		A50F7EA11F016C8D004A2034 /* TAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50F7E9F1F016C8A004A2034 /* TAttributes.swift */; };
+		A50F7EA21F0175D1004A2034 /* Extends.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C41EFD99B000533669 /* Extends.swift */; };
 		A5133F011F00D65400FD9D54 /* TamaHive.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A570020A1EF2880C00905761 /* TamaHive.xcdatamodeld */; };
 		A5133F021F00D85100FD9D54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C5D1EEA495100097766 /* AppDelegate.swift */; };
 		A5133F041F012A7D00FD9D54 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5133F031F012A7D00FD9D54 /* CoreDataStack.swift */; };
 		A5133F051F0131DC00FD9D54 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5133F031F012A7D00FD9D54 /* CoreDataStack.swift */; };
 		A53718C81EFD9B1F00533669 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C21EFD99AB00533669 /* GameViewController.swift */; };
 		A53718C91EFD9B2C00533669 /* TamasScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A53718BF1EFD999A00533669 /* TamasScene.sks */; };
-		A53718CA1EFD9B2F00533669 /* TamasScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C01EFD999A00533669 /* TamasScene.swift */; };
 		A53718CC1EFD9C9800533669 /* Extends.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C41EFD99B000533669 /* Extends.swift */; };
 		A53718CD1EFD9C9A00533669 /* Tamagotchi.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C51EFD99B000533669 /* Tamagotchi.swift */; };
 		A53718CE1EFD9C9C00533669 /* TamaHouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C61EFD99B000533669 /* TamaHouse.swift */; };
@@ -30,7 +33,10 @@
 		A5593C6B1EEA495100097766 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5593C6A1EEA495100097766 /* Assets.xcassets */; };
 		A5593C791EEA495100097766 /* TamaHiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C781EEA495100097766 /* TamaHiveTests.swift */; };
 		A5593C841EEA495100097766 /* TamaHiveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C831EEA495100097766 /* TamaHiveUITests.swift */; };
-		A570020C1EF2880C00905761 /* TamaHive.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A570020A1EF2880C00905761 /* TamaHive.xcdatamodeld */; };
+		A5B3617B1F017AF500CC69C9 /* TamasScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C01EFD999A00533669 /* TamasScene.swift */; };
+		A5B3617C1F017B8D00CC69C9 /* TamaHive.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A570020A1EF2880C00905761 /* TamaHive.xcdatamodeld */; };
+		A5B3617D1F01873200CC69C9 /* tamahive.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A53718D31EFD9F6600533669 /* tamahive.bundle */; };
+		A5B3617F1F0189B200CC69C9 /* Today+LLF.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B3617E1F0189B200CC69C9 /* Today+LLF.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +78,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A50F7E9F1F016C8A004A2034 /* TAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TAttributes.swift; sourceTree = "<group>"; };
 		A5133F031F012A7D00FD9D54 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		A53718BF1EFD999A00533669 /* TamasScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TamasScene.sks; sourceTree = "<group>"; };
 		A53718C01EFD999A00533669 /* TamasScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TamasScene.swift; sourceTree = "<group>"; };
@@ -101,6 +108,7 @@
 		A5593C831EEA495100097766 /* TamaHiveUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TamaHiveUITests.swift; sourceTree = "<group>"; };
 		A5593C851EEA495100097766 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A570020B1EF2880C00905761 /* TamaHive.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TamaHive.xcdatamodel; sourceTree = "<group>"; };
+		A5B3617E1F0189B200CC69C9 /* Today+LLF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Today+LLF.swift"; sourceTree = "<group>"; };
 		A5F8F4FB1EF2AC9000B0B0DC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -157,7 +165,6 @@
 		A53718C31EFD99B000533669 /* classes */ = {
 			isa = PBXGroup;
 			children = (
-				A53718C41EFD99B000533669 /* Extends.swift */,
 				A53718C51EFD99B000533669 /* Tamagotchi.swift */,
 				A53718C61EFD99B000533669 /* TamaHouse.swift */,
 				A53718F51EFFA5A200533669 /* TamaHouse+LLF.swift */,
@@ -178,6 +185,7 @@
 			children = (
 				A537190D1F00C94E00533669 /* TamaWidget.entitlements */,
 				A53719001F00C92500533669 /* TodayViewController.swift */,
+				A5B3617E1F0189B200CC69C9 /* Today+LLF.swift */,
 				A53719021F00C92500533669 /* MainInterface.storyboard */,
 				A53719051F00C92500533669 /* Info.plist */,
 			);
@@ -189,6 +197,8 @@
 			children = (
 				A570020A1EF2880C00905761 /* TamaHive.xcdatamodeld */,
 				A5133F031F012A7D00FD9D54 /* CoreDataStack.swift */,
+				A50F7E9F1F016C8A004A2034 /* TAttributes.swift */,
+				A53718C41EFD99B000533669 /* Extends.swift */,
 				A5593C5C1EEA495100097766 /* TamaHive */,
 				A5593C771EEA495100097766 /* TamaHiveTests */,
 				A5593C821EEA495100097766 /* TamaHiveUITests */,
@@ -392,6 +402,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A50F7E9E1F015D1E004A2034 /* Assets.xcassets in Resources */,
+				A5B3617D1F01873200CC69C9 /* tamahive.bundle in Resources */,
 				A53719041F00C92500533669 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -430,6 +442,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5B3617F1F0189B200CC69C9 /* Today+LLF.swift in Sources */,
+				A50F7EA01F016C8A004A2034 /* TAttributes.swift in Sources */,
+				A50F7EA21F0175D1004A2034 /* Extends.swift in Sources */,
 				A5133F021F00D85100FD9D54 /* AppDelegate.swift in Sources */,
 				A5133F011F00D65400FD9D54 /* TamaHive.xcdatamodeld in Sources */,
 				A53719011F00C92500533669 /* TodayViewController.swift in Sources */,
@@ -442,14 +457,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				A53718CE1EFD9C9C00533669 /* TamaHouse.swift in Sources */,
-				A570020C1EF2880C00905761 /* TamaHive.xcdatamodeld in Sources */,
+				A5B3617B1F017AF500CC69C9 /* TamasScene.swift in Sources */,
 				A53718C81EFD9B1F00533669 /* GameViewController.swift in Sources */,
 				A5133F051F0131DC00FD9D54 /* CoreDataStack.swift in Sources */,
 				A53718CC1EFD9C9800533669 /* Extends.swift in Sources */,
+				A50F7EA11F016C8D004A2034 /* TAttributes.swift in Sources */,
 				A5593C5E1EEA495100097766 /* AppDelegate.swift in Sources */,
 				A53718F61EFFA5A200533669 /* TamaHouse+LLF.swift in Sources */,
+				A5B3617C1F017B8D00CC69C9 /* TamaHive.xcdatamodeld in Sources */,
 				A53718CD1EFD9C9A00533669 /* Tamagotchi.swift in Sources */,
-				A53718CA1EFD9B2F00533669 /* TamasScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

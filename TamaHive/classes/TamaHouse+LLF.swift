@@ -74,7 +74,7 @@ extension TamasScene {
             sender?.removeFromParent()
         }
         DispatchQueue.main.async {
-            if self.sceneEntites.count < 10 {
+            if self.sceneEntites.count < TAttributes.maxTamas {
                 
                 let scene = TamaSceneEntity(context:self.context)
                 scene.id = Int16(self.sceneEntites.count)
@@ -87,10 +87,8 @@ extension TamasScene {
                 let date = Date()
                 let randomFam = Int(arc4random_uniform(UInt32(self.familyNames.count)))
                 
-                tama.age = 0
                 tama.generation = 1
-                tama.happiness = 5
-                tama.hunger = 5
+                
                 tama.tamaName = "egg.png"
                 tama.id = 0
                 tama.gender = genders[Int(arc4random_uniform(2))]
@@ -364,6 +362,7 @@ extension TamasScene {
     
     
     func updateTamas() {
+        sceneEntites = getScenes()
         if isBeingDragged == false {
             var count = 0
             var count1 = 0
@@ -383,7 +382,7 @@ extension TamasScene {
                 }
                 let sceneEntity = sceneEntites.first(where: {$0.id == count1})
                 
-                checkForMarriage: if firstTama.age > 7 && tamagotchis!.count == 1 {
+                checkForMarriage: if firstTama.age > TAttributes.marriageAge && tamagotchis!.count == 1 {
                     for sceneToCheck in tamaViewScenes {
                         if sceneToCheck != scene {
                             let xDist = sceneToCheck.position.x - scene.position.x
@@ -403,10 +402,10 @@ extension TamasScene {
                     }
                     
                 }
-                if tamagotchis![0].age > 15 && scene.tamagotchis.count == 2 && sceneEntity!.isDone == false{
+                if tamagotchis![0].age > TAttributes.childAge && scene.tamagotchis.count == 2 && sceneEntity!.isDone == false{
                     addTamagotchiChild(scene: scene, sceneEntity: sceneEntity!)
                 }
-                if childTamagotchi.age > 10 && scene.tamagotchis.count > 2 {
+                if childTamagotchi.age > TAttributes.leaveAge && scene.tamagotchis.count > 2 {
                     updateTamagotchiLeave(scene: scene)
                     
                 }
@@ -471,7 +470,7 @@ extension TamasScene {
     
     func updateTamagotchiTexture(fromTama: Tamagotchi) {
         let date = Date()
-        let newAge = date.interval(ofComponent: .second, fromDate:fromTama.dateCreated)/1
+        let newAge = date.interval(ofComponent: TAttributes.tunit, fromDate:fromTama.dateCreated)/TAttributes.tint
         if Int16(newAge) != fromTama.age && (fromTama.age)! < 4  {
             var randomTama = String()
             switch newAge {
@@ -502,7 +501,7 @@ extension TamasScene {
     func updateTmamagotchiMarriage(scene: TamaHouse, rNeighbor: TamaHouse) {
         let firstTama = scene.tamagotchis.first!
         let rNeighbortama = rNeighbor.tamagotchis.first
-        if rNeighbortama!.age > 7 && rNeighbortama!.gender != firstTama.gender && rNeighbor.tamagotchis.count == 1 {
+        if rNeighbortama!.age > TAttributes.marriageAge && rNeighbortama!.gender != firstTama.gender && rNeighbor.tamagotchis.count == 1 {
             
             let buttonTexture: SKTexture! = SKTexture(imageNamed: "marrybutton.png")
             let buttonTextureSelected: SKTexture! = SKTexture(imageNamed: "marrybuttonselected.png")
@@ -574,10 +573,7 @@ extension TamasScene {
         
         self.view?.isPaused = true
         let newTama = TamagotchiEntity(context: self.context)
-        newTama.age = 0
         newTama.generation = scene.tamagotchis![0].generation
-        newTama.happiness = 5
-        newTama.hunger = 5
         newTama.tamaName = "egg.png"
         newTama.id = 2
         newTama.gender = scene.tamagotchis![Int(arc4random_uniform(2))].gender
@@ -658,6 +654,160 @@ extension CGPoint {
         return "\(Int(self.x)),\(Int(self.y))"
     }
 }
+
+class FTButtonNode: SKSpriteNode {
+    var action: () -> () = {}
+    enum FTButtonActionType: Int {
+        case TouchUpInside = 1,
+        TouchDown, TouchUp
+    }
+    
+    var isEnabled: Bool = true {
+        didSet {
+            if (disabledTexture != nil) {
+                texture = isEnabled ? defaultTexture : disabledTexture
+            }
+        }
+    }
+    var isSelected: Bool = false {
+        didSet {
+            texture = isSelected ? selectedTexture : defaultTexture
+        }
+    }
+    
+    var defaultTexture: SKTexture
+    var selectedTexture: SKTexture
+    var label: SKLabelNode
+    
+    required init(coder: NSCoder) {
+        fatalError("NSCoding not supported")
+    }
+    init(defaultTexture: SKTexture!, selectedTexture: SKTexture!, action: @escaping ()->()) {
+        self.defaultTexture = defaultTexture
+        self.selectedTexture = selectedTexture
+        self.action = action
+        self.label = SKLabelNode(fontNamed: "Helvetica")
+        
+        super.init(texture: defaultTexture, color: UIColor.white, size: defaultTexture.size())
+        isUserInteractionEnabled = true
+        self.zPosition = 15
+        self.name = "Button"
+        self.scale(to: CGSize(width: 20 , height: 20))
+    }
+    
+    init(normalTexture defaultTexture: SKTexture!, selectedTexture:SKTexture!, disabledTexture: SKTexture?) {
+        
+        self.defaultTexture = defaultTexture
+        self.selectedTexture = selectedTexture
+        self.disabledTexture = disabledTexture
+        self.label = SKLabelNode(fontNamed: "Helvetica");
+        
+        super.init(texture: defaultTexture, color: UIColor.white, size: defaultTexture.size())
+        isUserInteractionEnabled = true
+        
+        //Creating and adding a blank label, centered on the button
+        self.label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.center;
+        self.label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center;
+        addChild(self.label)
+        
+        // Adding this node as an empty layer. Without it the touch functions are not being called
+        // The reason for this is unknown when this was implemented...?
+        let bugFixLayerNode = SKSpriteNode(texture: nil, color: UIColor.clear, size: defaultTexture.size())
+        bugFixLayerNode.position = self.position
+        addChild(bugFixLayerNode)
+        
+    }
+    
+    /**
+     * Taking a target object and adding an action that is triggered by a button event.
+     */
+    func setButtonAction(target: AnyObject, triggerEvent event:FTButtonActionType, action:Selector) {
+        
+        switch (event) {
+        case .TouchUpInside:
+            targetTouchUpInside = target
+            actionTouchUpInside = action
+        case .TouchDown:
+            targetTouchDown = target
+            actionTouchDown = action
+        case .TouchUp:
+            targetTouchUp = target
+            actionTouchUp = action
+        }
+        
+    }
+    
+    /*
+     New function for setting text. Calling function multiple times does
+     not create a ton of new labels, just updates existing label.
+     You can set the title, font type and font size with this function
+     */
+    
+    func setButtonLabel(title: NSString, font: String, fontSize: CGFloat) {
+        self.label.text = title as String
+        self.label.fontSize = fontSize
+        self.label.fontName = font
+    }
+    
+    var disabledTexture: SKTexture?
+    var actionTouchUpInside: Selector?
+    var actionTouchUp: Selector?
+    var actionTouchDown: Selector?
+    weak var targetTouchUpInside: AnyObject?
+    weak var targetTouchUp: AnyObject?
+    weak var targetTouchDown: AnyObject?
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if (!isEnabled) {
+            return
+        }
+        isSelected = true
+        if (targetTouchDown != nil && targetTouchDown!.responds(to: actionTouchDown)) {
+            UIApplication.shared.sendAction(actionTouchDown!, to: targetTouchDown, from: self, for: nil)
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        if (!isEnabled) {
+            return
+        }
+        
+        let touch: AnyObject! = touches.first
+        let touchLocation = touch.location(in: parent!)
+        
+        if (frame.contains(touchLocation)) {
+            isSelected = true
+        } else {
+            isSelected = false
+        }
+        
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if (!isEnabled) {
+            return
+        }
+        
+        isSelected = false
+        
+        if (targetTouchUpInside != nil && targetTouchUpInside!.responds(to: actionTouchUpInside!)) {
+            let touch: AnyObject! = touches.first
+            let touchLocation = touch.location(in: parent!)
+            
+            if (frame.contains(touchLocation) ) {
+                UIApplication.shared.sendAction(actionTouchUpInside!, to: targetTouchUpInside, from: self, for: nil)
+            }
+            
+        }
+        
+        if (targetTouchUp != nil && targetTouchUp!.responds(to: actionTouchUp!)) {
+            UIApplication.shared.sendAction(actionTouchUp!, to: targetTouchUp, from: self, for: nil)
+        }
+    }
+    
+}
+
 
 
 

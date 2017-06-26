@@ -27,6 +27,12 @@ class CoreDataStack {
         return NSManagedObjectModel(contentsOf: modelURL)!
     }()
     
+    lazy var managedObjectContext: NSManagedObjectContext = {
+        let context = CoreDataStack.sharedInstance.persistentContainer.viewContext
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        return context
+    }()
+    
     
     lazy var persistentContainer:PersistentContainer = {
         let container = PersistentContainer(name: "TamaHive", managedObjectModel: CoreDataStack.sharedInstance.managedObjectModel)
@@ -64,4 +70,5 @@ class PersistentContainer: NSPersistentContainer{
         super.init(name: name, managedObjectModel: model)
     }
 }
+
 
