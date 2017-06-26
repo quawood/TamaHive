@@ -19,19 +19,28 @@ class CoreDataStack {
     
     // 3
     // MARK: - Core Data stack
+    lazy var managedObjectModel: NSManagedObjectModel = {
+        // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
+        
+        // 4
+        let modelURL = Bundle.main.url(forResource: "TamaHive", withExtension: "momd")!
+        return NSManagedObjectModel(contentsOf: modelURL)!
+    }()
     
-    lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "TamaHive")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.localizedDescription)")
+    
+    lazy var persistentContainer:PersistentContainer = {
+        let container = PersistentContainer(name: "TamaHive", managedObjectModel: CoreDataStack.sharedInstance.managedObjectModel)
+        container.loadPersistentStores(completionHandler: { (storeDescription:NSPersistentStoreDescription, error:Error?) in
+            if let error = error as NSError?{
+                fatalError("UnResolved error \(error), \(error.userInfo)")
             }
         })
+        
         return container
     }()
     
     func saveContext () {
-        let context = persistentContainer.viewContext
+        let context = CoreDataStack.sharedInstance.persistentContainer.viewContext
         if context.hasChanges {
             do {
                 try context.save()

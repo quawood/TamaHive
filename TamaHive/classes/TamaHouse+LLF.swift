@@ -114,7 +114,7 @@ extension TamasScene {
     func save() {
         if context.hasChanges {
             do {
-                try context.save()
+                try CoreDataStack.sharedInstance.saveContext()
             } catch {
                 let nserror = error as NSError
                 print("\(nserror.localizedDescription)")

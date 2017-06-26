@@ -253,8 +253,8 @@
 			buildConfigurationList = A53719091F00C92500533669 /* Build configuration list for PBXNativeTarget "TamaWidget" */;
 			buildPhases = (
 				A53718F71F00C92500533669 /* Sources */,
-				A53718F81F00C92500533669 /* Frameworks */,
 				A53718F91F00C92500533669 /* Resources */,
+				A53718F81F00C92500533669 /* Frameworks */,
 			);
 			buildRules = (
 			);

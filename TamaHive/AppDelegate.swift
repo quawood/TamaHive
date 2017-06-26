@@ -15,6 +15,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 lazy var coreDataStack = CoreDataStack.sharedInstance
+    func getScenes() -> [TamaSceneEntity] {
+        var entities: [TamaSceneEntity]! = []
+        do {
+            entities = try coreDataStack.persistentContainer.viewContext.fetch(TamaSceneEntity.fetchRequest())
+        }catch {
+            print("Error fetching data from CoreData")
+        }
+        print (entities.count)
+        return entities
+    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
