@@ -10,6 +10,8 @@ import SpriteKit
 import GameplayKit
 import CoreData
 
+
+
 class TamasScene: SKScene {
     var entities = [GKEntity]()
     var graphs = [String : GKGraph]()
@@ -19,8 +21,8 @@ class TamasScene: SKScene {
     let context = CoreDataStack.sharedInstance.managedObjectContext
     let familyNames = ["mame","meme","kuchi","large","ninja","secret","small","space","violet"]
     
+     var sceneEntites: [TamaSceneEntity]! = TAttributes.sceneEntites
     
-    var sceneEntites: [TamaSceneEntity]! = []
     var tamaViewScenes: [TamaHouse]! = []
     let viewScale: Int! = 2
     var maxZposition = 0

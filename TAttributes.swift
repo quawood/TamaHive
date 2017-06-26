@@ -9,14 +9,17 @@
 import Foundation
 
 class TAttributes {
+    
     static let marriageAge: Int! = 8
     static let leaveAge: Int! = 6
     static let childAge: Int! = 10
     static let tunit: Calendar.Component! = .second
-    static let tint: Int! = 10
+    static let tint: Int! = 1
     static let maxHealth: Int! = 5
     
     static let maxTamas: Int! = 10
+    
+    static var sceneEntites: [TamaSceneEntity]! = []
     
     private init() {
         
