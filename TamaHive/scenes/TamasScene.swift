@@ -16,9 +16,9 @@ class TamasScene: SKScene {
     
     var sceneRects: [[CGRect]]!
     
-    
+    let context = CoreDataStack.sharedInstance.persistentContainer.viewContext
     let familyNames = ["mame","meme","kuchi","large","ninja","secret","small","space","violet"]
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     
     var sceneEntites: [TamaSceneEntity]! = []
     var tamaViewScenes: [TamaHouse]! = []
@@ -108,10 +108,10 @@ class TamasScene: SKScene {
     }
     
     
-
     
-
-
+    
+    
+    
     @objc func appWillTerminate () {
         saveViewsToEntities()
         
@@ -173,8 +173,6 @@ class TamasScene: SKScene {
     
     
     
-
-
     
     
     
@@ -205,15 +203,6 @@ class TamasScene: SKScene {
     
     
     
-
-    
-    
-    
-    
-
-    
-    
-
     
     
     
@@ -230,7 +219,18 @@ class TamasScene: SKScene {
     
     
     
-   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -243,6 +243,7 @@ class TamasScene: SKScene {
     
     
 }
+
 
 
 

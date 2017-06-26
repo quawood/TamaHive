@@ -18,7 +18,7 @@ extension TamasScene {
         sceneEntity?.removeFromTamagotchi(tamatoDelete)
         tamaViewScenes[index].tamagotchis.first(where:{$0.id > 1})?.removeFromParent()
         tamaViewScenes[index].tamagotchis.remove(at: tamaViewScenes[index].tamagotchis.index(where: {$0.id > 1})!)
-        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        save()
         sceneEntites = getScenes()
     }
     
@@ -39,7 +39,7 @@ extension TamasScene {
         tamaViewScenes[atPos].removeFromParent()
         tamaViewScenes.remove(at: atPos)
         
-        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        save()
         
         
         sceneEntites = getScenes()
@@ -51,7 +51,7 @@ extension TamasScene {
                 
             }
         }
-        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        save()
         sceneEntites = getScenes()
         
         
@@ -98,7 +98,7 @@ extension TamasScene {
                 tama.dateCreated = date
                 tama.tamascene = scene
                 scene.addToTamagotchi(tama)
-                (UIApplication.shared.delegate as! AppDelegate).saveContext()
+                self.save()
                 self.sceneEntites = self.getScenes()
                 self.setupScene(scene: scene)
             }
@@ -111,7 +111,16 @@ extension TamasScene {
     
     
     
-    
+    func save() {
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let nserror = error as NSError
+                print("\(error.localizedDescription)")
+            }
+        }
+    }
     
     
     func setupScene(scene: TamaSceneEntity) {
@@ -340,7 +349,7 @@ extension TamasScene {
             })
         }
         
-        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        save()
     }
     
     
@@ -433,7 +442,7 @@ extension TamasScene {
         newscene.addToTamagotchi(newtama1)
         newscene.addToTamagotchi(newtama2)
         
-        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        save()
         sceneEntites = getScenes()
         deleteTask(atPos: index1!)
         index2 = tamaViewScenes.index(of: tamaViewScenes.first(where: {$0.tamagotchis.first! == tama2})!)
@@ -456,7 +465,7 @@ extension TamasScene {
         let image = UIImage(named: (randomTama))?.resizeImage(scale: CGFloat(viewScale))
         tama?.texture = SKTexture(cgImage: (image?.cgImage)!)
         tama?.size = (tama?.texture?.size())!
-        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        save()
         sceneEntites = getScenes()
     }
     
@@ -578,7 +587,7 @@ extension TamasScene {
         newTama.tamascene = sceneEntity
         sceneEntity.addToTamagotchi(newTama)
         sceneEntity.isDone = true
-        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        save()
         sceneEntites = getScenes()
         self.view?.isPaused = false
         scene.tamagotchis.append(tamaFromEntity(tama: newTama))
@@ -623,7 +632,7 @@ extension TamasScene {
         
         
         
-        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        save()
         self.sceneEntites = self.getScenes()
         self.setupScene(scene: newScene)
     }
@@ -649,6 +658,7 @@ extension CGPoint {
         return "\(Int(self.x)),\(Int(self.y))"
     }
 }
+
 
 
 

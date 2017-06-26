@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A5133F011F00D65400FD9D54 /* TamaHive.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A570020A1EF2880C00905761 /* TamaHive.xcdatamodeld */; };
+		A5133F021F00D85100FD9D54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C5D1EEA495100097766 /* AppDelegate.swift */; };
+		A5133F041F012A7D00FD9D54 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5133F031F012A7D00FD9D54 /* CoreDataStack.swift */; };
+		A5133F051F0131DC00FD9D54 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5133F031F012A7D00FD9D54 /* CoreDataStack.swift */; };
 		A53718C81EFD9B1F00533669 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C21EFD99AB00533669 /* GameViewController.swift */; };
 		A53718C91EFD9B2C00533669 /* TamasScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A53718BF1EFD999A00533669 /* TamasScene.sks */; };
 		A53718CA1EFD9B2F00533669 /* TamasScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C01EFD999A00533669 /* TamasScene.swift */; };
@@ -16,6 +20,10 @@
 		A53718CF1EFD9CAC00533669 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5F8F4FB1EF2AC9000B0B0DC /* LaunchScreen.storyboard */; };
 		A53718D41EFE212F00533669 /* tamahive.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A53718D31EFD9F6600533669 /* tamahive.bundle */; };
 		A53718F61EFFA5A200533669 /* TamaHouse+LLF.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718F51EFFA5A200533669 /* TamaHouse+LLF.swift */; };
+		A53718FE1F00C92500533669 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A53718FD1F00C92500533669 /* NotificationCenter.framework */; };
+		A53719011F00C92500533669 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53719001F00C92500533669 /* TodayViewController.swift */; };
+		A53719041F00C92500533669 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A53719021F00C92500533669 /* MainInterface.storyboard */; };
+		A53719081F00C92500533669 /* TamaWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A53718FB1F00C92500533669 /* TamaWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A5593C5E1EEA495100097766 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C5D1EEA495100097766 /* AppDelegate.swift */; };
 		A5593C621EEA495100097766 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = A5593C611EEA495100097766 /* Actions.sks */; };
 		A5593C691EEA495100097766 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5593C671EEA495100097766 /* Main.storyboard */; };
@@ -26,6 +34,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A53719061F00C92500533669 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A5593C521EEA495100097766 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A53718FA1F00C92500533669;
+			remoteInfo = TamaWidget;
+		};
 		A5593C751EEA495100097766 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A5593C521EEA495100097766 /* Project object */;
@@ -42,7 +57,22 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		A537190C1F00C92500533669 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A53719081F00C92500533669 /* TamaWidget.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		A5133F031F012A7D00FD9D54 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		A53718BF1EFD999A00533669 /* TamasScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TamasScene.sks; sourceTree = "<group>"; };
 		A53718C01EFD999A00533669 /* TamasScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TamasScene.swift; sourceTree = "<group>"; };
 		A53718C21EFD99AB00533669 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GameViewController.swift; path = TamaHive/view_controllers/GameViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -51,6 +81,13 @@
 		A53718C61EFD99B000533669 /* TamaHouse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TamaHouse.swift; sourceTree = "<group>"; };
 		A53718D31EFD9F6600533669 /* tamahive.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = tamahive.bundle; sourceTree = "<group>"; };
 		A53718F51EFFA5A200533669 /* TamaHouse+LLF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TamaHouse+LLF.swift"; sourceTree = "<group>"; };
+		A53718FB1F00C92500533669 /* TamaWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TamaWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A53718FD1F00C92500533669 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		A53719001F00C92500533669 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		A53719031F00C92500533669 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		A53719051F00C92500533669 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A537190D1F00C94E00533669 /* TamaWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TamaWidget.entitlements; sourceTree = "<group>"; };
+		A537190E1F00C95900533669 /* TamaHive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TamaHive.entitlements; sourceTree = "<group>"; };
 		A5593C5A1EEA495100097766 /* TamaHive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TamaHive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5593C5D1EEA495100097766 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5593C611EEA495100097766 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -68,6 +105,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A53718F81F00C92500533669 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A53718FE1F00C92500533669 /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A5593C571EEA495100097766 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -120,13 +165,35 @@
 			path = classes;
 			sourceTree = "<group>";
 		};
+		A53718FC1F00C92500533669 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A53718FD1F00C92500533669 /* NotificationCenter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A53718FF1F00C92500533669 /* TamaWidget */ = {
+			isa = PBXGroup;
+			children = (
+				A537190D1F00C94E00533669 /* TamaWidget.entitlements */,
+				A53719001F00C92500533669 /* TodayViewController.swift */,
+				A53719021F00C92500533669 /* MainInterface.storyboard */,
+				A53719051F00C92500533669 /* Info.plist */,
+			);
+			path = TamaWidget;
+			sourceTree = "<group>";
+		};
 		A5593C511EEA495100097766 = {
 			isa = PBXGroup;
 			children = (
 				A570020A1EF2880C00905761 /* TamaHive.xcdatamodeld */,
+				A5133F031F012A7D00FD9D54 /* CoreDataStack.swift */,
 				A5593C5C1EEA495100097766 /* TamaHive */,
 				A5593C771EEA495100097766 /* TamaHiveTests */,
 				A5593C821EEA495100097766 /* TamaHiveUITests */,
+				A53718FF1F00C92500533669 /* TamaWidget */,
+				A53718FC1F00C92500533669 /* Frameworks */,
 				A5593C5B1EEA495100097766 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -137,6 +204,7 @@
 				A5593C5A1EEA495100097766 /* TamaHive.app */,
 				A5593C741EEA495100097766 /* TamaHiveTests.xctest */,
 				A5593C7F1EEA495100097766 /* TamaHiveUITests.xctest */,
+				A53718FB1F00C92500533669 /* TamaWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -144,6 +212,7 @@
 		A5593C5C1EEA495100097766 /* TamaHive */ = {
 			isa = PBXGroup;
 			children = (
+				A537190E1F00C95900533669 /* TamaHive.entitlements */,
 				A5593C5D1EEA495100097766 /* AppDelegate.swift */,
 				A5593C671EEA495100097766 /* Main.storyboard */,
 				A53718D31EFD9F6600533669 /* tamahive.bundle */,
@@ -179,6 +248,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A53718FA1F00C92500533669 /* TamaWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A53719091F00C92500533669 /* Build configuration list for PBXNativeTarget "TamaWidget" */;
+			buildPhases = (
+				A53718F71F00C92500533669 /* Sources */,
+				A53718F81F00C92500533669 /* Frameworks */,
+				A53718F91F00C92500533669 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TamaWidget;
+			productName = TamaWidget;
+			productReference = A53718FB1F00C92500533669 /* TamaWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		A5593C591EEA495100097766 /* TamaHive */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A5593C881EEA495100097766 /* Build configuration list for PBXNativeTarget "TamaHive" */;
@@ -186,10 +272,12 @@
 				A5593C561EEA495100097766 /* Sources */,
 				A5593C571EEA495100097766 /* Frameworks */,
 				A5593C581EEA495100097766 /* Resources */,
+				A537190C1F00C92500533669 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A53719071F00C92500533669 /* PBXTargetDependency */,
 			);
 			name = TamaHive;
 			productName = TamaHive;
@@ -238,15 +326,29 @@
 		A5593C521EEA495100097766 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
+				LastSwiftUpdateCheck = 0900;
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Qualan Woodard";
 				TargetAttributes = {
+					A53718FA1F00C92500533669 = {
+						CreatedOnToolsVersion = 9.0;
+						DevelopmentTeam = 4S6L6R5269;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
 					A5593C591EEA495100097766 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 4S6L6R5269;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					A5593C731EEA495100097766 = {
 						CreatedOnToolsVersion = 8.3.3;
@@ -280,11 +382,20 @@
 				A5593C591EEA495100097766 /* TamaHive */,
 				A5593C731EEA495100097766 /* TamaHiveTests */,
 				A5593C7E1EEA495100097766 /* TamaHiveUITests */,
+				A53718FA1F00C92500533669 /* TamaWidget */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A53718F91F00C92500533669 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A53719041F00C92500533669 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A5593C581EEA495100097766 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -315,6 +426,17 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A53718F71F00C92500533669 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5133F021F00D85100FD9D54 /* AppDelegate.swift in Sources */,
+				A5133F011F00D65400FD9D54 /* TamaHive.xcdatamodeld in Sources */,
+				A53719011F00C92500533669 /* TodayViewController.swift in Sources */,
+				A5133F041F012A7D00FD9D54 /* CoreDataStack.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A5593C561EEA495100097766 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -322,6 +444,7 @@
 				A53718CE1EFD9C9C00533669 /* TamaHouse.swift in Sources */,
 				A570020C1EF2880C00905761 /* TamaHive.xcdatamodeld in Sources */,
 				A53718C81EFD9B1F00533669 /* GameViewController.swift in Sources */,
+				A5133F051F0131DC00FD9D54 /* CoreDataStack.swift in Sources */,
 				A53718CC1EFD9C9800533669 /* Extends.swift in Sources */,
 				A5593C5E1EEA495100097766 /* AppDelegate.swift in Sources */,
 				A53718F61EFFA5A200533669 /* TamaHouse+LLF.swift in Sources */,
@@ -349,6 +472,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A53719071F00C92500533669 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A53718FA1F00C92500533669 /* TamaWidget */;
+			targetProxy = A53719061F00C92500533669 /* PBXContainerItemProxy */;
+		};
 		A5593C761EEA495100097766 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A5593C591EEA495100097766 /* TamaHive */;
@@ -362,6 +490,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		A53719021F00C92500533669 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A53719031F00C92500533669 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		A5593C671EEA495100097766 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -373,6 +509,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A537190A1F00C92500533669 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = TamaWidget/TamaWidget.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 4S6L6R5269;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = TamaWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Anjour.TamaHive.TamaWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A537190B1F00C92500533669 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = TamaWidget/TamaWidget.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 4S6L6R5269;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = TamaWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Anjour.TamaHive.TamaWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		A5593C861EEA495100097766 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -481,7 +657,10 @@
 		A5593C891EEA495100097766 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TamaHive/TamaHive.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 4S6L6R5269;
 				INFOPLIST_FILE = TamaHive/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -496,7 +675,10 @@
 		A5593C8A1EEA495100097766 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TamaHive/TamaHive.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 4S6L6R5269;
 				INFOPLIST_FILE = TamaHive/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -573,6 +755,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A53719091F00C92500533669 /* Build configuration list for PBXNativeTarget "TamaWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A537190A1F00C92500533669 /* Debug */,
+				A537190B1F00C92500533669 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A5593C551EEA495100097766 /* Build configuration list for PBXProject "TamaHive" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
