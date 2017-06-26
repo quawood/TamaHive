@@ -17,7 +17,7 @@
         <attribute name="color2" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="isDone" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="span" optional="YES" attributeType="String" regularExpressionString="n" syncable="YES"/>
+        <attribute name="span" optional="YES" attributeType="String" defaultValueString="n" syncable="YES"/>
         <attribute name="spot" optional="YES" attributeType="String" customClassName="CGRect" syncable="YES"/>
         <relationship name="tamagotchi" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TamagotchiEntity" inverseName="tamascene" inverseEntity="TamagotchiEntity" syncable="YES"/>
     </entity>
