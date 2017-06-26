@@ -249,6 +249,7 @@ extension TamasScene {
             if isEditing {
                 isEditing = false
                 self.childNode(withName: "trashB")?.removeFromParent()
+                self.childNode(withName: "SpotlightB")?.removeFromParent()
                 if tamaViewScenes.count > 0 {
                     self.childNode(withName: "CreateB")?.removeFromParent()
                 }
@@ -300,12 +301,18 @@ extension TamasScene {
                 
             } else if isEditing {
                 //delete tama if in trash node
+                let indexed = tamaViewScenes.index(of: currentTama)
                 if trashPlace.frame.contains(endPos!) {
                     
-                    let indexed = tamaViewScenes.index(of: currentTama)
+                    
                     deleteTask(atPos: indexed!)
                     
                     break checkForContains
+                } else if spotlightPlace.frame.contains(endPos!) {
+                    let indexed = tamaViewScenes.index(of: currentTama)
+                    UserDefaults.standard.set(indexed, forKey: "tamaSpotlightKey")
+                    let snapBackAction = SKAction.move(to: beginPos, duration: 0.1)
+                    currentTama.run(snapBackAction)
                 }
                 
                 var newPoint: CGPoint! = currentTama.position

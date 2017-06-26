@@ -20,7 +20,6 @@ class TamasScene: SKScene {
     
     let context = CoreDataStack.sharedInstance.managedObjectContext
     let familyNames = ["mame","meme","kuchi","large","ninja","secret","small","space","violet"]
-    
      var sceneEntites: [TamaSceneEntity]! = TAttributes.sceneEntites
     
     var tamaViewScenes: [TamaHouse]! = []
@@ -68,6 +67,15 @@ class TamasScene: SKScene {
         return place
     }
     
+    var spotlightPlace: SKSpriteNode {
+        let sltexture: SKTexture! = SKTexture(imageNamed: "spotlight.png")
+        let place = SKSpriteNode(texture: sltexture)
+        place.position = CGPoint(x: 0, y: -300)
+        place.zPosition = 15
+        place.scale(to: CGSize(width: 40 , height: 40))
+        place.name = "SpotlightB"
+        return place
+    }
     
     
     
@@ -162,6 +170,7 @@ class TamasScene: SKScene {
                 
                 self.addChild(newTamaButton)
                 self.addChild(trashPlace)
+                self.addChild(spotlightPlace)
                 counting = false
                 
             }

@@ -15,6 +15,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     var sceneEntities: [TamaSceneEntity]! = []
     var currentScene: TamaSceneEntity!
     
+
     @IBOutlet weak var goToAppB: UIButton!
     @IBAction func goToAppButton(_ sender: Any) {
         openContainingApp()
@@ -58,7 +59,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         
         sceneEntities = getScenes()
         if sceneEntities.count > 0 {
-            currentScene = sceneEntities[0]
+            if let slInd = UserDefaults.standard.object(forKey: "tamaSpotlightKey") as? Int {
+                currentScene = sceneEntities.first(where: {$0.id == Int16(slInd)})! 
+            } else {
+                currentScene = sceneEntities[0]
+            }
+            
             setupTamagotchis()
             giveHunger()
         } else {
