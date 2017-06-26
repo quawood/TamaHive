@@ -53,7 +53,7 @@ extension TodayViewController {
         }
     }
     
-    @objc func moveTamagotchis(_ sender: Any?) {
+    @objc func updateTamagotchis(_ sender: Any?) {
         for item in sceneView.subviews {
             if let imageview = item as? UIImageView {
                 

@@ -92,6 +92,7 @@ class TamasScene: SKScene {
         
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(self.appWillTerminate), name: Notification.Name.UIApplicationWillTerminate, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(self.appWillEnterBackground), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
         
         
         
@@ -126,6 +127,9 @@ class TamasScene: SKScene {
         
     }
     
+    @objc func appWillEnterBackground() {
+        saveViewsToEntities()
+    }
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered

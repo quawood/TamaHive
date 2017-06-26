@@ -39,7 +39,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     func save() {
         if context.hasChanges {
             do {
-                try CoreDataStack.sharedInstance.saveContext()
+                try context.save()
             } catch {
                 let nserror = error as NSError
                 print("\(nserror.localizedDescription)")
@@ -72,8 +72,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             goToAppB.isHidden = false
             
         }
-        
-        var timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(moveTamagotchis(_:)), userInfo: nil, repeats: true)
+        updateTamagotchis(nil)
+        var timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(updateTamagotchis(_:)), userInfo: nil, repeats: true)
     }
     
     override func didReceiveMemoryWarning() {

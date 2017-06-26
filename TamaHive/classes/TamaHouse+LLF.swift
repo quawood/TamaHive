@@ -31,6 +31,12 @@ extension TamasScene {
             let searchResults = try self.context.fetch(request)
             sceneIDs = searchResults.map( {$0.id})
             self.context.delete(searchResults[sceneIDs.index(where: {$0 == Int16(atPos)})!])
+            if let slInd = UserDefaults(suiteName: "group.Anjour.TamaHive")!.object(forKey: "spotlightInd") as? Int {
+                if slInd == atPos {
+                    UserDefaults(suiteName: "group.Anjour.TamaHive")!.set(nil, forKey: "spotlightInd")
+                }
+                
+            }
             
         } catch {
             print("Error with request: \(error)")
@@ -112,7 +118,7 @@ extension TamasScene {
     func save() {
         if context.hasChanges {
             do {
-                try CoreDataStack.sharedInstance.saveContext()
+                try context.save()
             } catch {
                 let nserror = error as NSError
                 print("\(nserror.localizedDescription)")
@@ -518,8 +524,7 @@ extension TamasScene {
             let buttonTexture: SKTexture! = SKTexture(imageNamed: "marrybutton.png")
             let buttonTextureSelected: SKTexture! = SKTexture(imageNamed: "marrybuttonselected.png")
             let marrybutton = FTButtonNode(defaultTexture: buttonTexture, selectedTexture: buttonTextureSelected, action: {
-                self.changeTamagotchiTexture(fromTama: firstTama, toTama: "parents,\(firstTama.family!),\(firstTama.gender!)")
-                self.changeTamagotchiTexture(fromTama: rNeighbortama!, toTama: "parents,\(rNeighbortama!.family!),\(rNeighbortama!.gender!)")
+                
                 self.newFamilyScene(scene: scene, tama1: firstTama, tama2: rNeighbortama!, span:"l")
             })
             marrybutton.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(FTbuttonAction(_:)))
@@ -598,6 +603,9 @@ extension TamasScene {
         save()
         sceneEntites = getScenes()
         self.view?.isPaused = false
+        for tamagotchi in scene.tamagotchis {
+            self.changeTamagotchiTexture(fromTama: tamagotchi, toTama: "parents,\(tamagotchi.family!),\(tamagotchi.gender!)")
+        }
         scene.tamagotchis.append(tamaFromEntity(tama: newTama))
         for children in scene.children {
             if children is Tamagotchi {
@@ -605,6 +613,7 @@ extension TamasScene {
             }
         }
         scene.displayTamagotchis()
+        
     }
     
     func moveChildTamagotchi(scene: TamaHouse, tamatoDelete: TamagotchiEntity) {
