@@ -155,6 +155,10 @@ class TamasScene: SKScene {
         saveViewsToEntities()
         self.view?.isPaused = true
     }
+    @objc func appWillEnterForeground() {
+        updateTamas()
+        self.view?.isPaused = false
+    }
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
