@@ -64,10 +64,10 @@ extension TodayViewController {
                 }
                 
                 
-                imageview.transform = CGAffineTransform.init(scaleX: CGFloat((testRandom)), y: 1)
+                imageview.transform = CGAffineTransform.init(scaleX: CGFloat((-testRandom)), y: 1)
                 let parentScene = sceneView
                 let pWidth = parentScene?.frame.size.width
-                let nextPos = CGPoint(x: CGFloat(randomdir)*(pWidth!/CGFloat(25*(currentScene.tamagotchi?.count)!))+imageview.center.x, y: imageview.center.y)
+                let nextPos = CGPoint(x: CGFloat(randomdir)*(pWidth!/CGFloat(35*(currentScene.tamagotchi?.count)!))+imageview.center.x, y: imageview.center.y)
                 if abs(nextPos.x) < abs((pWidth)!){
                     imageview.center = nextPos
                     

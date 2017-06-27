@@ -313,13 +313,13 @@ extension TamasScene {
             } else if isEditing {
                 //delete tama if in trash node
                 let indexed = tamaViewScenes.index(of: currentTama)
+                
                 if trashPlace.frame.contains(endPos!) {
-                    
-                    
                     deleteTask(atPos: indexed!)
-                    
                     break checkForContains
+                    
                 } else if spotlightPlace.frame.contains(endPos!) {
+                    
                     let indexed = tamaViewScenes.index(of: currentTama)
                     UserDefaults(suiteName: "group.Anjour.TamaHive")!.set(indexed, forKey: "spotlightInd")
                     let snapBackAction = SKAction.move(to: beginPos, duration: 0.1)
@@ -413,6 +413,7 @@ extension TamasScene {
                 
                 checkForMarriage: if firstTama.age > TAttributes.marriageAge && tamagotchis!.count == 1 {
                     for sceneToCheck in tamaViewScenes {
+                        
                         if sceneToCheck != scene {
                             let xDist = sceneToCheck.position.x - scene.position.x
                             let yDist = sceneToCheck.position.y - scene.position.y
@@ -426,8 +427,11 @@ extension TamasScene {
                         }
                         
                     }
-                    if let button = scene.children.first(where: {$0 is FTButtonNode}) {
-                        button.removeFromParent()
+                    for child in scene.children {
+                        if child is FTButtonNode {
+                            child.removeFromParent()
+                        }
+                        
                     }
                     
                 }
@@ -528,6 +532,8 @@ extension TamasScene {
     }
     
     func updateTmamagotchiMarriage(scene: TamaHouse, rNeighbor: TamaHouse) {
+        
+        
         let firstTama = scene.tamagotchis.first!
         let rNeighbortama = rNeighbor.tamagotchis.first
         if rNeighbortama!.age > TAttributes.marriageAge && rNeighbortama!.gender != firstTama.gender && rNeighbor.tamagotchis.count == 1 {
@@ -535,30 +541,28 @@ extension TamasScene {
             let buttonTexture: SKTexture! = SKTexture(imageNamed: "marrybutton.png")
             let buttonTextureSelected: SKTexture! = SKTexture(imageNamed: "marrybuttonselected.png")
             let marrybutton = FTButtonNode(defaultTexture: buttonTexture, selectedTexture: buttonTextureSelected, action: {
-                if let slInd = UserDefaults(suiteName: "group.Anjour.TamaHive")!.object(forKey: "spotlightInd") as? Int {
-                    if slInd == self.tamaViewScenes.index(of: scene) || slInd == self.tamaViewScenes.index(of: rNeighbor) {
-                        UserDefaults(suiteName: "group.Anjour.TamaHive")!.set(self.sceneEntites.count-1, forKey: "spotlightInd")
-                    }
-                    
-                }
+                
                 self.newFamilyScene(scene: scene, tama1: firstTama, tama2: rNeighbortama!, span:"l")
                 
             })
             marrybutton.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(FTbuttonAction(_:)))
             marrybutton.position = CGPoint(x: scene.size.width/2, y: -scene.size.height/2)
+            marrybutton.name = "marryB"
             
             
-            var hasAButton: Bool! = false
+            var hasB = false
             for child in scene.children {
                 if child is FTButtonNode {
-                    hasAButton = true
+                    hasB = true
+                    
                 }
                 
             }
-            if !hasAButton {
+            if hasB {
+               (scene.childNode(withName: "marryB") as! FTButtonNode).action = marrybutton.action
+            } else {
                 scene.addChild(marrybutton)
             }
-            
         }
         
     }
@@ -581,31 +585,22 @@ extension TamasScene {
         leavebutton.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(FTbuttonAction(_:)))
         leavebutton.position = CGPoint(x: scene.size.width/2, y: -scene.size.height/2)
         
-        var containsB: Bool! = false
+        var hasB: Bool! = false
         for child in scene.children {
             if child is FTButtonNode {
-                containsB = true
+                hasB = true
             }
             
         }
-        if containsB == false {
+        if tamaViewScenes.count < TAttributes.maxTamas && !hasB{
             scene.addChild(leavebutton)
             leavebutton.zPosition = 1
-            
         }
-        if tamaViewScenes.count == 10 {
-            
-            if let button = scene.children.first(where: {$0 is FTButtonNode}) {
-                button.removeFromParent()
-            }
-        }
-        
         
     }
     
     func addTamagotchiChild(scene: TamaHouse, sceneEntity: TamaSceneEntity) {
         
-        self.view?.isPaused = true
         let newTama = TamagotchiEntity(context: self.context)
         newTama.generation = scene.tamagotchis![0].generation
         newTama.tamaName = "egg.png"
@@ -619,7 +614,6 @@ extension TamasScene {
         sceneEntity.isDone = true
         save()
         sceneEntites = getScenes()
-        self.view?.isPaused = false
         for tamagotchi in scene.tamagotchis {
             self.changeTamagotchiTexture(fromTama: tamagotchi, toTama: "parents,\(tamagotchi.family!),\(tamagotchi.gender!)")
         }
@@ -669,12 +663,21 @@ extension TamasScene {
         self.sceneEntites = self.getScenes()
         self.setupScene(scene: newScene)
         newScene.addToTamagotchi(newTama)
-        if let slInd = UserDefaults(suiteName: "group.Anjour.TamaHive")!.object(forKey: "spotlightInd") as? Int {
-            if slInd == tamaViewScenes.index(of: scene) {
-                UserDefaults(suiteName: "group.Anjour.TamaHive")!.set(newScene.id, forKey: "spotlightInd")
-            }
-            
-        }
+        
+        
+    }
+    
+    func initEditingMode() {
+        isEditing = true
+        let scaleAciton = SKAction.scale(by: 1.2, duration: 0)
+        let colorizeAction = SKAction.colorize(with: UIColor.clear, colorBlendFactor: 0, duration: 0)
+        currentTama.run(scaleAciton)
+        currentTama.run(colorizeAction)
+        
+        self.addChild(newTamaButton)
+        self.addChild(trashPlace)
+        self.addChild(spotlightPlace)
+        counting = false
         
     }
     

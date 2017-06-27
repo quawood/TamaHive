@@ -73,7 +73,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             
         }
         updateTamagotchis(nil)
-        var _ = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(updateTamagotchis(_:)), userInfo: nil, repeats: true)
+        var _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTamagotchis(_:)), userInfo: nil, repeats: true)
     }
     
     override func didReceiveMemoryWarning() {

@@ -13,7 +13,7 @@ class TAttributes {
     static let marriageAge: Int! = 8
     static let leaveAge: Int! = 6
     static let childAge: Int! = 10
-    static let tunit: Calendar.Component! = .minute
+    static let tunit: Calendar.Component! = .second
     static let tint: Int! = 1
     static let maxHealth: Int! = 5
     
