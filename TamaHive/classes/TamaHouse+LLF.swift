@@ -96,6 +96,7 @@ extension TamasScene {
                 let date = Date()
                 let randomFam = Int(arc4random_uniform(UInt32(self.familyNames.count)))
                 
+                scene.dateCreated = date
                 tama.generation = 1
                 
                 tama.tamaName = "egg.png"
@@ -206,6 +207,7 @@ extension TamasScene {
         newTama.id = tama.id
         newTama.gender = tama.gender
         newTama.tamaName = tama.tamaName
+        newTama.dateCreated = tama.dateCreated
         return newTama
     }
     
@@ -435,8 +437,13 @@ extension TamasScene {
                     }
                     
                 }
-                if tamagotchis![0].age > TAttributes.childAge && scene.tamagotchis.count == 2 && sceneEntity!.isDone == false{
-                    addTamagotchiChild(scene: scene, sceneEntity: sceneEntity!)
+                if tamagotchis![0].age > TAttributes.childAge && scene.tamagotchis.count == 2 && sceneEntity!.isDone == false {
+                    let date = Date()
+                    let newAge = date.interval(ofComponent: TAttributes.tunit, fromDate:scene.dateCreated)/TAttributes.tint
+                    if newAge/2 >= 2 {
+                        addTamagotchiChild(scene: scene, sceneEntity: sceneEntity!)
+                    }
+                    
                 }
                 if childTamagotchi.age > TAttributes.leaveAge && scene.tamagotchis.count > 2 {
                     updateTamagotchiLeave(scene: scene)
@@ -463,6 +470,8 @@ extension TamasScene {
         newscene.color2 = scene.color2
         newscene.spot = scene.position.toString()
         newscene.span = span
+        let date = Date()
+        newscene.dateCreated = date
         
         let index1 = tamaViewScenes.index(of: tamaViewScenes.first(where: {$0.tamagotchis.first! == tama1})!)
         var index2 = tamaViewScenes.index(of: tamaViewScenes.first(where: {$0.tamagotchis.first! == tama2})!)
@@ -633,6 +642,8 @@ extension TamasScene {
         newScene.color1 = self.generateRandomColor(previousColor: scene.color1)
         newScene.color2 = self.generateRandomColor(previousColor: scene.color1)
         newScene.span = "n"
+        let date = Date()
+        newScene.dateCreated = date
         
         var foundNewPosition: Bool! = false
         var degreeCount = Double(0)

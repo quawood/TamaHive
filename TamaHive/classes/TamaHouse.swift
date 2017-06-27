@@ -16,6 +16,7 @@ class TamaHouse: SKSpriteNode {
     var isBeingDragged: Bool!
     var span: String! = "n"
     var isFakeScene:Bool! = false
+    var dateCreated: Date! = Date()
     var color1: UIColor! = UIColor.white {
         didSet {
             let newCols = changeColors(from: oldValue, to: color1)
