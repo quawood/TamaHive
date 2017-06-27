@@ -67,6 +67,22 @@ extension TamasScene {
 
     }
     
+    func generateCycle(gender: String, family: String) -> [String] {
+        var cycles:[String] = []
+        cycles.append(self.generateRandomTama(1, appendingPC: "\(self.forms[0])")[0])
+        for i in 1..<3 {
+            let appendString = "\(self.forms[i]),\(gender)"
+            let tamaS = self.generateRandomTama(1, appendingPC: appendString)[0]
+            cycles.append(tamaS)
+        }
+        for i in 3..<5 {
+            let appendString = "\(self.forms[i]),\(family),\(gender)"
+            let tamaS = self.generateRandomTama(1, appendingPC: appendString)[0]
+            cycles.append(tamaS)
+        }
+        
+        return cycles
+    }
     
     func getScenes() -> [TamaSceneEntity] {
         var entities: [TamaSceneEntity]! = []
@@ -101,7 +117,11 @@ extension TamasScene {
                 
                 tama.tamaName = "egg.png"
                 tama.id = 0
-                tama.gender = genders[Int(arc4random_uniform(2))]
+                let gender = genders[Int(arc4random_uniform(2))]
+                tama.gender = gender
+                
+                
+                tama.cycle = self.generateCycle(gender: gender, family: self.familyNames[randomFam]) as NSObject
                 tama.family = self.familyNames[randomFam]
                 tama.dateCreated = date
                 tama.tamascene = scene
@@ -109,6 +129,7 @@ extension TamasScene {
                 self.save()
                 self.sceneEntites = self.getScenes()
                 self.setupScene(scene: scene)
+                self.updateTamas()
             }
         }
         
@@ -208,6 +229,7 @@ extension TamasScene {
         newTama.gender = tama.gender
         newTama.tamaName = tama.tamaName
         newTama.dateCreated = tama.dateCreated
+        newTama.cycle = tama.cycle as! [String]
         return newTama
     }
     
@@ -360,6 +382,7 @@ extension TamasScene {
             
         }
         currentTama = nil
+        updateTamas()
         
     }
     
@@ -439,8 +462,8 @@ extension TamasScene {
                 }
                 if tamagotchis![0].age > TAttributes.childAge && scene.tamagotchis.count == 2 && sceneEntity!.isDone == false {
                     let date = Date()
-                    let newAge = date.interval(ofComponent: TAttributes.tunit, fromDate:scene.dateCreated)/TAttributes.tint
-                    if newAge/2 >= 2 {
+                    let newAge = date.interval(ofComponent: TAttributes.tunit, fromDate:scene.dateCreated)/2*TAttributes.tint
+                    if newAge >= 2 {
                         addTamagotchiChild(scene: scene, sceneEntity: sceneEntity!)
                     }
                     
@@ -491,7 +514,7 @@ extension TamasScene {
         
         
         setupScene(scene: newscene)
-        
+        print(newscene.id)
     }
     
     func changeTamagotchiTexture(fromTama: Tamagotchi, toTama: String) {
@@ -499,11 +522,10 @@ extension TamasScene {
         let i = tamaViewScenes[index!]
         let correspondingEntity = sceneEntites.first(where: {$0.id == tamaViewScenes.startIndex.distance(to: index!)})
         let tama = i.tamagotchis.first(where: {$0.id == fromTama.id})
-        let randomTama = generateRandomTama(1, appendingPC: toTama)[0]
         let tamaEntity = correspondingEntity?.tamagotchi?.first(where: {($0 as! TamagotchiEntity).id == fromTama.id}) as! TamagotchiEntity
-        tama?.tamaName = randomTama
+        tama?.tamaName = toTama
         tamaEntity.tamaName = tama?.tamaName
-        let image = UIImage(named: (randomTama))?.resizeImage(scale: CGFloat(viewScale))
+        let image = UIImage(named: (toTama))?.resizeImage(scale: CGFloat(viewScale))
         tama?.texture = SKTexture(cgImage: (image?.cgImage)!)
         tama?.size = (tama?.texture?.size())!
         save()
@@ -513,24 +535,26 @@ extension TamasScene {
     func updateTamagotchiTexture(fromTama: Tamagotchi) {
         let date = Date()
         let newAge = date.interval(ofComponent: TAttributes.tunit, fromDate:fromTama.dateCreated)/TAttributes.tint
-        if Int16(newAge) != fromTama.age && (fromTama.age)! < 4  {
-            var randomTama = String()
+        if Int16(newAge) != fromTama.age {
+            var newTexture:String?
             switch newAge {
             case 1:
-                randomTama = "baby"
+                newTexture = (fromTama.cycle)[0]
             case 2 :
-                randomTama = "toddler,\(fromTama.gender!)"
+                newTexture = (fromTama.cycle)[1]
                 
             case 3:
-                randomTama = "teen,\(fromTama.gender!)"
+                newTexture = (fromTama.cycle )[2]
                 
             default:
-                randomTama = "adult,\(fromTama.family!),\(fromTama.gender!)"
+                newTexture = (fromTama.cycle)[3]
+                
             }
             let parent = fromTama.parent as! TamaHouse
-            if parent.tamagotchis.count == 1 || (parent.tamagotchis.count == 3 && fromTama.id == 2) {
-                changeTamagotchiTexture(fromTama: fromTama, toTama: randomTama)
+            if parent.tamagotchis.count == 1 || fromTama.id == 2 {
+                changeTamagotchiTexture(fromTama: fromTama, toTama: newTexture!)
             }
+            
             
             
             
@@ -609,13 +633,17 @@ extension TamasScene {
     }
     
     func addTamagotchiChild(scene: TamaHouse, sceneEntity: TamaSceneEntity) {
+        let gender = scene.tamagotchis![Int(arc4random_uniform(2))].gender
+        let family = scene.tamagotchis![Int(arc4random_uniform(2))].family
         
         let newTama = TamagotchiEntity(context: self.context)
         newTama.generation = scene.tamagotchis![0].generation
         newTama.tamaName = "egg.png"
         newTama.id = 2
-        newTama.gender = scene.tamagotchis![Int(arc4random_uniform(2))].gender
-        newTama.family = scene.tamagotchis![Int(arc4random_uniform(2))].family
+        
+        newTama.gender = gender
+        newTama.family = family
+        newTama.cycle = generateCycle(gender: gender!, family: family!) as NSObject
         let date = Date()
         newTama.dateCreated = date
         newTama.tamascene = sceneEntity
@@ -624,7 +652,7 @@ extension TamasScene {
         save()
         sceneEntites = getScenes()
         for tamagotchi in scene.tamagotchis {
-            self.changeTamagotchiTexture(fromTama: tamagotchi, toTama: "parents,\(tamagotchi.family!),\(tamagotchi.gender!)")
+            self.changeTamagotchiTexture(fromTama: tamagotchi, toTama: tamagotchi.cycle[4])
         }
         scene.tamagotchis.append(tamaFromEntity(tama: newTama))
         for children in scene.children {

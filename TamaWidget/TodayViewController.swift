@@ -30,7 +30,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         }catch {
             print("Error fetching data from CoreData")
         }
-        print (entities.count)
         return entities
     }
     
@@ -72,7 +71,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             goToAppB.isHidden = false
             
         }
-        updateTamagotchis(nil)
         var _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTamagotchis(_:)), userInfo: nil, repeats: true)
     }
     
@@ -82,6 +80,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
     
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
+        updateTamagotchis(nil)
         // Perform any setup necessary in order to update the view.
         
         // If an error is encountered, use NCUpdateResult.Failed

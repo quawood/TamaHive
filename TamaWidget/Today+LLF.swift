@@ -10,6 +10,18 @@ import Foundation
 import UIKit
 import CoreGraphics
 extension TodayViewController {
+    var tamagotchis: [UIImageView] {
+        var array: [UIImageView]? = []
+        for view in sceneView.subviews {
+            if let imageV = view as? UIImageView {
+                if imageV.tag != 10 {
+                    array?.append(imageV)
+                }
+            }
+        }
+        return array!
+    }
+    
     func setupTamagotchis() {
         
         sceneView.backgroundColor = currentScene.color1 as? UIColor
@@ -17,7 +29,6 @@ extension TodayViewController {
         
         let xOffset = (sceneView.frame.size.width/CGFloat((currentScene.tamagotchi?.count)! + 1))
         var count = CGFloat(1)
-        
         for tamagotchi in (currentScene.tamagotchi as! Set<TamagotchiEntity>) {
             let tamagotchiImage = UIImage(named: tamagotchi.tamaName!)?.resizeImage(scale: 2)
             let imageView = UIImageView(image: tamagotchiImage)
@@ -32,6 +43,7 @@ extension TodayViewController {
             count = count + 1
         }
     }
+    
     
     func giveHunger() {
         for tamagotchi in (currentScene.tamagotchi as? Set<TamagotchiEntity>)! {
@@ -53,7 +65,7 @@ extension TodayViewController {
     }
     
     @objc func updateTamagotchis(_ sender: Any?) {
-        for item in sceneView.subviews {
+        for item in tamagotchis {
             if let imageview = item as? UIImageView {
                 
                 let randomdir = Int(arc4random_uniform(3)) - 1
@@ -78,46 +90,43 @@ extension TodayViewController {
                 
                 let date = Date()
                 let correspondingTama = currentScene.tamagotchi?.first(where: {($0 as! TamagotchiEntity).id == Int16(imageview.tag)}) as! TamagotchiEntity
-                print(correspondingTama)
                 let newAge = date.interval(ofComponent: TAttributes.tunit, fromDate:correspondingTama.dateCreated!)/TAttributes.tint
                 
                 
-                if Int16(newAge) != correspondingTama.age && (correspondingTama.age) < 4  {
-                    var randomTama = String()
+                if Int16(newAge) != correspondingTama.age {
+                    var newTexture:String?
                     switch newAge {
                     case 1:
-                        randomTama = "baby"
+                        newTexture = (correspondingTama.cycle as! [String])[0]
                     case 2 :
-                        randomTama = "toddler,\(correspondingTama.gender!)"
+                        newTexture = (correspondingTama.cycle as! [String])[1]
+                        
                     case 3:
-                        randomTama = "teen,\(correspondingTama.gender!)"
+                        newTexture = (correspondingTama.cycle as! [String])[2]
                         
                     default:
-                        randomTama = "adult,\(correspondingTama.family!),\(correspondingTama.gender!)"
+                        newTexture = (correspondingTama.cycle as! [String])[3]
+                        
                     }
-                    let parent = sceneView
-                    if currentScene.tamagotchi?.count == 1 || (parent?.subviews.count == 3 && correspondingTama.id == 2) {
-                        let tamaImg = TAttributes.generateRandomTama(1, appendingPC: randomTama)[0]
-                        imageview.image = UIImage(named: tamaImg)?.resizeImage(scale: 2)
-                        print("here")
-                        correspondingTama.tamaName = tamaImg
+                    if currentScene.tamagotchi?.count == 1 || correspondingTama.id == 2 {
+                        imageview.image = UIImage(named: newTexture!)?.resizeImage(scale: 2)
+                        correspondingTama.tamaName = newTexture
                         save()
+                        
                     }
-                    
                     
                     
                     
                 }
-                if sender == nil {
+                var subviewsToAdd: [UIImageView]! = []
                     if newAge > TAttributes.marriageAge && currentScene.tamagotchi?.count == 1 {
                         
                         let marriageMedal = UIImage(named: "marrybutton")?.resizeImage(scale: 1)
                         let medalImageView = UIImageView(image: marriageMedal)
                         medalImageView.layer.zPosition = 1
-                        medalImageView.frame.origin = CGPoint(x: self.view.frame.size.width - 60, y: 0 + 10)
-                        medalImageView.tag = 1
+                        medalImageView.tag = 10
                         
-                        self.view.addSubview(medalImageView)
+                        subviewsToAdd.append(medalImageView)
                         
                         
                     }
@@ -126,12 +135,42 @@ extension TodayViewController {
                             let leaveMedal = UIImage(named: "leavebutton")?.resizeImage(scale: 1)
                             let medalImageView = UIImageView(image: leaveMedal)
                             medalImageView.layer.zPosition = 1
-                            medalImageView.frame.origin = CGPoint(x: self.view.frame.size.width - 60, y: 0 + 10)
-                            medalImageView.tag = 1
+                            medalImageView.tag = 10
                             
-                            self.view.addSubview(medalImageView)
+                            subviewsToAdd.append(medalImageView)
                         }
                     }
+                
+                let marriageC = date.interval(ofComponent: TAttributes.tunit, fromDate:currentScene.dateCreated!)/2*TAttributes.tint
+                if marriageC >= 2 && (currentScene.tamagotchi?.count)! == 2 && ((currentScene.tamagotchi?.first(where: {($0 as! TamagotchiEntity).id == 0}) as? TamagotchiEntity)?.age)! > Int16(TAttributes.childAge) && currentScene!.isDone == false {
+                    let leaveMedal = UIImage(named: "childbutton")?.resizeImage(scale: 1)
+                    let medalImageView = UIImageView(image: leaveMedal)
+                    medalImageView.layer.zPosition = 1
+                    medalImageView.tag = 10
+                    if imageview.tag != 2 {
+                        let t = currentScene.tamagotchi?.first(where: {($0 as! TamagotchiEntity).id == imageview.tag}) as? TamagotchiEntity
+                        let tString = (t?.cycle as! [String])[4]
+                        t?.tamaName = tString
+                        imageview.image = UIImage(named: tString)?.resizeImage(scale: 2)
+                    }
+                    
+                    subviewsToAdd.append(medalImageView)
+                }
+                
+                for i in 0..<subviewsToAdd.count{
+                    subviewsToAdd[i].frame.origin = CGPoint(x: self.view.frame.size.width - 60*CGFloat(i+1), y: 0 + 10)
+                    
+                   var alreadyInSub: Bool! = false
+                    for view in sceneView.subviews {
+                        if let img = view as? UIImageView {
+                            if img.image == subviewsToAdd[i].image {
+                                alreadyInSub = true
+                            }
+                        }
+                    }
+                    if !alreadyInSub {
+                        sceneView.addSubview(subviewsToAdd[i])
+                  }
                     
                 }
                 

@@ -20,6 +20,7 @@ class Tamagotchi: SKSpriteNode{
     var generation: Int16!
     var happiness: Int16!
     var dateCreated: Date!
+    var cycle: [String]! = []
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         let image = UIImage(cgImage: (texture?.cgImage())!).resizeImage(scale: size.width/(texture?.size().width)!)

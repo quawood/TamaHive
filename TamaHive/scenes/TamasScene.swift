@@ -43,6 +43,7 @@ class TamasScene: SKScene {
     
     var context = CoreDataStack.sharedInstance.managedObjectContext
     let familyNames = ["mame","meme","kuchi","large","ninja","secret","small","space","violet"]
+    let forms = ["baby","toddler","teen","adult","parents"]
      var sceneEntites: [TamaSceneEntity]! = TAttributes.sceneEntites
     
     var tamaViewScenes: [TamaHouse]! = []
@@ -118,6 +119,7 @@ class TamasScene: SKScene {
         maxZposition = zCounter
         
         CreateScenesFromEntities()
+        updateTamas()
         if tamaViewScenes.count == 0 {
             self.addChild(newTamaButton)
         }
@@ -160,7 +162,6 @@ class TamasScene: SKScene {
     
     @objc func appWillEnterBackground() {
         saveViewsToEntities()
-        print("exited")
     }
     @objc func appWillEnterForeground() {
         context = CoreDataStack.sharedInstance.managedObjectContext
