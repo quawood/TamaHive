@@ -16,7 +16,30 @@ class TamasScene: SKScene {
     var entities = [GKEntity]()
     var graphs = [String : GKGraph]()
     
-    var sceneRects: [[CGRect]]!
+    var sceneRects: [[CGRect]]! {
+        
+        let imageWidth = Int((UIImage(named: "normaltamaHome.png")?.size.width)!) * viewScale
+        let imageHeight = Int((UIImage(named: "normaltamaHome.png")?.size.height)!) * viewScale
+        let length = Int(self.size.width/CGFloat(imageWidth))
+        
+        
+        let widthSpacing = (Int(self.size.width) - (length * imageWidth))/(length + 1)
+        let height = Int(self.size.height-50/(CGFloat(imageHeight) + CGFloat(widthSpacing)))
+        let heightSpacing = widthSpacing-20
+        let topLeft = CGPoint(x: Int(-(self.size.width/2)), y: Int(self.size.height/2))
+        var sceneRs = [[CGRect]](repeating:[CGRect](repeating: CGRect.zero, count: length), count: height)
+        for w in 0..<length {
+            for l in 0..<height {
+                let offsetX = (w+1)*widthSpacing + w*imageWidth
+                let offsetY = (l+1)*heightSpacing + l*imageHeight
+                let point = (Int(topLeft.x) + offsetX + (imageWidth/2), Int(topLeft.y) - offsetY - (imageHeight/2))
+                let rect = CGRect(x: point.0, y: point.1, width: imageWidth, height: imageHeight)
+                sceneRs[l][w] = rect
+                
+            }
+        }
+        return sceneRs
+    }
     
     let context = CoreDataStack.sharedInstance.managedObjectContext
     let familyNames = ["mame","meme","kuchi","large","ninja","secret","small","space","violet"]
@@ -93,6 +116,7 @@ class TamasScene: SKScene {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(self.appWillTerminate), name: Notification.Name.UIApplicationWillTerminate, object: nil)
         notificationCenter.addObserver(self, selector: #selector(self.appWillEnterBackground), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(self.appWillEnterForeground), name: Notification.Name.UIApplicationWillEnterForeground, object: nil)
         
         
         
@@ -129,6 +153,7 @@ class TamasScene: SKScene {
     
     @objc func appWillEnterBackground() {
         saveViewsToEntities()
+        self.view?.isPaused = true
     }
     
     override func update(_ currentTime: TimeInterval) {

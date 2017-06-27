@@ -63,6 +63,9 @@ extension TamasScene {
         
     }
     
+    func setUpSceneRects() {
+
+    }
     
     
     func getScenes() -> [TamaSceneEntity] {
@@ -87,7 +90,7 @@ extension TamasScene {
                 scene.color1 = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
                 scene.color2 = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
                 scene.span = "n"
-                scene.spot = "0,0"
+                scene.spot = (self.sceneRects.rowedIndex(self.sceneEntites.count).0 as! CGRect).origin.toString()
                 let tama = TamagotchiEntity(context: self.context)
                 let genders = ["m","f"]
                 let date = Date()
@@ -327,13 +330,21 @@ extension TamasScene {
                 }
                 
                 var newPoint: CGPoint! = currentTama.position
-                let xRange: CountableClosedRange = Int(-currentTama.size.width/2)...Int(self.size.width/2)
-                let yRange: CountableClosedRange = Int(-currentTama.size.height/2)...Int(self.size.height/2)
+                let xRange: CountableClosedRange = Int(-self.size.width/2)...Int(self.size.width/2)
+                let yRange: CountableClosedRange = Int((-self.size.height/2)+49)...Int(self.size.height/2)
                 if !xRange.contains(Int(abs(currentTama.position.x) + currentTama.size.width/2)) {
                     newPoint = CGPoint(x: CGFloat(currentTama.position.x.sign())*(self.size.width/2 - currentTama.size.width/2 - 5), y: currentTama.position.y)
                 }
-                if !yRange.contains(Int(abs(currentTama.position.y) + currentTama.size.height/2)) {
-                    newPoint = CGPoint(x: currentTama.position.x, y:  CGFloat(currentTama.position.y.sign())*(self.size.height/2 - currentTama.size.height/2 - 5))
+                if !yRange.contains(Int(currentTama.position.y + CGFloat(currentTama.position.y.sign())*(currentTama.size.height/2))) {
+                    switch currentTama.position.y.sign() {
+                    case 1:
+                        newPoint = CGPoint(x: currentTama.position.x, y:  (CGFloat(yRange.upperBound) - currentTama.size.height/2 - 5))
+                    case -1:
+                        newPoint = CGPoint(x: currentTama.position.x, y:  sceneRects[4][0].origin.y)
+                    default:
+                        break
+                    }
+                    
                 }
                 let snapBackAction = SKAction.move(to: newPoint, duration: 0.1)
                 currentTama.run(snapBackAction)
@@ -524,8 +535,14 @@ extension TamasScene {
             let buttonTexture: SKTexture! = SKTexture(imageNamed: "marrybutton.png")
             let buttonTextureSelected: SKTexture! = SKTexture(imageNamed: "marrybuttonselected.png")
             let marrybutton = FTButtonNode(defaultTexture: buttonTexture, selectedTexture: buttonTextureSelected, action: {
-                
+                if let slInd = UserDefaults(suiteName: "group.Anjour.TamaHive")!.object(forKey: "spotlightInd") as? Int {
+                    if slInd == self.tamaViewScenes.index(of: scene) || slInd == self.tamaViewScenes.index(of: rNeighbor) {
+                        UserDefaults(suiteName: "group.Anjour.TamaHive")!.set(self.sceneEntites.count-1, forKey: "spotlightInd")
+                    }
+                    
+                }
                 self.newFamilyScene(scene: scene, tama1: firstTama, tama2: rNeighbortama!, span:"l")
+                
             })
             marrybutton.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(FTbuttonAction(_:)))
             marrybutton.position = CGPoint(x: scene.size.width/2, y: -scene.size.height/2)
@@ -645,13 +662,20 @@ extension TamasScene {
         newTama.id = 0
         newTama.generation = tamatoDelete.generation + 1
         newTama.tamascene = newScene
-        newScene.addToTamagotchi(newTama)
         
         
         
         save()
         self.sceneEntites = self.getScenes()
         self.setupScene(scene: newScene)
+        newScene.addToTamagotchi(newTama)
+        if let slInd = UserDefaults(suiteName: "group.Anjour.TamaHive")!.object(forKey: "spotlightInd") as? Int {
+            if slInd == tamaViewScenes.index(of: scene) {
+                UserDefaults(suiteName: "group.Anjour.TamaHive")!.set(newScene.id, forKey: "spotlightInd")
+            }
+            
+        }
+        
     }
     
     
