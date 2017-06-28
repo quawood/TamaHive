@@ -37,6 +37,10 @@
 		A5B3617C1F017B8D00CC69C9 /* TamaHive.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A570020A1EF2880C00905761 /* TamaHive.xcdatamodeld */; };
 		A5B3617D1F01873200CC69C9 /* tamahive.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A53718D31EFD9F6600533669 /* tamahive.bundle */; };
 		A5B3617F1F0189B200CC69C9 /* Today+LLF.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B3617E1F0189B200CC69C9 /* Today+LLF.swift */; };
+		A5B516D81F03701A00FCEE98 /* Image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B516D71F03701A00FCEE98 /* Image+.swift */; };
+		A5B516D91F03701F00FCEE98 /* Image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B516D71F03701A00FCEE98 /* Image+.swift */; };
+		A5B516DB1F03705900FCEE98 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B516DA1F03705900FCEE98 /* Color+.swift */; };
+		A5B516DC1F03705D00FCEE98 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B516DA1F03705900FCEE98 /* Color+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +113,8 @@
 		A5593C851EEA495100097766 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A570020B1EF2880C00905761 /* TamaHive.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TamaHive.xcdatamodel; sourceTree = "<group>"; };
 		A5B3617E1F0189B200CC69C9 /* Today+LLF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Today+LLF.swift"; sourceTree = "<group>"; };
+		A5B516D71F03701A00FCEE98 /* Image+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+.swift"; sourceTree = "<group>"; };
+		A5B516DA1F03705900FCEE98 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		A5F8F4FB1EF2AC9000B0B0DC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -150,6 +156,7 @@
 			children = (
 				A53718BF1EFD999A00533669 /* TamasScene.sks */,
 				A53718C01EFD999A00533669 /* TamasScene.swift */,
+				A53718F51EFFA5A200533669 /* TamaHouse+LLF.swift */,
 			);
 			path = scenes;
 			sourceTree = "<group>";
@@ -167,7 +174,6 @@
 			children = (
 				A53718C51EFD99B000533669 /* Tamagotchi.swift */,
 				A53718C61EFD99B000533669 /* TamaHouse.swift */,
-				A53718F51EFFA5A200533669 /* TamaHouse+LLF.swift */,
 			);
 			path = classes;
 			sourceTree = "<group>";
@@ -198,7 +204,6 @@
 				A570020A1EF2880C00905761 /* TamaHive.xcdatamodeld */,
 				A5133F031F012A7D00FD9D54 /* CoreDataStack.swift */,
 				A50F7E9F1F016C8A004A2034 /* TAttributes.swift */,
-				A53718C41EFD99B000533669 /* Extends.swift */,
 				A5593C5C1EEA495100097766 /* TamaHive */,
 				A5593C771EEA495100097766 /* TamaHiveTests */,
 				A5593C821EEA495100097766 /* TamaHiveUITests */,
@@ -225,6 +230,7 @@
 				A537190E1F00C95900533669 /* TamaHive.entitlements */,
 				A5593C5D1EEA495100097766 /* AppDelegate.swift */,
 				A5593C671EEA495100097766 /* Main.storyboard */,
+				A5B516DD1F03708400FCEE98 /* Extends */,
 				A53718D31EFD9F6600533669 /* tamahive.bundle */,
 				A53718C31EFD99B000533669 /* classes */,
 				A53718C11EFD99AB00533669 /* view_controllers */,
@@ -253,6 +259,16 @@
 				A5593C851EEA495100097766 /* Info.plist */,
 			);
 			path = TamaHiveUITests;
+			sourceTree = "<group>";
+		};
+		A5B516DD1F03708400FCEE98 /* Extends */ = {
+			isa = PBXGroup;
+			children = (
+				A53718C41EFD99B000533669 /* Extends.swift */,
+				A5B516D71F03701A00FCEE98 /* Image+.swift */,
+				A5B516DA1F03705900FCEE98 /* Color+.swift */,
+			);
+			path = Extends;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -443,10 +459,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5B3617F1F0189B200CC69C9 /* Today+LLF.swift in Sources */,
+				A5B516DC1F03705D00FCEE98 /* Color+.swift in Sources */,
 				A50F7EA01F016C8A004A2034 /* TAttributes.swift in Sources */,
 				A50F7EA21F0175D1004A2034 /* Extends.swift in Sources */,
 				A5133F021F00D85100FD9D54 /* AppDelegate.swift in Sources */,
 				A5133F011F00D65400FD9D54 /* TamaHive.xcdatamodeld in Sources */,
+				A5B516D91F03701F00FCEE98 /* Image+.swift in Sources */,
 				A53719011F00C92500533669 /* TodayViewController.swift in Sources */,
 				A5133F041F012A7D00FD9D54 /* CoreDataStack.swift in Sources */,
 			);
@@ -457,6 +475,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A53718CE1EFD9C9C00533669 /* TamaHouse.swift in Sources */,
+				A5B516DB1F03705900FCEE98 /* Color+.swift in Sources */,
 				A5B3617B1F017AF500CC69C9 /* TamasScene.swift in Sources */,
 				A53718C81EFD9B1F00533669 /* GameViewController.swift in Sources */,
 				A5133F051F0131DC00FD9D54 /* CoreDataStack.swift in Sources */,
@@ -466,6 +485,7 @@
 				A53718F61EFFA5A200533669 /* TamaHouse+LLF.swift in Sources */,
 				A5B3617C1F017B8D00CC69C9 /* TamaHive.xcdatamodeld in Sources */,
 				A53718CD1EFD9C9A00533669 /* Tamagotchi.swift in Sources */,
+				A5B516D81F03701A00FCEE98 /* Image+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

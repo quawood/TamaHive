@@ -11,6 +11,19 @@ import GameplayKit
 import CoreData
 
 extension TamasScene {
+    
+    /** CORE DATA **/
+    func getScenes() -> [TamaSceneEntity] {
+        var entities: [TamaSceneEntity]! = []
+        do {
+            entities = try context.fetch(TamaSceneEntity.fetchRequest())
+        }catch {
+            print("Error fetching data from CoreData")
+        }
+        return entities
+    }
+    
+    
     func deleteTama(tamatoDelete: TamagotchiEntity) {
         let sceneEntity = sceneEntites.first(where: {($0.tamagotchi as! Set<TamagotchiEntity>).contains(tamatoDelete)})
         let index = Int(sceneEntity!.id)
@@ -21,6 +34,7 @@ extension TamasScene {
         save()
         sceneEntites = getScenes()
     }
+    
     
     
     func deleteTask(atPos: Int) {
@@ -63,36 +77,38 @@ extension TamasScene {
         
     }
     
-    func setUpSceneRects() {
-
+    
+    func save() {
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let nserror = error as NSError
+                print("\(nserror.localizedDescription)")
+            }
+        }
     }
     
-    func generateCycle(gender: String, family: String) -> [String] {
-        var cycles:[String] = []
-        cycles.append(self.generateRandomTama(1, appendingPC: "\(self.forms[0])")[0])
-        for i in 1..<3 {
-            let appendString = "\(self.forms[i]),\(gender)"
-            let tamaS = self.generateRandomTama(1, appendingPC: appendString)[0]
-            cycles.append(tamaS)
-        }
-        for i in 3..<5 {
-            let appendString = "\(self.forms[i]),\(family),\(gender)"
-            let tamaS = self.generateRandomTama(1, appendingPC: appendString)[0]
-            cycles.append(tamaS)
+    
+    func saveViewsToEntities() {
+        for i in 0..<sceneEntites.count {
+            let index = sceneEntites.index(where: { $0.id == i})
+            sceneEntites[index!].spot = tamaViewScenes[i].position.toString()
+            sceneEntites[index!].tamagotchi?.forEach({
+                let tama = $0 as! TamagotchiEntity
+                let modelTama = tamaViewScenes[i].tamagotchis.first(where: {$0.id == tama.id})
+                tama.age = (modelTama?.age!)!
+                tama.tamaName = modelTama?.tamaName
+            })
         }
         
-        return cycles
+        save()
     }
     
-    func getScenes() -> [TamaSceneEntity] {
-        var entities: [TamaSceneEntity]! = []
-        do {
-            entities = try context.fetch(TamaSceneEntity.fetchRequest())
-        }catch {
-            print("Error fetching data from CoreData")
-        }
-        return entities
-    }
+    
+    
+    
+
     
     @objc func createNewSceneEntity(_ sender: FTButtonNode?) {
         if !isEditing {
@@ -110,7 +126,7 @@ extension TamasScene {
                 let tama = TamagotchiEntity(context: self.context)
                 let genders = ["m","f"]
                 let date = Date()
-                let randomFam = Int(arc4random_uniform(UInt32(self.familyNames.count)))
+                let randomFam = Int(arc4random_uniform(UInt32(TAttributes.familyNames.count)))
                 
                 scene.dateCreated = date
                 tama.generation = 1
@@ -121,8 +137,8 @@ extension TamasScene {
                 tama.gender = gender
                 
                 
-                tama.cycle = self.generateCycle(gender: gender, family: self.familyNames[randomFam]) as NSObject
-                tama.family = self.familyNames[randomFam]
+                tama.cycle = self.generateCycle(gender: gender, family: TAttributes.familyNames[randomFam]) as NSObject
+                tama.family = TAttributes.familyNames[randomFam]
                 tama.dateCreated = date
                 tama.tamascene = scene
                 scene.addToTamagotchi(tama)
@@ -135,21 +151,57 @@ extension TamasScene {
         
     }
     
-    
-    
-    
-    
-    
-    func save() {
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                let nserror = error as NSError
-                print("\(nserror.localizedDescription)")
-            }
+    func generateCycle(gender: String, family: String) -> [String] {
+        var cycles:[String] = []
+        cycles.append(self.generateRandomTama(1, appendingPC: "\(TAttributes.forms[0])")[0])
+        for i in 1..<3 {
+            let appendString = "\(TAttributes.forms[i]),\(gender)"
+            let tamaS = self.generateRandomTama(1, appendingPC: appendString)[0]
+            cycles.append(tamaS)
         }
+        for i in 3..<5 {
+            let appendString = "\(TAttributes.forms[i]),\(family),\(gender)"
+            let tamaS = self.generateRandomTama(1, appendingPC: appendString)[0]
+            cycles.append(tamaS)
+        }
+        
+        return cycles
     }
+    
+    func tamaFromEntity(tama: TamagotchiEntity) -> Tamagotchi {
+        let newTama = Tamagotchi(textureNamed: (tama.value(forKey: "tamaName") as! String), scale: viewScale)
+        newTama.age = tama.age
+        newTama.hunger = tama.hunger
+        newTama.dateCreated = tama.dateCreated
+        newTama.family = tama.family
+        newTama.generation = tama.generation
+        newTama.happiness = tama.happiness
+        newTama.id = tama.id
+        newTama.gender = tama.gender
+        newTama.tamaName = tama.tamaName
+        newTama.dateCreated = tama.dateCreated
+        newTama.cycle = tama.cycle as! [String]
+        return newTama
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
     
     
     func setupScene(scene: TamaSceneEntity) {
@@ -177,6 +229,7 @@ extension TamasScene {
         tamaScene.color1 = scene.color1 as! UIColor
         tamaScene.color2 = scene.color2 as! UIColor
         tamaScene.span = scene.span
+        tamaScene.dateCreated = scene.dateCreated
         let generation = (scene.tamagotchi?.first(where: {_ in true}) as! TamagotchiEntity).generation
         let label = SKLabelNode(text: String(generation))
         label.position = CGPoint(x:-(tamaScene.size.width/2) + 20, y: (tamaScene.size.height/2) - 20)
@@ -217,31 +270,20 @@ extension TamasScene {
     }
     
     
-    func tamaFromEntity(tama: TamagotchiEntity) -> Tamagotchi {
-        let newTama = Tamagotchi(textureNamed: (tama.value(forKey: "tamaName") as! String), scale: viewScale)
-        newTama.age = tama.age
-        newTama.hunger = tama.hunger
-        newTama.dateCreated = tama.dateCreated
-        newTama.family = tama.family
-        newTama.generation = tama.generation
-        newTama.happiness = tama.happiness
-        newTama.id = tama.id
-        newTama.gender = tama.gender
-        newTama.tamaName = tama.tamaName
-        newTama.dateCreated = tama.dateCreated
-        newTama.cycle = tama.cycle as! [String]
-        return newTama
-    }
     
     
     
     
     
     
-    func cancelPrepare() {
-        counting = false
-        timeSincePress = 0
-    }
+    
+    
+    
+    
+    
+    
+    
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         touch = touches.first!
@@ -323,7 +365,6 @@ extension TamasScene {
         
     }
     
-    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let endPos = touches.first?.location(in: self.scene!)
         
@@ -345,7 +386,7 @@ extension TamasScene {
                 } else if spotlightPlace.frame.contains(endPos!) {
                     
                     let indexed = tamaViewScenes.index(of: currentTama)
-                    UserDefaults(suiteName: "group.Anjour.TamaHive")!.set(indexed, forKey: "spotlightInd")
+                    UserDefaults(suiteName: "group.Anjour.TamaHive")!.set(indexed!, forKey: "spotlightInd")
                     let snapBackAction = SKAction.move(to: beginPos, duration: 0.1)
                     let scaledownAction = SKAction.scale(to: 1, duration: 0)
                     currentTama.run(snapBackAction)
@@ -387,22 +428,50 @@ extension TamasScene {
     }
     
     
-    
-    
-    func saveViewsToEntities() {
-        for i in 0..<sceneEntites.count {
-            let index = sceneEntites.index(where: { $0.id == i})
-            sceneEntites[index!].spot = tamaViewScenes[i].position.toString()
-            sceneEntites[index!].tamagotchi?.forEach({
-                let tama = $0 as! TamagotchiEntity
-                let modelTama = tamaViewScenes[i].tamagotchis.first(where: {$0.id == tama.id})
-                tama.age = (modelTama?.age!)!
-                tama.tamaName = modelTama?.tamaName
-            })
-        }
+    func initEditingMode() {
+        isEditing = true
+        let scaleAciton = SKAction.scale(by: 1.2, duration: 0)
+        let colorizeAction = SKAction.colorize(with: UIColor.clear, colorBlendFactor: 0, duration: 0)
+        currentTama.run(scaleAciton)
+        currentTama.run(colorizeAction)
         
-        save()
+        self.addChild(newTamaButton)
+        self.addChild(trashPlace)
+        self.addChild(spotlightPlace)
+        counting = false
+        
     }
+    
+    
+    func cancelPrepare() {
+        counting = false
+        timeSincePress = 0
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -517,21 +586,6 @@ extension TamasScene {
         print(newscene.id)
     }
     
-    func changeTamagotchiTexture(fromTama: Tamagotchi, toTama: String) {
-        let index = tamaViewScenes.index(where: {$0.tamagotchis.contains(fromTama)})
-        let i = tamaViewScenes[index!]
-        let correspondingEntity = sceneEntites.first(where: {$0.id == tamaViewScenes.startIndex.distance(to: index!)})
-        let tama = i.tamagotchis.first(where: {$0.id == fromTama.id})
-        let tamaEntity = correspondingEntity?.tamagotchi?.first(where: {($0 as! TamagotchiEntity).id == fromTama.id}) as! TamagotchiEntity
-        tama?.tamaName = toTama
-        tamaEntity.tamaName = tama?.tamaName
-        let image = UIImage(named: (toTama))?.resizeImage(scale: CGFloat(viewScale))
-        tama?.texture = SKTexture(cgImage: (image?.cgImage)!)
-        tama?.size = (tama?.texture?.size())!
-        save()
-        sceneEntites = getScenes()
-    }
-    
     func updateTamagotchiTexture(fromTama: Tamagotchi) {
         let date = Date()
         let newAge = date.interval(ofComponent: TAttributes.tunit, fromDate:fromTama.dateCreated)/TAttributes.tint
@@ -563,7 +617,6 @@ extension TamasScene {
         
         fromTama.age = Int16(newAge)
     }
-    
     func updateTmamagotchiMarriage(scene: TamaHouse, rNeighbor: TamaHouse) {
         
         
@@ -592,7 +645,7 @@ extension TamasScene {
                 
             }
             if hasB {
-               (scene.childNode(withName: "marryB") as! FTButtonNode).action = marrybutton.action
+                (scene.childNode(withName: "marryB") as! FTButtonNode).action = marrybutton.action
             } else {
                 scene.addChild(marrybutton)
             }
@@ -706,19 +759,36 @@ extension TamasScene {
         
     }
     
-    func initEditingMode() {
-        isEditing = true
-        let scaleAciton = SKAction.scale(by: 1.2, duration: 0)
-        let colorizeAction = SKAction.colorize(with: UIColor.clear, colorBlendFactor: 0, duration: 0)
-        currentTama.run(scaleAciton)
-        currentTama.run(colorizeAction)
-        
-        self.addChild(newTamaButton)
-        self.addChild(trashPlace)
-        self.addChild(spotlightPlace)
-        counting = false
-        
+    func changeTamagotchiTexture(fromTama: Tamagotchi, toTama: String) {
+        let index = tamaViewScenes.index(where: {$0.tamagotchis.contains(fromTama)})
+        let i = tamaViewScenes[index!]
+        let correspondingEntity = sceneEntites.first(where: {$0.id == tamaViewScenes.startIndex.distance(to: index!)})
+        let tama = i.tamagotchis.first(where: {$0.id == fromTama.id})
+        let tamaEntity = correspondingEntity?.tamagotchi?.first(where: {($0 as! TamagotchiEntity).id == fromTama.id}) as! TamagotchiEntity
+        tama?.tamaName = toTama
+        tamaEntity.tamaName = tama?.tamaName
+        let image = UIImage(named: (toTama))?.resizeImage(scale: CGFloat(viewScale))
+        tama?.texture = SKTexture(cgImage: (image?.cgImage)!)
+        tama?.size = (tama?.texture?.size())!
+        save()
+        sceneEntites = getScenes()
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -727,20 +797,6 @@ extension TamasScene {
     
 }
 
-
-extension String {
-    func toPoint() -> CGPoint{
-        let stringARray = self.components(separatedBy: ",")
-        let point = CGPoint(x:Int(stringARray[0])!, y:Int(stringARray[1])!)
-        return point
-    }
-}
-
-extension CGPoint {
-    func toString() -> String {
-        return "\(Int(self.x)),\(Int(self.y))"
-    }
-}
 
 class FTButtonNode: SKSpriteNode {
     var action: () -> () = {}

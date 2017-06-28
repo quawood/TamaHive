@@ -141,21 +141,27 @@ extension TodayViewController {
                         }
                     }
                 
-                let marriageC = date.interval(ofComponent: TAttributes.tunit, fromDate:currentScene.dateCreated!)/2*TAttributes.tint
-                if marriageC >= 2 && (currentScene.tamagotchi?.count)! == 2 && ((currentScene.tamagotchi?.first(where: {($0 as! TamagotchiEntity).id == 0}) as? TamagotchiEntity)?.age)! > Int16(TAttributes.childAge) && currentScene!.isDone == false {
-                    let leaveMedal = UIImage(named: "childbutton")?.resizeImage(scale: 1)
-                    let medalImageView = UIImageView(image: leaveMedal)
-                    medalImageView.layer.zPosition = 1
-                    medalImageView.tag = 10
-                    if imageview.tag != 2 {
-                        let t = currentScene.tamagotchi?.first(where: {($0 as! TamagotchiEntity).id == imageview.tag}) as? TamagotchiEntity
-                        let tString = (t?.cycle as! [String])[4]
-                        t?.tamaName = tString
-                        imageview.image = UIImage(named: tString)?.resizeImage(scale: 2)
+                if ((currentScene.tamagotchi?.first(where: {($0 as! TamagotchiEntity).id == 0}) as? TamagotchiEntity)?.age)! > Int16(TAttributes.childAge) && currentScene.tamagotchi?.count == 2 && currentScene!.isDone == false {
+                    let date = Date()
+                    let newAge = date.interval(ofComponent: TAttributes.tunit, fromDate:currentScene.dateCreated!)/2*TAttributes.tint
+                    if newAge >= 2 {
+                        let leaveMedal = UIImage(named: "childbutton")?.resizeImage(scale: 1)
+                        let medalImageView = UIImageView(image: leaveMedal)
+                        medalImageView.layer.zPosition = 1
+                        medalImageView.tag = 10
+                        if imageview.tag != 2 {
+                            let t = currentScene.tamagotchi?.first(where: {($0 as! TamagotchiEntity).id == imageview.tag}) as? TamagotchiEntity
+                            let tString = (t?.cycle as! [String])[4]
+                            t?.tamaName = tString
+                            imageview.image = UIImage(named: tString)?.resizeImage(scale: 2)
+                            subviewsToAdd.append(medalImageView)
+                        }
+                        
                     }
                     
-                    subviewsToAdd.append(medalImageView)
                 }
+                
+                
                 
                 for i in 0..<subviewsToAdd.count{
                     subviewsToAdd[i].frame.origin = CGPoint(x: self.view.frame.size.width - 60*CGFloat(i+1), y: 0 + 10)

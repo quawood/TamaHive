@@ -14,13 +14,14 @@ class TAttributes {
     static let leaveAge: Int! = 6
     static let childAge: Int! = 10
     static let tunit: Calendar.Component! = .second
-    static let tint: Int! = 1
+    static let tint: Int! = 5
     static let maxHealth: Int! = 5
     
     static let maxTamas: Int! = 10
     
     static var sceneEntites: [TamaSceneEntity]! = []
-    
+    static let familyNames = ["mame","meme","kuchi","large","ninja","secret","small","space","violet"]
+    static let forms = ["baby","toddler","teen","adult","parents"]
     private init() {
         
     }

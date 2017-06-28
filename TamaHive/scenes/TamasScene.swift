@@ -42,8 +42,7 @@ class TamasScene: SKScene {
     }
     
     var context = CoreDataStack.sharedInstance.managedObjectContext
-    let familyNames = ["mame","meme","kuchi","large","ninja","secret","small","space","violet"]
-    let forms = ["baby","toddler","teen","adult","parents"]
+
      var sceneEntites: [TamaSceneEntity]! = TAttributes.sceneEntites
     
     var tamaViewScenes: [TamaHouse]! = []
