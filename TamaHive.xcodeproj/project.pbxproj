@@ -11,6 +11,8 @@
 		A50F7EA01F016C8A004A2034 /* TAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50F7E9F1F016C8A004A2034 /* TAttributes.swift */; };
 		A50F7EA11F016C8D004A2034 /* TAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50F7E9F1F016C8A004A2034 /* TAttributes.swift */; };
 		A50F7EA21F0175D1004A2034 /* Extends.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C41EFD99B000533669 /* Extends.swift */; };
+		A51037631F037FB700CA520A /* TamaWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A5B517001F03798500FCEE98 /* TamaWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A51037641F03802100CA520A /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5B516E31F0373E700FCEE98 /* MainInterface.storyboard */; };
 		A5133F011F00D65400FD9D54 /* TamaHive.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A570020A1EF2880C00905761 /* TamaHive.xcdatamodeld */; };
 		A5133F021F00D85100FD9D54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C5D1EEA495100097766 /* AppDelegate.swift */; };
 		A5133F041F012A7D00FD9D54 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5133F031F012A7D00FD9D54 /* CoreDataStack.swift */; };
@@ -72,6 +74,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				A51037631F037FB700CA520A /* TamaWidget.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -89,29 +92,29 @@
 		A53718C61EFD99B000533669 /* TamaHouse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TamaHouse.swift; sourceTree = "<group>"; };
 		A53718D31EFD9F6600533669 /* tamahive.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = tamahive.bundle; sourceTree = "<group>"; };
 		A53718F51EFFA5A200533669 /* TamaHouse+LLF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TamaHouse+LLF.swift"; sourceTree = "<group>"; };
-		A53718FB1F00C92500533669 /* TamaWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; name = TamaWidget.appex; path = "/Users/quawood/Documents/Developement/Programming/Math/TamaHive/build/Debug-iphoneos/TamaWidget.appex"; sourceTree = "<absolute>"; };
 		A53718FD1F00C92500533669 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		A53719001F00C92500533669 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		A53719051F00C92500533669 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A537190D1F00C94E00533669 /* TamaWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TamaWidget.entitlements; sourceTree = "<group>"; };
 		A537190E1F00C95900533669 /* TamaHive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TamaHive.entitlements; sourceTree = "<group>"; };
-		A5593C5A1EEA495100097766 /* TamaHive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = TamaHive.app; path = "/Users/quawood/Documents/Developement/Programming/Math/TamaHive/build/Debug-iphoneos/TamaHive.app"; sourceTree = "<absolute>"; };
 		A5593C5D1EEA495100097766 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5593C611EEA495100097766 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		A5593C681EEA495100097766 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A5593C6A1EEA495100097766 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A5593C6F1EEA495100097766 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A5593C741EEA495100097766 /* TamaHiveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = TamaHiveTests.xctest; path = "/Users/quawood/Documents/Developement/Programming/Math/TamaHive/build/Debug-iphoneos/TamaHiveTests.xctest"; sourceTree = "<absolute>"; };
 		A5593C781EEA495100097766 /* TamaHiveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TamaHiveTests.swift; sourceTree = "<group>"; };
 		A5593C7A1EEA495100097766 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A5593C7F1EEA495100097766 /* TamaHiveUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = TamaHiveUITests.xctest; path = "/Users/quawood/Documents/Developement/Programming/Math/TamaHive/build/Debug-iphoneos/TamaHiveUITests.xctest"; sourceTree = "<absolute>"; };
 		A5593C831EEA495100097766 /* TamaHiveUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TamaHiveUITests.swift; sourceTree = "<group>"; };
 		A5593C851EEA495100097766 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A570020B1EF2880C00905761 /* TamaHive.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TamaHive.xcdatamodel; sourceTree = "<group>"; };
 		A5B3617E1F0189B200CC69C9 /* Today+LLF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Today+LLF.swift"; sourceTree = "<group>"; };
 		A5B516D71F03701A00FCEE98 /* Image+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+.swift"; sourceTree = "<group>"; };
 		A5B516DA1F03705900FCEE98 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
-		A5B516E31F0373E700FCEE98 /* Maininterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Maininterface.storyboard; sourceTree = "<group>"; };
+		A5B516E31F0373E700FCEE98 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
+		A5B516FF1F03798500FCEE98 /* TamaHive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TamaHive.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5B517001F03798500FCEE98 /* TamaWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TamaWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5B517011F03798500FCEE98 /* TamaHiveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TamaHiveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5B517021F03798500FCEE98 /* TamaHiveUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TamaHiveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5F8F4FB1EF2AC9000B0B0DC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -186,7 +189,7 @@
 		A53718FF1F00C92500533669 /* TamaWidget */ = {
 			isa = PBXGroup;
 			children = (
-				A5B516E31F0373E700FCEE98 /* Maininterface.storyboard */,
+				A5B516E31F0373E700FCEE98 /* MainInterface.storyboard */,
 				A537190D1F00C94E00533669 /* TamaWidget.entitlements */,
 				A53719001F00C92500533669 /* TodayViewController.swift */,
 				A5B3617E1F0189B200CC69C9 /* Today+LLF.swift */,
@@ -206,6 +209,7 @@
 				A5593C821EEA495100097766 /* TamaHiveUITests */,
 				A53718FF1F00C92500533669 /* TamaWidget */,
 				A53718FC1F00C92500533669 /* Frameworks */,
+				A5B517591F037B7200FCEE98 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -256,6 +260,17 @@
 			path = Extends;
 			sourceTree = "<group>";
 		};
+		A5B517591F037B7200FCEE98 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A5B517001F03798500FCEE98 /* TamaWidget.appex */,
+				A5B517011F03798500FCEE98 /* TamaHiveTests.xctest */,
+				A5B516FF1F03798500FCEE98 /* TamaHive.app */,
+				A5B517021F03798500FCEE98 /* TamaHiveUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -273,7 +288,7 @@
 			);
 			name = TamaWidget;
 			productName = TamaWidget;
-			productReference = A53718FB1F00C92500533669 /* TamaWidget.appex */;
+			productReference = A5B517001F03798500FCEE98 /* TamaWidget.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		A5593C591EEA495100097766 /* TamaHive */ = {
@@ -292,7 +307,7 @@
 			);
 			name = TamaHive;
 			productName = TamaHive;
-			productReference = A5593C5A1EEA495100097766 /* TamaHive.app */;
+			productReference = A5B516FF1F03798500FCEE98 /* TamaHive.app */;
 			productType = "com.apple.product-type.application";
 		};
 		A5593C731EEA495100097766 /* TamaHiveTests */ = {
@@ -310,7 +325,7 @@
 			);
 			name = TamaHiveTests;
 			productName = TamaHiveTests;
-			productReference = A5593C741EEA495100097766 /* TamaHiveTests.xctest */;
+			productReference = A5B517011F03798500FCEE98 /* TamaHiveTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		A5593C7E1EEA495100097766 /* TamaHiveUITests */ = {
@@ -328,7 +343,7 @@
 			);
 			name = TamaHiveUITests;
 			productName = TamaHiveUITests;
-			productReference = A5593C7F1EEA495100097766 /* TamaHiveUITests.xctest */;
+			productReference = A5B517021F03798500FCEE98 /* TamaHiveUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -405,6 +420,7 @@
 			files = (
 				A50F7E9E1F015D1E004A2034 /* Assets.xcassets in Resources */,
 				A5B3617D1F01873200CC69C9 /* tamahive.bundle in Resources */,
+				A51037641F03802100CA520A /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
