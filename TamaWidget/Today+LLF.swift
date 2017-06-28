@@ -66,8 +66,7 @@ extension TodayViewController {
     
     @objc func updateTamagotchis(_ sender: Any?) {
         for item in tamagotchis {
-            if let imageview = item as? UIImageView {
-                
+                let imageview = item
                 let randomdir = Int(arc4random_uniform(3)) - 1
                 var testRandom = randomdir
                 if randomdir == 0 {
@@ -184,11 +183,6 @@ extension TodayViewController {
                 save()
             }
             
-            
-            
-            
-            
-        }
         
         
     }
