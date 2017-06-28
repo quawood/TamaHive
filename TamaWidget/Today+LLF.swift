@@ -120,7 +120,7 @@ extension TodayViewController {
                 var subviewsToAdd: [UIImageView]! = []
                     if newAge > TAttributes.marriageAge && currentScene.tamagotchi?.count == 1 {
                         
-                        let marriageMedal = UIImage(named: "marrybutton")?.resizeImage(scale: 1)
+                        let marriageMedal = UIImage(named: "marrybutton")?.resizeImage(scale: 0.5)
                         let medalImageView = UIImageView(image: marriageMedal)
                         medalImageView.layer.zPosition = 1
                         medalImageView.tag = 10
@@ -131,7 +131,7 @@ extension TodayViewController {
                     }
                     if let childTama = currentScene.tamagotchi?.first(where: {($0 as! TamagotchiEntity).id == 2}) as? TamagotchiEntity {
                         if childTama.age > TAttributes.leaveAge {
-                            let leaveMedal = UIImage(named: "leavebutton")?.resizeImage(scale: 1)
+                            let leaveMedal = UIImage(named: "leavebutton")?.resizeImage(scale: 0.5)
                             let medalImageView = UIImageView(image: leaveMedal)
                             medalImageView.layer.zPosition = 1
                             medalImageView.tag = 10
@@ -144,7 +144,7 @@ extension TodayViewController {
                     let date = Date()
                     let newAge = date.interval(ofComponent: TAttributes.tunit, fromDate:currentScene.dateCreated!)/2*TAttributes.tint
                     if newAge >= 2 {
-                        let leaveMedal = UIImage(named: "childbutton")?.resizeImage(scale: 1)
+                        let leaveMedal = UIImage(named: "childbutton")?.resizeImage(scale: 0.5)
                         let medalImageView = UIImageView(image: leaveMedal)
                         medalImageView.layer.zPosition = 1
                         medalImageView.tag = 10
