@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A507BE451F0782B0004DDEEA /* tamahive.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A507BE441F0782B0004DDEEA /* tamahive.bundle */; };
 		A50F7E9E1F015D1E004A2034 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5593C6A1EEA495100097766 /* Assets.xcassets */; };
 		A50F7EA01F016C8A004A2034 /* TAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50F7E9F1F016C8A004A2034 /* TAttributes.swift */; };
 		A50F7EA11F016C8D004A2034 /* TAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50F7E9F1F016C8A004A2034 /* TAttributes.swift */; };
@@ -21,7 +22,6 @@
 		A53718CD1EFD9C9A00533669 /* Tamagotchi.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C51EFD99B000533669 /* Tamagotchi.swift */; };
 		A53718CE1EFD9C9C00533669 /* TamaHouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C61EFD99B000533669 /* TamaHouse.swift */; };
 		A53718CF1EFD9CAC00533669 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5F8F4FB1EF2AC9000B0B0DC /* LaunchScreen.storyboard */; };
-		A53718D41EFE212F00533669 /* tamahive.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A53718D31EFD9F6600533669 /* tamahive.bundle */; };
 		A53718F61EFFA5A200533669 /* TamaHouse+LLF.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718F51EFFA5A200533669 /* TamaHouse+LLF.swift */; };
 		A53718FE1F00C92500533669 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A53718FD1F00C92500533669 /* NotificationCenter.framework */; };
 		A5593C5E1EEA495100097766 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5593C5D1EEA495100097766 /* AppDelegate.swift */; };
@@ -35,7 +35,6 @@
 		A58697FA1F0622A6000B6092 /* MPCManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58697F91F0622A6000B6092 /* MPCManager.swift */; };
 		A5B3617B1F017AF500CC69C9 /* TamasScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53718C01EFD999A00533669 /* TamasScene.swift */; };
 		A5B3617C1F017B8D00CC69C9 /* TamaHive.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A570020A1EF2880C00905761 /* TamaHive.xcdatamodeld */; };
-		A5B3617D1F01873200CC69C9 /* tamahive.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A53718D31EFD9F6600533669 /* tamahive.bundle */; };
 		A5B3617F1F0189B200CC69C9 /* Today+LLF.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B3617E1F0189B200CC69C9 /* Today+LLF.swift */; };
 		A5B516D81F03701A00FCEE98 /* Image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B516D71F03701A00FCEE98 /* Image+.swift */; };
 		A5B516D91F03701F00FCEE98 /* Image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B516D71F03701A00FCEE98 /* Image+.swift */; };
@@ -82,6 +81,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A507BE441F0782B0004DDEEA /* tamahive.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = tamahive.bundle; sourceTree = "<group>"; };
 		A50F7E9F1F016C8A004A2034 /* TAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TAttributes.swift; sourceTree = "<group>"; };
 		A5133F031F012A7D00FD9D54 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		A53718BF1EFD999A00533669 /* TamasScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TamasScene.sks; sourceTree = "<group>"; };
@@ -90,7 +90,6 @@
 		A53718C41EFD99B000533669 /* Extends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extends.swift; sourceTree = "<group>"; };
 		A53718C51EFD99B000533669 /* Tamagotchi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tamagotchi.swift; sourceTree = "<group>"; };
 		A53718C61EFD99B000533669 /* TamaHouse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TamaHouse.swift; sourceTree = "<group>"; };
-		A53718D31EFD9F6600533669 /* tamahive.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = tamahive.bundle; sourceTree = "<group>"; };
 		A53718F51EFFA5A200533669 /* TamaHouse+LLF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TamaHouse+LLF.swift"; sourceTree = "<group>"; };
 		A53718FD1F00C92500533669 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		A53719001F00C92500533669 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
@@ -220,9 +219,9 @@
 				A537190E1F00C95900533669 /* TamaHive.entitlements */,
 				A5593C5D1EEA495100097766 /* AppDelegate.swift */,
 				A5593C671EEA495100097766 /* Main.storyboard */,
+				A507BE441F0782B0004DDEEA /* tamahive.bundle */,
 				A58697FB1F0622C1000B6092 /* multipeer */,
 				A5B516DD1F03708400FCEE98 /* Extends */,
-				A53718D31EFD9F6600533669 /* tamahive.bundle */,
 				A53718C31EFD99B000533669 /* classes */,
 				A53718C11EFD99AB00533669 /* view_controllers */,
 				A53718BE1EFD999A00533669 /* scenes */,
@@ -429,7 +428,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A50F7E9E1F015D1E004A2034 /* Assets.xcassets in Resources */,
-				A5B3617D1F01873200CC69C9 /* tamahive.bundle in Resources */,
 				A51037641F03802100CA520A /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -440,9 +438,9 @@
 			files = (
 				A5593C691EEA495100097766 /* Main.storyboard in Resources */,
 				A53718C91EFD9B2C00533669 /* TamasScene.sks in Resources */,
-				A53718D41EFE212F00533669 /* tamahive.bundle in Resources */,
 				A53718CF1EFD9CAC00533669 /* LaunchScreen.storyboard in Resources */,
 				A5593C6B1EEA495100097766 /* Assets.xcassets in Resources */,
+				A507BE451F0782B0004DDEEA /* tamahive.bundle in Resources */,
 				A5593C621EEA495100097766 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
