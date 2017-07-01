@@ -22,6 +22,9 @@ class Tamagotchi: SKSpriteNode{
     var dateCreated: Date!
     var cycle: [String]! = []
     
+    var chColor: UIColor! = UIColor.clear
+    var overlayTexture = SKSpriteNode()
+    
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         let image = UIImage(cgImage: (texture?.cgImage())!).resizeImage(scale: size.width/(texture?.size().width)!)
       /*  let pixelData: [PixelData] = (image.cgImage!.colors!.1)
@@ -31,6 +34,7 @@ class Tamagotchi: SKSpriteNode{
         let tamaImg = image
         let texture1 = SKTexture(cgImage: (tamaImg.cgImage!))
         super.init(texture: texture1, color: UIColor.white, size:texture1.size())
+        
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

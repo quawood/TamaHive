@@ -59,7 +59,16 @@ extension CGFloat {
 
 
 
-
+extension Array where Element == Int {
+    /// Returns the sum of all elements in the array
+    var total: Element {
+        return reduce(0, +)
+    }
+    /// Returns the average of all elements in the array
+    var average: Double {
+        return isEmpty ? 0 : Double(reduce(0, +)) / Double(count)
+    }
+}
 
 extension Date {
     
@@ -76,9 +85,14 @@ extension Date {
 
 
 extension CGFloat {
-    static func random() -> CGFloat {
+    static func random(_ mag: CGFloat? = nil) -> CGFloat {
         let ret = CGFloat(arc4random()) / CGFloat(UInt32.max)
-        return ret/36
+        if mag != nil {
+            return ret/mag!
+        } else {
+            return ret
+        }
+        
         
     }
     static func randomoz() -> CGFloat {
@@ -125,6 +139,57 @@ extension Array where Element == CGRect{
             
         })
         return doAnyContain
+    }
+}
+
+
+
+
+//Custom Segues
+class SegueFromLeft: UIStoryboardSegue
+{
+    override func perform()
+    {
+        let src = self.source
+        let dst = self.destination
+        
+        src.view.superview?.insertSubview(dst.view, aboveSubview: src.view)
+        dst.view.transform = CGAffineTransform(translationX: -src.view.frame.size.width, y: 0)
+        
+        UIView.animate(withDuration: 0.25,
+                                   delay: 0.0,
+                                   options: UIViewAnimationOptions.curveEaseInOut,
+                                   animations: {
+                                    dst.view.transform = CGAffineTransform(translationX: 0, y: 0)
+                                    src.view.transform = CGAffineTransform(translationX: src.view.frame.size.width, y: 0)
+        },
+                                   completion: { finished in
+                                    src.present(dst, animated: false, completion: nil)
+        }
+        )
+    }
+}
+class SegueFromRight: UIStoryboardSegue
+{
+    override func perform()
+    {
+        let src = self.source
+        let dst = self.destination
+        
+        src.view.superview?.insertSubview(dst.view, aboveSubview: src.view)
+        dst.view.transform = CGAffineTransform(translationX: src.view.frame.size.width, y: 0)
+        
+        UIView.animate(withDuration: 0.25,
+                       delay: 0.0,
+                       options: UIViewAnimationOptions.curveEaseInOut,
+                       animations: {
+                        dst.view.transform = CGAffineTransform(translationX: 0, y: 0)
+                        src.view.transform = CGAffineTransform(translationX: -src.view.frame.size.width, y: 0)
+        },
+                       completion: { finished in
+                        src.present(dst, animated: false, completion: nil)
+        }
+        )
     }
 }
 

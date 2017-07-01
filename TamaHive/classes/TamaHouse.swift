@@ -13,7 +13,6 @@ import SpriteKit
 class TamaHouse: SKSpriteNode {
     var tamagotchis: [Tamagotchi]! = []
     var tscale: CGFloat!
-    var isBeingDragged: Bool!
     var span: String! = "n"
     var isFakeScene:Bool! = false
     var dateCreated: Date! = Date()
@@ -56,7 +55,7 @@ class TamaHouse: SKSpriteNode {
             if !self.children.contains(tamagotchi) {
                 self.addChild(tamagotchi)
                 
-                let setPoint = CGPoint(x:(-self.size.width/2) + xOffset*count , y: (-self.size.height/2)+(0.30 * self.size.height))
+                let setPoint = CGPoint(x:(-self.size.width/2) + xOffset*count , y: ((-self.size.height/2)+tamagotchi.size.height/2) + (0.1 * self.size.height))
                 tamagotchi.position = setPoint
                 tamagotchi.zPosition = 1
                 
@@ -77,8 +76,6 @@ class TamaHouse: SKSpriteNode {
         }
         return colors!
     }
-    
-    
     
 }
 

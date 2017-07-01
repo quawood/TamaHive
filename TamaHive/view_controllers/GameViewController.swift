@@ -10,11 +10,9 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
-class GameViewController: UIViewController {
-
+class GameViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Load 'GameScene.sks' as a GKScene. This provides gameplay related content
         // including entities and graphs.
         if let scene = GKScene(fileNamed: "TamasScene") {
@@ -28,6 +26,7 @@ class GameViewController: UIViewController {
                 
                 // Set the scale mode to scale to fit the window
                 sceneNode.scaleMode = .aspectFill
+                sceneNode.viewController = self
                 
                 // Present the scene
                 if let view = self.view as! SKView? {
@@ -41,11 +40,11 @@ class GameViewController: UIViewController {
             }
         }
     }
-
+    
     override var shouldAutorotate: Bool {
         return true
     }
-
+    
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {
             return .allButUpsideDown
@@ -53,6 +52,7 @@ class GameViewController: UIViewController {
             return .all
         }
     }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -62,4 +62,5 @@ class GameViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
 }

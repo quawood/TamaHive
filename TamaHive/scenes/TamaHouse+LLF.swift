@@ -37,8 +37,8 @@ extension TamasScene {
     
     
     
-    func deleteTask(atPos: Int) {
-        
+    func deleteScene(scene: TamaHouse) {
+        let atPos = tamaViewScenes.index(of: scene)!.advanced(by: 0)
         let request = NSFetchRequest<TamaSceneEntity>(entityName: "TamaSceneEntity")
         var sceneIDs = [Int16]()
         do {
@@ -79,30 +79,36 @@ extension TamasScene {
     
     
     func save() {
-        if context.hasChanges {
             do {
                 try context.save()
             } catch {
                 let nserror = error as NSError
                 print("\(nserror.localizedDescription)")
-            }
-        }
+            } 
     }
     
     
     func saveViewsToEntities() {
         for i in 0..<sceneEntites.count {
-            let index = sceneEntites.index(where: { $0.id == i})
-            sceneEntites[index!].spot = tamaViewScenes[i].position.toString()
-            sceneEntites[index!].tamagotchi?.forEach({
-                let tama = $0 as! TamagotchiEntity
-                let modelTama = tamaViewScenes[i].tamagotchis.first(where: {$0.id == tama.id})
-                tama.age = (modelTama?.age!)!
-                tama.tamaName = modelTama?.tamaName
-            })
+                var temp: TamaHouse!
+                    temp = tamaViewScenes[i]
+                
+                let index = sceneEntites.index(where: { $0.id == i})
+                    sceneEntites[index!].spot = temp.position.toString()
+                
+                
+                
+                sceneEntites[index!].tamagotchi?.forEach({
+                    let tama = $0 as! TamagotchiEntity
+                    let modelTama = temp.tamagotchis.first(where: {$0.id == tama.id})
+                    tama.age = (modelTama?.age!)!
+                    tama.tamaName = modelTama?.tamaName
+                })
+            
         }
         
         save()
+        TAttributes.sceneEntites = sceneEntites
     }
     
     
@@ -129,13 +135,17 @@ extension TamasScene {
                 let randomFam = Int(arc4random_uniform(UInt32(TAttributes.familyNames.count)))
                 
                 scene.dateCreated = date
-                tama.generation = 1
-                
+                let sets = self.sceneEntites.map({$0.tamagotchi})
+                let generations = sets.map({Int((($0 as! Set<TamagotchiEntity>).first)!.generation)})
+
+                    tama.generation = Int16(Int(generations.average))
+                    
                 tama.tamaName = "egg.png"
                 tama.id = 0
                 let gender = genders[Int(arc4random_uniform(2))]
                 tama.gender = gender
-                
+                let randomInd = arc4random_uniform(5)
+                let temp = Int(randomInd)
                 
                 tama.cycle = self.generateCycle(gender: gender, family: TAttributes.familyNames[randomFam]) as NSObject
                 tama.family = TAttributes.familyNames[randomFam]
@@ -170,6 +180,7 @@ extension TamasScene {
     
     func tamaFromEntity(tama: TamagotchiEntity) -> Tamagotchi {
         let newTama = Tamagotchi(textureNamed: (tama.value(forKey: "tamaName") as! String), scale: viewScale)
+
         newTama.age = tama.age
         newTama.hunger = tama.hunger
         newTama.dateCreated = tama.dateCreated
@@ -284,40 +295,33 @@ extension TamasScene {
     
     
     
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         touch = touches.first!
-        
+        let touchLocation = touch.location(in: self)
         
         top: for i in 0..<tamaViewScenes.count {
-            if tamaViewScenes[i].frame.contains((touch.location(in: self.scene!))) {
-                
-                let scene = tamaViewScenes[i]
-                currentTama = scene
-                touchdx = touch.location(in: self.scene!).x - (currentTama?.position.x)!
-                touchdy = touch.location(in: self.scene!).y - (currentTama?.position.y)!
-                currentTama.zPosition = CGFloat(maxZposition + 2)
+            if tamaViewScenes[i].frame.contains(touchLocation) {
+                currentTama = tamaViewScenes[i]
                 beginPos = currentTama.position
+                currentTama.zPosition = CGFloat(maxZposition + 2)
+                touchdx = touchLocation.x - (currentTama?.position.x)!
+                touchdy = touchLocation.y - (currentTama?.position.y)!
                 if isEditing == true  {
                     
                     
-                    self.isBeingDragged = true
-                    touchdx = touch.location(in: self.scene!).x - (currentTama?.position.x)!
-                    touchdy = touch.location(in: self.scene!).y - (currentTama?.position.y)!
                     
                     let scale = SKAction.scale(to: 1.2, duration: 0)
                     currentTama.run(scale)
                     
-                    
-                    break top;
                 } else {
                     let colorizeAction = SKAction.colorize(with: UIColor.gray, colorBlendFactor: 0.8, duration: 0)
                     currentTama.run(colorizeAction)
                     counting = true
                     timeSincePress = 0
-                    break top;
+                    
                     
                 }
+                break top;
                 
                 
             }
@@ -339,94 +343,82 @@ extension TamasScene {
         
     }
     
+    
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let newTouch = touches.first
-        if counting {
-            if !currentTama.frame.contains((newTouch?.location(in: self.scene!))!) {
-                cancelPrepare()
-                currentTama.run(uncolorizeAction)
+        if let touch = touches.first, currentTama != nil {
+            let location = touch.location(in: self)
+            if isEditing {
+                currentTama.position = CGPoint(x: location.x - touchdx, y: location.y - touchdy)
+            }
+            if counting {
+                if !currentTama.frame.contains(location) {
+                    cancelPrepare()
+                    currentTama.run(uncolorizeAction)
+                }
+                
             }
             
-        }
-        
-        if isEditing{
-            if newTouch == touch {
-                if let tama = currentTama {
-                    
-                    let newLoc = (newTouch?.location(in: self.scene!))!
-                    
-                    tama.position = CGPoint(x: newLoc.x - touchdx, y: newLoc.y - touchdy)
-                    
-                    
-                }
-            }
+            
         }
         
         
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let endPos = touches.first?.location(in: self.scene!)
-        
-        checkForContains: if currentTama != nil {
-            if !isEditing {
-                currentTama.run(uncolorizeAction)
-                isEditing = false
-                cancelPrepare()
-                
-                
-            } else if isEditing {
-                //delete tama if in trash node
-                let indexed = tamaViewScenes.index(of: currentTama)
-                
-                if trashPlace.frame.contains(endPos!) {
-                    deleteTask(atPos: indexed!)
-                    break checkForContains
+        if let touch = touches.first, currentTama != nil {
+            let location = touch.location(in: self)
+            if isEditing {
+                if trashPlace.frame.contains(location) {
+                    deleteScene(scene: currentTama)
+                } else if spotlightPlace.frame.contains(location) {
+                    let index = tamaViewScenes.index(of: currentTama)
+                    UserDefaults(suiteName: "group.Anjour.TamaHive")!.set(index!, forKey: "spotlightInd")
                     
-                } else if spotlightPlace.frame.contains(endPos!) {
-                    
-                    let indexed = tamaViewScenes.index(of: currentTama)
-                    UserDefaults(suiteName: "group.Anjour.TamaHive")!.set(indexed!, forKey: "spotlightInd")
                     let snapBackAction = SKAction.move(to: beginPos, duration: 0.1)
                     let scaledownAction = SKAction.scale(to: 1, duration: 0)
                     currentTama.run(snapBackAction)
                     currentTama.run(scaledownAction)
-                    break checkForContains
-                }
-                
-                var newPoint: CGPoint! = currentTama.position
-                let xRange: CountableClosedRange = Int(-self.size.width/2)...Int(self.size.width/2)
-                let yRange: CountableClosedRange = Int((-self.size.height/2)+49)...Int(self.size.height/2)
-                if !xRange.contains(Int(abs(currentTama.position.x) + currentTama.size.width/2)) {
-                    newPoint = CGPoint(x: CGFloat(currentTama.position.x.sign())*(self.size.width/2 - currentTama.size.width/2 - 5), y: currentTama.position.y)
-                }
-                if !yRange.contains(Int(currentTama.position.y + CGFloat(currentTama.position.y.sign())*(currentTama.size.height/2))) {
-                    switch currentTama.position.y.sign() {
-                    case 1:
-                        newPoint = CGPoint(x: currentTama.position.x, y:  (CGFloat(yRange.upperBound) - currentTama.size.height/2 - 5))
-                    case -1:
-                        newPoint = CGPoint(x: currentTama.position.x, y:  sceneRects[4][0].origin.y)
-                    default:
-                        break
+                } else {
+                    var newPoint: CGPoint! = currentTama.position
+                    let xRange: CountableClosedRange = Int(-self.size.width/2)...Int(self.size.width/2)
+                    let yRange: CountableClosedRange = Int((-self.size.height/2)+49)...Int(self.size.height/2)
+                    if !xRange.contains(Int(abs(currentTama.position.x) + currentTama.size.width/2)) {
+                        newPoint = CGPoint(x: CGFloat(currentTama.position.x.sign())*(self.size.width/2 - currentTama.size.width/2 - 5), y: currentTama.position.y)
                     }
+                    if !yRange.contains(Int(currentTama.position.y + CGFloat(currentTama.position.y.sign())*(currentTama.size.height/2))) {
+                        switch currentTama.position.y.sign() {
+                        case 1:
+                            newPoint = CGPoint(x: currentTama.position.x, y:  (CGFloat(yRange.upperBound) - currentTama.size.height/2 - 5))
+                        case -1:
+                            newPoint = CGPoint(x: currentTama.position.x, y:  sceneRects[4][0].origin.y)
+                        default:
+                            break
+                        }
+                        
+                    }
+                    let snapBackAction = SKAction.move(to: newPoint, duration: 0.1)
+                    currentTama.run(snapBackAction)
+                    let scaleaction = SKAction.scale(to: 1, duration: 0)
+                    currentTama.run(scaleaction, completion: {
+                        self.updateTamas()
+                    })
                     
+                    maxZposition = Int(currentTama.zPosition)
                 }
-                let snapBackAction = SKAction.move(to: newPoint, duration: 0.1)
-                currentTama.run(snapBackAction)
-                let scaleaction = SKAction.scale(to: 1, duration: 0)
-                currentTama.run(scaleaction, completion: {
-                    self.isBeingDragged = false
-                })
-                
-                maxZposition = Int(currentTama.zPosition)
+            } else {
+                currentTama.run(uncolorizeAction)
+                cancelPrepare()
             }
-            
         }
+        
+            
         currentTama = nil
-        updateTamas()
         
     }
     
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        touchesEnded(touches, with: event)
+    }
     
     func initEditingMode() {
         isEditing = true
@@ -448,9 +440,7 @@ extension TamasScene {
         timeSincePress = 0
     }
     
-    
-    
-    
+ 
     
     
     
@@ -490,62 +480,62 @@ extension TamasScene {
             var count = 0
             var count1 = 0
             tamaViewScenes.forEach({scene in
-                let tamagotchis = scene.tamagotchis
-                let firstTama = tamagotchis![0]
+                    let tamagotchis = scene.tamagotchis
+                    let firstTama = tamagotchis![0]
+                    
+                    tamagotchis?.forEach({tama in
+                        updateTamagotchiTexture(fromTama: tama)
+                        count += 1
+                    })
                 
-                tamagotchis?.forEach({tama in
-                    updateTamagotchiTexture(fromTama: tama)
-                    count += 1
-                })
-                
-                
-                var childTamagotchi = Tamagotchi(textureNamed: "egg", scale: viewScale)
-                if let child = scene.tamagotchis.first(where: {$0.id  > 1}) {
-                    childTamagotchi = child
-                }
-                let sceneEntity = sceneEntites.first(where: {$0.id == count1})
-                
-                checkForMarriage: if firstTama.age > TAttributes.marriageAge && tamagotchis!.count == 1 {
-                    for sceneToCheck in tamaViewScenes {
+                        var childTamagotchi = Tamagotchi(textureNamed: "egg", scale: viewScale)
+                        if let child = scene.tamagotchis.first(where: {$0.id  > 1}) {
+                            childTamagotchi = child
+                        }
+                        let sceneEntity = sceneEntites.first(where: {$0.id == count1})
                         
-                        if sceneToCheck != scene {
-                            let xDist = sceneToCheck.position.x - scene.position.x
-                            let yDist = sceneToCheck.position.y - scene.position.y
-                            
-                            if abs(xDist) < scene.size.width + 50 && abs(yDist) < 30 {
-                                updateTmamagotchiMarriage(scene: scene, rNeighbor: sceneToCheck)
-                                break checkForMarriage
+                        checkForMarriage: if firstTama.age > TAttributes.marriageAge && tamagotchis!.count == 1 {
+                            for sceneToCheck in tamaViewScenes {
+                                
+                                if sceneToCheck != scene {
+                                    let xDist = sceneToCheck.position.x - scene.position.x
+                                    let yDist = sceneToCheck.position.y - scene.position.y
+                                    
+                                    if abs(xDist) < scene.size.width + 50 && abs(yDist) < 30 {
+                                        updateTmamagotchiMarriage(scene: scene, rNeighbor: sceneToCheck)
+                                        break checkForMarriage
+                                        
+                                    }
+                                    
+                                }
+                                
+                            }
+                            for child in scene.children {
+                                if child is FTButtonNode {
+                                    child.removeFromParent()
+                                }
                                 
                             }
                             
                         }
-                        
-                    }
-                    for child in scene.children {
-                        if child is FTButtonNode {
-                            child.removeFromParent()
+                        if tamagotchis![0].age > TAttributes.childAge && scene.tamagotchis.count == 2 && sceneEntity!.isDone == false {
+                            let date = Date()
+                            let newAge = date.interval(ofComponent: TAttributes.tunit, fromDate:scene.dateCreated)/2*TAttributes.tint
+                            if newAge >= 2 {
+                                addTamagotchiChild(scene: scene, sceneEntity: sceneEntity!)
+                            }
+                            
+                        }
+                        if childTamagotchi.age > TAttributes.leaveAge && scene.tamagotchis.count > 2 {
+                            updateTamagotchiLeave(scene: scene)
+                            
                         }
                         
-                    }
+                        count1 = count1 + 1
                     
-                }
-                if tamagotchis![0].age > TAttributes.childAge && scene.tamagotchis.count == 2 && sceneEntity!.isDone == false {
-                    let date = Date()
-                    let newAge = date.interval(ofComponent: TAttributes.tunit, fromDate:scene.dateCreated)/2*TAttributes.tint
-                    if newAge >= 2 {
-                        addTamagotchiChild(scene: scene, sceneEntity: sceneEntity!)
-                    }
-                    
-                }
-                if childTamagotchi.age > TAttributes.leaveAge && scene.tamagotchis.count > 2 {
-                    updateTamagotchiLeave(scene: scene)
-                    
-                }
                 
-                count1 = count1 + 1
             })
-            
-            
+        
         }
         
     }
@@ -577,9 +567,9 @@ extension TamasScene {
         
         save()
         sceneEntites = getScenes()
-        deleteTask(atPos: index1!)
+        deleteScene(scene: tamaViewScenes[index1!])
         index2 = tamaViewScenes.index(of: tamaViewScenes.first(where: {$0.tamagotchis.first! == tama2})!)
-        deleteTask(atPos: index2!)
+        deleteScene(scene: tamaViewScenes[index2!])
         
         
         setupScene(scene: newscene)
@@ -622,7 +612,7 @@ extension TamasScene {
         
         let firstTama = scene.tamagotchis.first!
         let rNeighbortama = rNeighbor.tamagotchis.first
-        if rNeighbortama!.age > TAttributes.marriageAge && rNeighbortama!.gender != firstTama.gender && rNeighbor.tamagotchis.count == 1 {
+        if rNeighbortama!.age > TAttributes.marriageAge && rNeighbortama!.gender != firstTama.gender && rNeighbor.tamagotchis.count == 1 && firstTama.generation == rNeighbortama?.generation{
             
             let buttonTexture: SKTexture! = SKTexture(imageNamed: "marrybutton.png")
             let buttonTextureSelected: SKTexture! = SKTexture(imageNamed: "marrybuttonselected.png")
@@ -762,7 +752,9 @@ extension TamasScene {
     func changeTamagotchiTexture(fromTama: Tamagotchi, toTama: String) {
         let index = tamaViewScenes.index(where: {$0.tamagotchis.contains(fromTama)})
         let i = tamaViewScenes[index!]
-        let correspondingEntity = sceneEntites.first(where: {$0.id == tamaViewScenes.startIndex.distance(to: index!)})
+        var correspondingEntity: TamaSceneEntity!
+            correspondingEntity = sceneEntites.first(where: {$0.id == tamaViewScenes.startIndex.distance(to: index!)})
+        
         let tama = i.tamagotchis.first(where: {$0.id == fromTama.id})
         let tamaEntity = correspondingEntity?.tamagotchi?.first(where: {($0 as! TamagotchiEntity).id == fromTama.id}) as! TamagotchiEntity
         tama?.tamaName = toTama
@@ -789,6 +781,43 @@ extension TamasScene {
     
     
     
+    func CreateScenesFromEntities() {
+        sceneEntites = []
+        sceneEntites = getScenes()
+        
+        for node in (self.scene?.children)! {
+            if node is TamaHouse {
+                node.removeFromParent()
+            }
+        }
+        self.tamaViewScenes = []
+        let sceneSorted = sceneEntites.sorted(by: { $0.id < $1.id })
+        for scene in sceneSorted {
+            setupScene(scene: scene)
+        }
+        maxZposition = zCounter
+        updateTamas()
+        
+    }
+    
+    
+    
+    
+    
+    @objc func appWillTerminate () {
+        saveViewsToEntities()
+        
+    }
+    
+    @objc func appWillEnterBackground() {
+        saveViewsToEntities()
+        appDelegate.mpcManager.browser.stopBrowsingForPeers()
+    }
+    @objc func appWillEnterForeground() {
+        context = CoreDataStack.sharedInstance.managedObjectContext
+        updateTamas()
+        
+    }
     
     
     

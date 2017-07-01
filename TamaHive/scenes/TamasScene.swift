@@ -9,13 +9,20 @@
 import SpriteKit
 import GameplayKit
 import CoreData
+import MultipeerConnectivity
 
 
-
-class TamasScene: SKScene {
+class TamasScene: SKScene, MPCManagerDelegate {
+    
+    
     var entities = [GKEntity]()
     var graphs = [String : GKGraph]()
-    var isInBackground: Bool! = false
+    
+    var viewController: Any!
+    let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+    var isAdvertising:Bool! = true
+     var context = CoreDataStack.sharedInstance.managedObjectContext
+    
     var sceneRects: [[CGRect]]! {
         
         let imageWidth = Int((UIImage(named: "normaltamaHome.png")?.size.width)!) * viewScale
@@ -41,12 +48,12 @@ class TamasScene: SKScene {
         return sceneRs
     }
     
-    var context = CoreDataStack.sharedInstance.managedObjectContext
+    
 
      var sceneEntites: [TamaSceneEntity]! = TAttributes.sceneEntites
     
     var tamaViewScenes: [TamaHouse]! = []
-    let viewScale: Int! = 2
+    var viewScale: Int! = 2
     var maxZposition = 0
     var zCounter = 0
     
@@ -108,70 +115,81 @@ class TamasScene: SKScene {
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
     override func didMove(to view: SKView) {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(self.appWillTerminate), name: Notification.Name.UIApplicationWillTerminate, object: nil)
         notificationCenter.addObserver(self, selector: #selector(self.appWillEnterBackground), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
         notificationCenter.addObserver(self, selector: #selector(self.appWillEnterForeground), name: Notification.Name.UIApplicationWillEnterForeground, object: nil)
         
+        appDelegate.mpcManager.delegate = self as MPCManagerDelegate
+        
         self.size = (self.view?.frame.size)!
         maxZposition = zCounter
+            self.CreateScenesFromEntities()
+            self.updateTamas()
+            if self.self.tamaViewScenes.count == 0 {
+                self.addChild(self.newTamaButton)
+            }
         
-        CreateScenesFromEntities()
-        updateTamas()
-        if tamaViewScenes.count == 0 {
-            self.addChild(newTamaButton)
-        }
-        
-        
-        
-        
-        
+        appDelegate.mpcManager.browser.startBrowsingForPeers()
+        isAdvertising = true
         
         
     }
     
-    func CreateScenesFromEntities() {
-        sceneEntites = []
-        sceneEntites = getScenes()
-        
-        for node in (self.scene?.children)! {
-            if node is TamaHouse {
-                node.removeFromParent()
+    func reloadPeers() {
+        for child in self.children {
+            if child.name == "peerName" {
+                child.removeFromParent()
             }
         }
-        self.tamaViewScenes = []
-        let sceneSorted = sceneEntites.sorted(by: { $0.id < $1.id })
-        for scene in sceneSorted {
-            setupScene(scene: scene)
+        for (index, aPeer) in appDelegate.mpcManager.foundPeers.enumerated() {
+            let peerLabel = SKLabelNode(fontNamed: "HelveticaNeue-CondensedBlack")
+            peerLabel.fontSize = 15
+            peerLabel.position = CGPoint(x:155,y:300 + (index * 50) + 10)
+            peerLabel.color = UIColor.black
+            peerLabel.text = aPeer.displayName
+            peerLabel.name = "peerName"
+            self.addChild(peerLabel)
         }
-        maxZposition = zCounter
-        updateTamas()
+    }
+    func foundPeer() {
+        reloadPeers()
+            
+    }
         
+    func lostPeer() {
+        reloadPeers()
     }
-    
-    
-    
-    
-    
-    @objc func appWillTerminate () {
-        saveViewsToEntities()
         
+    func invitationWasReceived(fromPeer: String) {
+        print("notYet")
+    }
+        
+    func connectedWithPeer(peerID: MCPeerID) {
+        print("notYet")
     }
     
-    @objc func appWillEnterBackground() {
-        saveViewsToEntities()
-    }
-    @objc func appWillEnterForeground() {
-        context = CoreDataStack.sharedInstance.managedObjectContext
-        TAttributes.sceneEntites = getScenes()
-        updateTamas()
-        
-    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     override func update(_ currentTime: TimeInterval) {
-        if !isInBackground {
             // Called before each frame is rendered
             if timeSinceMove >= 1 {
                 tamaViewScenes.forEach( {
@@ -184,40 +202,38 @@ class TamasScene: SKScene {
             }
             
             //check if tamas can evolve
-            if checkForEvol >= 2 {
+            if checkForEvol >= 1 {
                 updateTamas()
+                checkForEvol = 0
             }
             
             
             // Initialize _lastUpdateTime if it has not already been
-            if (self.lastUpdateTime == 0) {
-                self.lastUpdateTime = currentTime
-            }
-            
-            // Calculate time since last update
-            let dt = currentTime - self.lastUpdateTime
-            
-            // Update entities
-            for entity in self.entities {
-                entity.update(deltaTime: dt)
-            }
-            
+        
+        if (self.lastUpdateTime == 0) {
             self.lastUpdateTime = currentTime
-            if counting {
-                timeSincePress = timeSincePress + dt
-                if timeSincePress >= 1 {
-                    initEditingMode()
-                }
-            }
-            
-            timeSinceMove = timeSinceMove + dt
-            checkForEvol = checkForEvol + dt
-            
         }
         
+        // Calculate time since last update
+        let dt = currentTime - self.lastUpdateTime
+        
+        // Update entities
+        for entity in self.entities {
+            entity.update(deltaTime: dt)
         }
-    
-    
+        
+        self.lastUpdateTime = currentTime
+        if counting {
+            timeSincePress = timeSincePress + dt
+            if timeSincePress >= 1 {
+                initEditingMode()
+            }
+        }
+        
+        timeSinceMove = timeSinceMove + dt
+        checkForEvol = checkForEvol + dt
+        
+        }
     
     
 }
@@ -233,7 +249,10 @@ extension TamasScene {
         let resourcesContent = try! FileManager().contentsOfDirectory(at: resourcePath!, includingPropertiesForKeys: nil, options: FileManager.DirectoryEnumerationOptions.skipsHiddenFiles)
         
         for url in resourcesContent {
-            tamas.append(url.lastPathComponent)
+            if !url.lastPathComponent.contains("_ch") && !url.lastPathComponent.contains("_ov") {
+               tamas.append(url.lastPathComponent)
+            }
+            
             
         }
         var returnArray: [String] = []
@@ -246,16 +265,23 @@ extension TamasScene {
         
     }
     
-    func generateRandomColor(previousColor: UIColor) -> UIColor {
+    func generateRandomColor(previousColor: UIColor? = nil) -> UIColor {
         /* let hue : CGFloat = CGFloat(arc4random() % 256) / 256 // use 256 to get full range from 0.0 to 1.0
          let saturation : CGFloat = CGFloat(arc4random() % 128) / 256 + 0.5 // from 0.5 to 1.0 to stay away from white
          let brightness : CGFloat = CGFloat(arc4random() % 128) / 256 + 0.5 // from 0.5 to 1.0 to stay away from black
          return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)*/
+        if previousColor != nil {
+            return UIColor(red:   previousColor!.components.red + (CGFloat.randomoz() * CGFloat.random(4)),
+                           green: previousColor!.components.green + (CGFloat.randomoz() * CGFloat.random(4)),
+                           blue:  previousColor!.components.blue + (CGFloat.randomoz() * CGFloat.random(4)),
+                           alpha: 1.0)
+        } else {
+            return UIColor(red:   (CGFloat.random(2)) + 0.3,
+                           green: CGFloat.random(2) + 0.3,
+                           blue:  CGFloat.random(2) + 0.3,
+                           alpha: 1.0)
+        }
         
-        return UIColor(red:   previousColor.components.red + (CGFloat.randomoz() * CGFloat.random()),
-                       green: previousColor.components.green + (CGFloat.randomoz() * CGFloat.random()),
-                       blue:  previousColor.components.blue + (CGFloat.randomoz() * CGFloat.random()),
-                       alpha: 1.0)
     }
     
     

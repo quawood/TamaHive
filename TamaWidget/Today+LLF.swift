@@ -23,7 +23,6 @@ extension TodayViewController {
     }
     
     func setupTamagotchis() {
-        
         sceneView.backgroundColor = currentScene.color1 as? UIColor
         //sceneView.layer.cornerRadius = 7
         
@@ -163,7 +162,7 @@ extension TodayViewController {
                 
                 
                 for i in 0..<subviewsToAdd.count{
-                    subviewsToAdd[i].frame.origin = CGPoint(x: self.view.frame.size.width - 60*CGFloat(i+1), y: 0 + 10)
+                    subviewsToAdd[i].frame.origin = CGPoint(x: self.view.frame.size.width - 45*CGFloat(i+1), y: 0 + 10)
                     
                    var alreadyInSub: Bool! = false
                     for view in sceneView.subviews {

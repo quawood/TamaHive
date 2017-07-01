@@ -13,7 +13,7 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var mpcManager: MPCManager!
 lazy var coreDataStack = CoreDataStack.sharedInstance
     func getScenes() -> [TamaSceneEntity] {
         var entities: [TamaSceneEntity]! = []
@@ -28,6 +28,7 @@ lazy var coreDataStack = CoreDataStack.sharedInstance
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        mpcManager = MPCManager()
         return true
     }
 
